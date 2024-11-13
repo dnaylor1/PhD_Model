@@ -3,24 +3,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 
-class Moon: #moon class to give properties to all the moons in the system
-    def __init__(self, r_min, r_max, density, delta_Z, ER_min_H, ER_min_O, ER_max_H, ER_max_O):
-        self.r_min = r_min
-        self.r_max = r_max
-        self.density = density
-        self.delta_Z = delta_Z
-        self.ER_min_H = ER_min_H #Eviator and Richardson neutrals, minimum and maximum for both H and O based neutrals (important for cross sections)
-        self.ER_min_O = ER_min_O
-        self.ER_max_H = ER_max_H
-        self.ER_max_O = ER_max_O
-
-    def add_density(self, rad, zbox, Z1):
-        mask_r = (rad >= self.r_min) & (rad <= self.r_max) #radial mask
-        mask_z = np.abs(zbox) < self.delta_Z #z-direction mask
-        mask = mask_r & mask_z
-        Z1[mask] = self.density 
-        return Z1
-
 class System: #class for the model as a whole including setting up the grid and plotting
     def __init__(self, moons, grid_limits=(-10,10,-10,10,-5,5), grid_resolution=(1, 1, 1)): #sets these default values but they can be changed by passing through different values
         self.moons = moons #list of the Moons to iterate through later 
@@ -59,17 +41,3 @@ class System: #class for the model as a whole including setting up the grid and 
         ax.set_zlim([self.z_min, self.z_max])
         plt.tight_layout()
         plt.show()
-
-################## plot a 2D projection too to make sure scale heights are working
-
-Miranda = Moon(2.9, 9.9, 0.06, 0.38, 0.59, 0.57, 13.8, 11.68)
-Ariel = Moon(3.8, 17, 0.11, 0.68, 4.37, 3.97, 28.4, 38.74)
-Umbriel = Moon(4.7, 29, 0.12, 1.1, 4.06, 4.11, 15.5, 24.67)
-Titania = Moon(6.1, 73, 0.02, 2.3, 22.3, 14.5, 38.1, 34.4)
-Oberon = Moon(6.9, 150, 0.002, 3.6, 31, 19.5, 39.2, 30.6)
-moons = [Miranda, Ariel, Umbriel, Titania, Oberon]
-
-#system = System(moons,grid_limits=(-40,40,-40,40,-4,4))
-system = System(moons)
-total_density = system.calculate_total_density()
-#system.plot_density()
