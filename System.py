@@ -40,4 +40,38 @@ class System: #class for the model as a whole including setting up the grid and 
         ax.set_ylim([self.y_min, self.y_max])
         ax.set_zlim([self.z_min, self.z_max])
         plt.tight_layout()
-        plt.show()
+        ax.view_init(elev=10,azim=60)
+        plt.savefig("3D Neutrals",dpi=1200)
+
+    def plot_surfaces(self, x_mp,y_mp,z_mp,x_bs,y_bs,z_bs):
+        x_limit, y_limit, z_limit = 80,80,80
+        mask = (np.abs(x_mp) > x_limit) | (np.abs(y_mp) > y_limit) | (np.abs(z_mp) > z_limit)
+        mask2 = (np.abs(x_bs) > x_limit) | (np.abs(y_bs) > y_limit) | (np.abs(z_bs) > z_limit)
+        x_mp = np.where(mask, np.nan, x_mp)
+        y_mp = np.where(mask, np.nan, y_mp)
+        z_mp = np.where(mask, np.nan, z_mp)
+        x_bs = np.where(mask2, np.nan, x_bs)
+        y_bs = np.where(mask2, np.nan, y_bs)
+        z_bs = np.where(mask2, np.nan, z_bs)
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot_surface(x_mp,y_mp,z_mp,cmap='plasma', edgecolor='none', alpha=0.2)
+        ax.plot_surface(x_bs,y_bs,z_bs,cmap='viridis', edgecolor='none',alpha=0.2)
+
+        ax.set_xlabel(r'$x$ ($R_{U}$)')
+        ax.set_ylabel(r'$y$ ($R_{U}$)')
+        ax.set_zlabel(r'$z$ ($R_{U}$)')
+
+        #ax.view_init(elev=20, azim=-140)
+        #ax.view_init(elev=75, azim=-61)
+        #ax.view_init(elev=35,azim=-120) 
+        ax.view_init(elev=20, azim=-130)
+            # 20 -140 for back view
+            # 75 -61 for top view
+            # 35 -120 for MP/BS view
+            #20 -130 for neutrals
+        #plt.savefig('3D Magnetopause Attempt 4 Neutrals Rotated', dpi=1200)
+        #plt.savefig('3D Magnetopause Attempt 4 Bow Shock Full', dpi=1200)
+        plt.savefig("3D MP BS",dpi=1200)
+
