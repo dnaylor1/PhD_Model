@@ -11,6 +11,16 @@ class System: #class for the model as a whole including setting up the grid and 
         self.xbox, self.ybox, self.zbox, self.rad, self.Z1 = self.create_grid() #calls the create grid function to assign these variables. Doesn't need to pass anything due to using self.---
 
     def create_grid(self):
+        """
+        Creates the 3D meshgrid for the neutrals (MP/BS are currently on theta,phi meshgrid so created separately)
+
+        Returns
+            xbox (ndarray): x meshgrid
+            ybox (ndarray): y meshgrid
+            zbox (ndarray): z meshgrid
+            rad (ndarray): radius of each point on the grid
+            Z1 (ndarray): empty rad-like array to be updated with density contributions
+        """
         xvalues = np.arange(self.x_min, self.x_max + self.dx, self.dx)
         yvalues = np.arange(self.y_min, self.y_max + self.dy, self.dy)
         zvalues = np.arange(self.z_min, self.z_max + self.dz, self.dz)
@@ -20,6 +30,9 @@ class System: #class for the model as a whole including setting up the grid and 
         return xbox, ybox, zbox, rad, Z1
 
     def calculate_total_density(self):
+        """
+        Calculates the total density at each point, i.e. iterates through each torus to calculate total. Then calls the plot method.
+        """
         self.total_density = 0
         for moon in self.moons: #for each moon in the list of moons
             self.Z1 = moon.add_density(self.rad, self.zbox, self.Z1) #calls the add density method in the moon class to calculate the density at each point due to this moon. Adds to the total density
@@ -29,6 +42,9 @@ class System: #class for the model as a whole including setting up the grid and 
         self.plot_density() #once the total density at each point is calculated, the plot_density method is called. Saves having to have another line at the bottom of the code.
 
     def plot_density(self):
+        """
+        Plots the total density at each point on a 3D grid.
+        """
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
         im = ax.scatter(self.xbox, self.ybox, self.zbox, c=self.total_density, cmap='plasma', alpha=0.4)
@@ -41,9 +57,20 @@ class System: #class for the model as a whole including setting up the grid and 
         ax.set_zlim([self.z_min, self.z_max])
         plt.tight_layout()
         ax.view_init(elev=10,azim=60)
-        plt.savefig("3D Neutrals",dpi=1200)
+        #plt.savefig("3D Neutrals",dpi=1200)
 
     def plot_surfaces(self, x_mp,y_mp,z_mp,x_bs,y_bs,z_bs):
+        """
+        Plots the magnetopause and bow shock surfaces.
+
+        Parameters
+            x_mp (ndarray): magnetopause x-coordinates
+            y_mp (ndarray): magnetopause y-coordinates
+            z_mp (ndarray): magnetopause z-coordinates
+            x_bs (ndarray): bow shock x-coordinates
+            y_bs (ndarray): bow shock y-coordinates
+            z_bs (ndarray): bow shock z-coordinates
+        """
         x_limit, y_limit, z_limit = 80,80,80
         mask = (np.abs(x_mp) > x_limit) | (np.abs(y_mp) > y_limit) | (np.abs(z_mp) > z_limit)
         mask2 = (np.abs(x_bs) > x_limit) | (np.abs(y_bs) > y_limit) | (np.abs(z_bs) > z_limit)
@@ -62,16 +89,6 @@ class System: #class for the model as a whole including setting up the grid and 
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
         ax.set_zlabel(r'$z$ ($R_{U}$)')
-
-        #ax.view_init(elev=20, azim=-140)
-        #ax.view_init(elev=75, azim=-61)
-        #ax.view_init(elev=35,azim=-120) 
         ax.view_init(elev=20, azim=-130)
-            # 20 -140 for back view
-            # 75 -61 for top view
-            # 35 -120 for MP/BS view
-            #20 -130 for neutrals
-        #plt.savefig('3D Magnetopause Attempt 4 Neutrals Rotated', dpi=1200)
-        #plt.savefig('3D Magnetopause Attempt 4 Bow Shock Full', dpi=1200)
-        plt.savefig("3D MP BS",dpi=1200)
+        #plt.savefig("3D MP BS",dpi=1200)
 

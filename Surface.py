@@ -9,6 +9,9 @@ class Surface:
         self.K = K
     
     def define_surface(self):
+        """
+        Defines the surface for either the magnetopause or bow shock.
+        """
         theta = np.linspace(-np.pi,0,100)
         exclude = np.pi
         theta_exc = theta[~np.isclose(np.abs(theta),exclude)]

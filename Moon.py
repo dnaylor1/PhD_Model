@@ -15,6 +15,17 @@ class Moon: #moon class to give properties to all the moons in the system
         self.ER_max_O = ER_max_O
 
     def add_density(self, rad, zbox, Z1):
+        """
+        Creates the neutral tori and finds the density contribution of that torus at each point in the model
+        
+        Parameters
+            rad (ndarray): radius of each point
+            zbox (ndarray): z meshgrid
+            Z1 (ndarray): density contribution of current torus at each point, initialised as zero everywhere
+
+        Returns
+            Z1 (ndarray): updated density contribution array
+        """
         mask_r = (rad >= self.r_min) & (rad <= self.r_max) #radial mask
         mask_z = np.abs(zbox) < self.delta_Z #z-direction mask
         mask = mask_r & mask_z
