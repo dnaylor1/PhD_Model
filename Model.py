@@ -8,7 +8,7 @@ from Surface import *
 from Moons import moons
 import json
 
-## pip freeze > file_name
+## pip freeze > file_name to set requirements (virtual environment)
 ## always use virtual environment - keeps versions the same so the code won't be broken using extensions
 ## open model folder directly rather than single file
 ## use launch json file to always launch model rather than the other files
