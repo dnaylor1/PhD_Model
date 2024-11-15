@@ -57,7 +57,9 @@ class System: #class for the model as a whole including setting up the grid and 
         ax.set_zlim([self.z_min, self.z_max])
         plt.tight_layout()
         ax.view_init(elev=10,azim=60)
-        #plt.savefig("3D Neutrals",dpi=1200)
+        #ax.tick_params(axis='both', direction='out', top=True, bottom=True, left=True, right=True)
+        ax.tick_params(axis='both', which='major', labelsize=8)
+        #plt.savefig("3D Neutrals Small Labels",dpi=1200)
 
     def plot_surfaces(self, x_mp,y_mp,z_mp,x_bs,y_bs,z_bs):
         """
