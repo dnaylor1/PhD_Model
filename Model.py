@@ -20,8 +20,6 @@ import json
 
 ################## plot a 2D projection too to make sure scale heights are working
 
-## test is github working?
-
 #system = System(moons,grid_limits=(-40,40,-40,40,-4,4))
 system = System(moons)
 magnetopause = Surface(r0=16,K=0.6)
