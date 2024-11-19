@@ -33,3 +33,6 @@ r_bs_grid = Surface.interpolate(x_bs,y_bs,z_bs)
 system.sheath(r_mp_grid,r_bs_grid,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
 
 plt.show()
+
+
+## SW solar wind variations - change flaring

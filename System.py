@@ -116,15 +116,18 @@ class System: #class for the model as a whole including setting up the grid and 
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
         ax.set_zlabel(r'$z$ ($R_{U}$)')
+        ax.set_xlim(-80,80)
+        ax.set_ylim(-80,80)
+        ax.set_zlim(-80,80)
 
-        fig = plt.figure()
+"""         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         ax.scatter(self.xbox,self.ybox,self.zbox,c=density)
         #ax.plot_surface(x_mp, y_mp, z_mp, cmap='plasma', edgecolor='none', alpha=0.2)
         #ax.plot_surface(x_bs, y_bs, z_bs, cmap='viridis', edgecolor='none', alpha=0.2)
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
-        ax.set_zlabel(r'$z$ ($R_{U}$)')
+        ax.set_zlabel(r'$z$ ($R_{U}$)') """
 
 """     def sheath(self, rad, xbox, ybox, zbox, x_mp, y_mp, z_mp, x_bs, y_bs, z_bs, r_mp_grid, r_bs_grid):
         valid = ~np.isnan(r_mp_grid) & ~np.isnan(r_bs_grid)
