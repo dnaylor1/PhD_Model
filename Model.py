@@ -20,12 +20,16 @@ import json
 
 ################## plot a 2D projection too to make sure scale heights are working
 
-#system = System(moons,grid_limits=(-40,40,-40,40,-4,4))
-system = System(moons)
+system = System(moons,grid_limits=(-80,80,-80,80,-80,80))
+#system = System(moons)
 magnetopause = Surface(r0=16,K=0.6)
 bow_shock = Surface(r0=20,K=0.88)
 total_density = system.calculate_total_density()
 x_mp,y_mp,z_mp = magnetopause.define_surface()
 x_bs,y_bs,z_bs = bow_shock.define_surface()
 system.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
+r_mp_grid = Surface.interpolate(x_mp,y_mp,z_mp)
+r_bs_grid = Surface.interpolate(x_bs,y_bs,z_bs)
+system.sheath(r_mp_grid,r_bs_grid,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
+
 plt.show()
