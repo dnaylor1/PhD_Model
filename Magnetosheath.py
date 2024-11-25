@@ -135,7 +135,7 @@ density_grid[np.isfinite(interpolated_mp)] = False """
         density_grid[i,j,k] = 0.1 """
 
 density_grid[np.isfinite(griddata(points_bs, np.ones(len(points_bs)), (X_grid, Y_grid, Z_grid), method='linear')) & 
-             np.isfinite(griddata(points_mp, np.ones(len(points_mp)), (X_grid, Y_grid, Z_grid), method='linear'))] = True
+             ~np.isfinite(griddata(points_mp, np.ones(len(points_mp)), (X_grid, Y_grid, Z_grid), method='linear'))] = True
 
 indices = np.where(density_grid)
 x_points = X_grid[indices]
