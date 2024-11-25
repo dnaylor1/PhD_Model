@@ -111,6 +111,7 @@ ax.scatter(points_mp[:, 0], points_mp[:, 1], points_mp[:, 2], color='red', alpha
 ax.set_xlabel(r'$x$ ($R_{U}$)')
 ax.set_ylabel(r'$y$ ($R_{U}$)')
 ax.set_zlabel(r'$z$ ($R_{U}$)')
+plt.savefig("Interpolated Points", dpi=1200)
 
 
 fig = plt.figure()
@@ -138,6 +139,7 @@ ax.plot_surface(x_bs, y_bs, z_bs, color='blue', edgecolor='none', alpha=0.2)
 ax.set_xlabel(r'$x$ ($R_{U}$)')
 ax.set_ylabel(r'$y$ ($R_{U}$)')
 ax.set_zlabel(r'$z$ ($R_{U}$)')
+plt.savefig("Filled MP",dpi=1200)
 
 ###########################################################################################
 
