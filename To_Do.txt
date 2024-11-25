@@ -1,0 +1,26 @@
+VS Code Stuff:
+## pip freeze > file_name to set requirements (virtual environment)
+## always use virtual environment - keeps versions the same so the code won't be broken using extensions
+## open model folder directly rather than single file
+## use launch json file to always launch model rather than the other files
+## can use a config json file too to have all the numbers in
+## keep main model file outside of the PhD_Work folder as it causes problems with git
+## breakpoints- using F10 and F11 to step through code
+## good practice to define data types for all variables
+## also do the """ """ commenting for all methods
+
+
+To do:
+## Solar wind variations - change flaring: do this when doing 3D VER results?
+## Make plotter class
+## Moon class update
+## New magnetopause - keep old file though
+## Important files like ACE data from other folder - again do when sheath is done
+## Neutrals x-z projection - do it!!!
+
+For meeting (25th Nov):
+Plotter class [DONE]
+Moon class update
+Magnetopause update
+Code up sheath stuff (even though not working)
+Neutrals projection [DONE]

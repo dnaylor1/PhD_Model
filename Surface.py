@@ -1,8 +1,15 @@
+from Import import *
+from scipy.interpolate import LinearNDInterpolator
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
-from scipy.interpolate import LinearNDInterpolator
+from Moon import *
+from System import *
+from Surface import *
+from Moons import moons
+from Plotter import *
+import json
 
 class Surface:
     def __init__(self, r0, K):

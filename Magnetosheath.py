@@ -30,6 +30,11 @@ X_grid, Y_grid, Z_grid = np.mgrid[x_min:x_max:dx, y_min:y_max:dy, z_min:z_max:dz
 rad = (X_grid**2 + Y_grid**2 + Z_grid**2)
 
 m_theta =np.linspace(7/8*np.pi,0,80)
+theta = np.linspace(-np.pi, 0, num=100)
+exclude=np.pi
+theta_exc = theta[~np.isclose(np.abs(theta),exclude)]
+theta = theta_exc
+m_theta = theta
 circle = np.linspace(0,2*np.pi,80)
 circle_mpause, _x = np.meshgrid(circle,X_grid[:,0,0])
 _r = r0*(2./(1.0+np.cos(m_theta)))**K
@@ -68,7 +73,7 @@ ax.set_ylabel(r'$y$ ($R_{U}$)')
 ax.set_zlabel(r'$z$ ($R_{U}$)')
 
 
-###################################################################################################################################################################################################
+###########################################################################################
 
 # Flatten the surface data for magnetopause
 x_mp_flat = x_mp.flatten()
@@ -111,8 +116,13 @@ ax.scatter(points_mp[:, 0], points_mp[:, 1], points_mp[:, 2], color='red', alpha
 ax.set_xlabel(r'$x$ ($R_{U}$)')
 ax.set_ylabel(r'$y$ ($R_{U}$)')
 ax.set_zlabel(r'$z$ ($R_{U}$)')
-plt.savefig("Interpolated Points", dpi=1200)
 
+print(interpolated_mp.max())
+print(interpolated_mp.min())
+print(np.shape(interpolated_mp))
+print(type(interpolated_mp))
+
+###########################################################################################
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
@@ -139,7 +149,6 @@ ax.plot_surface(x_bs, y_bs, z_bs, color='blue', edgecolor='none', alpha=0.2)
 ax.set_xlabel(r'$x$ ($R_{U}$)')
 ax.set_ylabel(r'$y$ ($R_{U}$)')
 ax.set_zlabel(r'$z$ ($R_{U}$)')
-plt.savefig("Filled MP",dpi=1200)
 
 ###########################################################################################
 
