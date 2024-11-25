@@ -36,3 +36,7 @@ plt.show()
 
 
 ## SW solar wind variations - change flaring
+## Make plotter class?
+## Moon class update
+## New magnetopause - keep old file though
+## Important files like ACE data from other folder?

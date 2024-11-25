@@ -8,7 +8,7 @@
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
-            "program": "Model.py",
+            "program": "Magnetosheath.py",
             "console": "integratedTerminal"
         }
     ]
