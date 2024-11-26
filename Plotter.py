@@ -9,6 +9,7 @@ from System import *
 from Surface import *
 from Moons import moons
 from Plotter import *
+from Magnetosheath_2 import *
 import json
 
 class Plotter:
@@ -90,4 +91,54 @@ class Plotter:
         ax.set_zlabel(r'$z$ ($R_{U}$)')
         ax.view_init(elev=20, azim=-130)
         #plt.savefig("3D MP BS",dpi=1200)
+
+    def plot_sheath(self,points_bs,points_mp,x_points,y_points,z_points,x_sheath,y_sheath,z_sheath,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,density_grid):
+        #fig = plt.figure()
+        #ax = fig.add_subplot(111, projection='3d')
+        #ax.scatter(points_bs[:, 0], points_bs[:, 1], points_bs[:, 2], color='blue', alpha=0.1, label='points_bs')
+        #ax.scatter(points_mp[:, 0], points_mp[:, 1], points_mp[:, 2], color='red', alpha=0.1, label='points_mp')
+        #ax.set_xlabel(r'$x$ ($R_{U}$)')
+        #ax.set_ylabel(r'$y$ ($R_{U}$)')
+        #ax.set_zlabel(r'$z$ ($R_{U}$)')
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        ax.scatter(x_points,y_points,z_points,color='green',alpha=0.05)
+        #ax.plot_surface(x_mp, y_mp, z_mp, color='red', edgecolor='none', alpha=0.05)
+        #ax.plot_surface(x_bs, y_bs, z_bs, color='blue', edgecolor='none', alpha=0.05)
+        ax.set_xlabel(r'$x$ ($R_{U}$)')
+        ax.set_ylabel(r'$y$ ($R_{U}$)')
+        ax.set_zlabel(r'$z$ ($R_{U}$)')
+        #plt.savefig("Sheath maybe working",dpi=1200)
+
+        # Choose a slicing plane, e.g., z = 0
+        z_slice = 0
+        # Find the indices where the grid intersects the slicing plane
+        slice_indices = np.abs(self.Z_grid - z_slice) < 1e-2  # Adjust the tolerance if needed
+        # Extract data points for the slicing plane
+        x_slice = self.X_grid[slice_indices]
+        y_slice = self.Y_grid[slice_indices]
+        density_slice = density_grid[slice_indices]
+
+        # Create a 2D plot for the slicing plane
+        fig2, ax2 = plt.subplots()
+        scatter = ax2.scatter(x_slice, y_slice, c=density_slice, cmap='Greens', alpha=0.7)
+
+        # Add labels and color bar
+        ax2.set_xlabel(r'$x$ ($R_{U}$)')
+        ax2.set_ylabel(r'$y$ ($R_{U}$)')
+        fig2.colorbar(scatter, label='Density')
+
+        plt.title(f'Slice through region at z = {z_slice}')
+        plt.savefig("Sheath z-slice",dpi=1200)
+
+
+        #fig = plt.figure()
+        #ax = fig.add_subplot(111, projection='3d')
+        #ax.scatter(x_sheath,y_sheath,z_sheath,alpha=0.5)
+        #ax.plot_surface(x_mp, y_mp, z_mp, color='red', edgecolor='none', alpha=0.2, label="Magnetopause")
+        #ax.plot_surface(x_bs, y_bs, z_bs, color='blue', edgecolor='none', alpha=0.2, label="Bow Shock")
+        #ax.set_xlabel(r'$x$ ($R_{U}$)')
+        #ax.set_ylabel(r'$y$ ($R_{U}$)')
+        #ax.set_zlabel(r'$z$ ($R_{U}$)')
         
