@@ -7,9 +7,9 @@ from matplotlib import cm
 from Moon import *
 from System import *
 from Surface import *
-from Moons import moons
+from Miscellaneous.Moons import moons
 from Plotter import *
-from Magnetosheath_2 import *
+from Magnetosheath_New import *
 import json
 
 class Plotter:
@@ -93,6 +93,9 @@ class Plotter:
         #plt.savefig("3D MP BS",dpi=1200)
 
     def plot_sheath(self,points_bs,points_mp,x_points,y_points,z_points,x_sheath,y_sheath,z_sheath,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,density_grid):
+        """
+        Plot the magnetosheath region
+        """
         #fig = plt.figure()
         #ax = fig.add_subplot(111, projection='3d')
         #ax.scatter(points_bs[:, 0], points_bs[:, 1], points_bs[:, 2], color='blue', alpha=0.1, label='points_bs')
@@ -111,26 +114,45 @@ class Plotter:
         ax.set_zlabel(r'$z$ ($R_{U}$)')
         #plt.savefig("Sheath maybe working",dpi=1200)
 
-        # Choose a slicing plane, e.g., z = 0
         z_slice = 0
-        # Find the indices where the grid intersects the slicing plane
-        slice_indices = np.abs(self.Z_grid - z_slice) < 1e-2  # Adjust the tolerance if needed
-        # Extract data points for the slicing plane
+        # Indices where the grid intersects the slicing plane
+        slice_indices = np.abs(self.Z_grid - z_slice) < 1e-2 
+        ## grid points may not align exactly with the slicing plane due to interpolation so this makes sure they are close enough
+        # Data points for the slicing plane
         x_slice = self.X_grid[slice_indices]
         y_slice = self.Y_grid[slice_indices]
         density_slice = density_grid[slice_indices]
 
-        # Create a 2D plot for the slicing plane
-        fig2, ax2 = plt.subplots()
-        scatter = ax2.scatter(x_slice, y_slice, c=density_slice, cmap='Greens', alpha=0.7)
+        fig, ax = plt.subplots()
+        scatter = ax.scatter(x_slice, y_slice, c=density_slice, cmap='Greens', alpha=0.7)
+        R0_mag = 16
+        R0_bow = 20
+        theta = np.linspace(-np.pi, np.pi, num=361)
+        exclude=np.pi
+        theta_ex = theta[~np.isclose(np.abs(theta),exclude)]
+        K_mag = 0.6
+        K_bow = 0.88
+
+        R_mag = R0_mag * (2/(1+np.cos(theta_ex)))**K_mag
+        x_mag = R_mag * np.cos(theta_ex)
+        y_mag = R_mag * np.sin(theta_ex)
+
+        R_bow = R0_bow * (2/(1+np.cos(theta_ex)))**K_bow
+        x_bow = R_bow * np.cos(theta_ex)
+        y_bow = R_bow * np.sin(theta_ex)
+        
+        ax.plot(x_bow,y_bow,color='red')
+        ax.plot(x_mag,y_mag,color='blue')
+        ax.set_xlim(-80,80)
+        ax.set_ylim(-80,80)
 
         # Add labels and color bar
-        ax2.set_xlabel(r'$x$ ($R_{U}$)')
-        ax2.set_ylabel(r'$y$ ($R_{U}$)')
-        fig2.colorbar(scatter, label='Density')
+        ax.set_xlabel(r'$x$ ($R_{U}$)')
+        ax.set_ylabel(r'$y$ ($R_{U}$)')
+        fig.colorbar(scatter, label='Density')
 
         plt.title(f'Slice through region at z = {z_slice}')
-        plt.savefig("Sheath z-slice",dpi=1200)
+        #plt.savefig("Sheath z-slice 3",dpi=1200)
 
 
         #fig = plt.figure()

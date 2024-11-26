@@ -12,18 +12,20 @@ VS Code Stuff:
 
 To do:
 ## Solar wind variations - change flaring: do this when doing 3D VER results?
-## Make plotter class
-## Moon class update
-## New magnetopause - keep old file though
-## Important files like ACE data from other folder - again do when sheath is done
-## Neutrals x-z projection - do it!!!
+## Make plotter class [DONE]
+## Moon class update {DONE}
+## New magnetopause - keep old file though [DONE]
+## Important files like ACE data from other folder - again do when sheath is done 
+## Neutrals x-z projection - do it!!! [DONE]
 
 For meeting (25th Nov):
 Plotter class [DONE]
 Moon class update [DONE]
 Magnetopause update [DONE]
-Code up sheath stuff (even though not working)
+Code up sheath stuff (even though not working) [DONE]
 Neutrals projection [DONE]
-Reorganise files
+Reorganise files [DONE]
+
+Meeting: ask about tomorrow's meeting and also about next week's supervisor meeting.
 
 Add exosphere

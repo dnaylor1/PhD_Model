@@ -9,7 +9,7 @@ from Surface import *
 #from Moons import moons
 from Plotter import *
 import json
-from Magnetosheath_2 import *
+from Magnetosheath_New import *
 
 miranda = Miranda()
 ariel = Ariel()
@@ -17,6 +17,7 @@ umbriel = Umbriel()
 titania = Titania()
 oberon = Oberon()
 moons =[miranda,ariel,umbriel,titania,oberon]
+#system = System(moons,grid_limits=(-80,80,-80,80,-80,80),grid_resolution=(0.5,0.5,0.5))
 system = System(moons,grid_limits=(-80,80,-80,80,-80,80))
 #system = System(moons,grid_limits=(-40,40,-40,40,-40,40))
 #system = System(moons)

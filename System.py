@@ -10,7 +10,7 @@ from matplotlib import cm
 from Moon import *
 from System import *
 from Surface import *
-from Moons import moons
+from Miscellaneous.Moons import moons
 from Plotter import *
 import json
 
