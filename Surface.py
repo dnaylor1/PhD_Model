@@ -56,8 +56,19 @@ class Surface:
         z = _z
         return x,y,z
     
+    def surf_2D(self):
+        theta = np.linspace(-np.pi, np.pi, num=361)
+        exclude=np.pi
+        theta_ex = theta[~np.isclose(np.abs(theta),exclude)]
+        theta = theta_ex
+
+        R = self.r0 * (2/(1+np.cos(theta)))**self.K
+        x = R * np.cos(theta)
+        y = R * np.sin(theta)
+
+        return x,y
     
-    def sheath(x,y,z):
+    def sheath(x,y,z): ##NOT USED
         x_flat = x.ravel()
         y_flat = y.ravel()
         z_flat = z.ravel()

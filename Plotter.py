@@ -92,6 +92,7 @@ class Plotter:
         ax.view_init(elev=20, azim=-130)
         #plt.savefig("3D MP BS",dpi=1200)
 
+
     def plot_sheath(self,points_bs,points_mp,x_points,y_points,z_points,x_sheath,y_sheath,z_sheath,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,density_grid):
         """
         Plot the magnetosheath region
@@ -125,36 +126,75 @@ class Plotter:
 
         fig, ax = plt.subplots()
         scatter = ax.scatter(x_slice, y_slice, c=density_slice, cmap='Greens', alpha=0.7)
-        R0_mag = 16
-        R0_bow = 20
-        theta = np.linspace(-np.pi, np.pi, num=361)
-        exclude=np.pi
-        theta_ex = theta[~np.isclose(np.abs(theta),exclude)]
-        K_mag = 0.6
-        K_bow = 0.88
 
-        R_mag = R0_mag * (2/(1+np.cos(theta_ex)))**K_mag
-        x_mag = R_mag * np.cos(theta_ex)
-        y_mag = R_mag * np.sin(theta_ex)
-
-        R_bow = R0_bow * (2/(1+np.cos(theta_ex)))**K_bow
-        x_bow = R_bow * np.cos(theta_ex)
-        y_bow = R_bow * np.sin(theta_ex)
+        from Surface import Surface
+        bs = Surface(20,0.88)
+        mp = Surface(16,0.6)
+        x_bow, y_bow = bs.surf_2D()
+        x_mag, y_mag = mp.surf_2D()
         
         ax.plot(x_bow,y_bow,color='red')
         ax.plot(x_mag,y_mag,color='blue')
         ax.set_xlim(-80,80)
         ax.set_ylim(-80,80)
-
-        # Add labels and color bar
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
         fig.colorbar(scatter, label='Density')
+        #plt.title(f'Slice through region at z = {z_slice}')
+        plt.title(r"Magnetosheath $x$-$y$ Projection")
+        #plt.savefig("Sheath x-y Projection",dpi=1200)
 
-        plt.title(f'Slice through region at z = {z_slice}')
-        #plt.savefig("Sheath z-slice 3",dpi=1200)
+        y_slice = 0
+        # Indices where the grid intersects the slicing plane
+        slice_indices_xz = np.abs(self.Y_grid - y_slice) < 1e-2 
+        ## grid points may not align exactly with the slicing plane due to interpolation so this makes sure they are close enough
+        # Data points for the slicing plane
+        x_slice_xz = self.X_grid[slice_indices_xz]
+        z_slice_xz = self.Z_grid[slice_indices_xz]
+        density_slice_xz = density_grid[slice_indices_xz]
+        fig = plt.figure()
+        ax = plt.gca()
+        scatter = ax.scatter(x_slice_xz, z_slice_xz, c=density_slice_xz, cmap='Blues')
+        #ax.plot(x_bow,y_bow,color='red')
+        #ax.plot(x_mag,y_mag,color='blue')
+        ax.set_xlim(-80,80)
+        ax.set_ylim(-80,80)
+        ax.set_xlabel(r'$x$ ($R_{U}$)')
+        ax.set_ylabel(r'$z$ ($R_{U}$)')
+        fig.colorbar(scatter, label='Density')
+        #plt.title(f'Slice through region at z = {z_slice}')
+        plt.title(r"Magnetosheath $x$-$z$ Projection")
+        #plt.savefig("Sheath x-y Projection",dpi=1200)
 
+        print(f"x_slice_xz range: [{np.min(x_slice_xz)}, {np.max(x_slice_xz)}]")
+        print(f"z_slice_xz range: [{np.min(z_slice_xz)}, {np.max(z_slice_xz)}]")
 
+        print(f"x_slice_xy range: [{np.min(x_slice)}, {np.max(x_slice)}]")
+        print(f"y_slice_xy range: [{np.min(y_slice)}, {np.max(y_slice)}]")
+
+        fig = plt.figure()
+        ax = plt.gca()
+        y_mid = int(np.shape(self.Y_grid)[0]/2)
+        xz_plane = ax.contourf(self.X_grid[:,y_mid,:],self.Z_grid[:,y_mid,:],density_grid[:,y_mid,:],cmap='plasma')
+        fig.colorbar(xz_plane)
+
+        fig = plt.figure()
+        ax = plt.gca()
+        x_mid = int(np.shape(self.X_grid)[0]/2)
+        yz_plane = ax.contourf(self.Y_grid[x_mid,:,:],self.Z_grid[x_mid,:,:],density_grid[x_mid,:,:],cmap='plasma')
+        fig.colorbar(yz_plane)
+        ax.set_xlim(-80,80)
+        ax.set_ylim(-80,80)
+        ax.set_xlabel(r'$y$ ($R_{U}$)')
+        ax.set_ylabel(r'$z$ ($R_{U}$)')
+        plt.title(r"Magnetosheath $y$-$z$ Projection")
+        #plt.savefig("Magnetosheath y-z Projection Low Res",dpi=1200)
+
+        fig = plt.figure()
+        ax = plt.gca()
+        z_mid = int(np.shape(self.Z_grid)[0]/2)
+        xy_plane = ax.contourf(self.X_grid[:,:,z_mid],self.Y_grid[:,:,z_mid],density_grid[:,:,z_mid],cmap='plasma')
+        fig.colorbar(xy_plane)
         #fig = plt.figure()
         #ax = fig.add_subplot(111, projection='3d')
         #ax.scatter(x_sheath,y_sheath,z_sheath,alpha=0.5)

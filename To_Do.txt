@@ -28,4 +28,18 @@ Reorganise files [DONE]
 
 Meeting: ask about tomorrow's meeting and also about next week's supervisor meeting.
 
-Add exosphere
+Add exosphere*
+Other projection for neutrals* 
+Other projection for sheath*
+VER results*: if any results for Friday, could take to MIST?
+Continue with Saturn paper:
+    - Combine some figures
+    - Link back to SMILE at Earth
+Sort out grid limits etc.
+Tidy up code? Make sure all functions commented properly
+Set Sheath density*
+SW variations: change flaring
+MIST: name badge*
+Any unused code can be put in a separate file? Comment where it came from
+Sort out import file
+Neutrals: moons orbit in equatorial plane*
