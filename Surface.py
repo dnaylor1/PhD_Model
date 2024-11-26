@@ -1,5 +1,7 @@
 from Import import *
 from scipy.interpolate import LinearNDInterpolator
+from scipy.interpolate import UnivariateSpline
+from scipy import interpolate
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -30,9 +32,32 @@ class Surface:
         x = r*np.cos(theta)
         y = r*np.sin(theta)*np.cos(phi)
         z = r*np.sin(theta)*np.sin(phi)
+        return x,y,z 
+    
+    def define_surface_NEW(self, X_grid):
+        """
+        Defines the surface for either the magnetopause or bow shock
+        """
+        theta = np.linspace(-np.pi,0,162)
+        exclude = np.pi
+        theta_exc = theta[~np.isclose(np.abs(theta),exclude)]
+        theta = theta_exc
+        phi = np.linspace(0,2*np.pi,161)
+        Phi, X = np.meshgrid(phi, X_grid[:,0,0])
+        r_mp = self.r0 * (2 / (1 + np.cos(theta)))**self.K
+        xmp = r_mp*np.cos(theta)
+        interpfunc = interpolate.InterpolatedUnivariateSpline(xmp, r_mp)
+        rmp = interpfunc(X)
+        r_open = np.sqrt(rmp**2 - X**2)
+        _y = r_open*np.sin(Phi)
+        _z = r_open*np.cos(Phi)        
+        x = X
+        y = _y
+        z = _z
         return x,y,z
     
-    def interpolate(x,y,z):
+    
+    def sheath(x,y,z):
         x_flat = x.ravel()
         y_flat = y.ravel()
         z_flat = z.ravel()

@@ -31,3 +31,59 @@ class Moon: #moon class to give properties to all the moons in the system
         mask = mask_r & mask_z
         Z1[mask] = self.density 
         return Z1
+    
+class Miranda(Moon):
+    def __init__(self):
+        super().__init__(r_min = 2.9,
+                         r_max = 9.9,
+                         density = 0.06,
+                         delta_Z = 0.38,
+                         ER_min_H = 0.59,
+                         ER_min_O = 0.57,
+                         ER_max_H = 13.8,
+                         ER_max_O = 11.68)
+        
+class Ariel(Moon):
+    def __init__(self):
+        super().__init__(r_min = 3.8,
+                         r_max = 17,
+                         density = 0.11,
+                         delta_Z = 0.68,
+                         ER_min_H = 4.37,
+                         ER_min_O = 3.97,
+                         ER_max_H = 28.4,
+                         ER_max_O = 38.74)
+        
+class Umbriel(Moon):
+        def __init__(self):
+             super().__init__(r_min = 4.7,
+                              r_max = 29,
+                              density = 0.12,
+                              delta_Z = 1.1,
+                              ER_min_H = 4.06,
+                              ER_min_O = 4.11,
+                              ER_max_H = 15.5,
+                              ER_max_O = 24.67)
+
+class Titania(Moon):
+        def __init__(self):
+             super().__init__(r_min = 6.1,
+                              r_max = 73,
+                              density = 0.02,
+                              delta_Z = 2.3,
+                              ER_min_H = 22.3,
+                              ER_min_O = 14.5,
+                              ER_max_H = 38.1,
+                              ER_max_O = 34.4)
+             
+class Oberon(Moon):
+        def __init__(self):
+             super().__init__(r_min = 6.9,
+                              r_max = 150,
+                              density = 0.002,
+                              delta_Z = 3.6,
+                              ER_min_H = 31,
+                              ER_min_O = 19.5,
+                              ER_max_H = 39.2,
+                              ER_max_O = 30.6)
+

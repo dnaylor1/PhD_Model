@@ -20,7 +20,10 @@ To do:
 
 For meeting (25th Nov):
 Plotter class [DONE]
-Moon class update
-Magnetopause update
+Moon class update [DONE]
+Magnetopause update [DONE]
 Code up sheath stuff (even though not working)
 Neutrals projection [DONE]
+Reorganise files
+
+Add exosphere

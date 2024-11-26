@@ -41,6 +41,7 @@ class Plotter:
         plt.tight_layout()
         ax.view_init(elev=10,azim=60)
         #ax.tick_params(axis='both', direction='out', top=True, bottom=True, left=True, right=True)
+        plt.title("3D Neutral Tori")
         ax.tick_params(axis='both', which='major', labelsize=8)
         #plt.savefig("3D Neutrals Small Labels",dpi=1200)
 
@@ -83,7 +84,7 @@ class Plotter:
 
         ax.plot_surface(x_mp,y_mp,z_mp,cmap='plasma', edgecolor='none', alpha=0.2)
         ax.plot_surface(x_bs,y_bs,z_bs,cmap='viridis', edgecolor='none',alpha=0.2)
-
+        plt.title("3D Magnetopause and Bow Shock Surfaces")
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
         ax.set_zlabel(r'$z$ ($R_{U}$)')
