@@ -49,7 +49,9 @@ class System: #class for the model as a whole including setting up the grid and 
         """
         Calculates the total density at each point, i.e. iterates through each torus to calculate total. Then calls the plot method.
         """
-        self.total_density = 0
+        self.total_density = np.zeros_like(self.rad)
+        n_exo = self.exosphere()
+        self.total_density += n_exo
         for moon in self.moons: #for each moon in the list of moons
             self.Z1 = moon.add_density(self.rad, self.zbox, self.Z1) #calls the add density method in the moon class to calculate the density at each point due to this moon. Adds to the total density
             self.total_density += self.Z1 #sets the total density to this variable due to have a better name (could be changed by renaming Z1)
@@ -57,6 +59,16 @@ class System: #class for the model as a whole including setting up the grid and 
         #return total_density #returns this to the bottom of the code, then passed back into the class when calling plot_density. Could be changed by using self.total_density maybe?
         #Plotter.plot_density(self, self.total_density) #once the total density at each point is calculated, the plot_density method is called. Saves having to have another line at the bottom of the code.
         return self.total_density
+    
+    def exosphere(self):
+        c_1 = 4.2e-5
+        c_2 = 31
+        n_exo = np.zeros_like(self.rad)
+        mask = self.rad > 1
+        n_exo[mask] = c_1 * np.exp((c_2)/self.rad[mask])
+        return n_exo
+    
+
 
 """     def sheath(self, r_mp_grid, r_bs_grid, x_mp, y_mp, z_mp, x_bs, y_bs, z_bs):
         valid = ~np.isnan(r_mp_grid) & ~np.isnan(r_bs_grid)
