@@ -13,6 +13,7 @@ from Surface import *
 from Miscellaneous.Moons import moons
 from Plotter import *
 import json
+from scipy import constants
 
 
 class System: #class for the model as a whole including setting up the grid and plotting
@@ -33,9 +34,6 @@ class System: #class for the model as a whole including setting up the grid and 
             rad (ndarray): radius of each point on the grid
             Z1 (ndarray): empty rad-like array to be updated with density contributions
         """
-        #xvalues = np.arange(self.x_min, self.x_max + self.dx, self.dx)
-        #yvalues = np.arange(self.y_min, self.y_max + self.dy, self.dy)
-        #zvalues = np.arange(self.z_min, self.z_max + self.dz, self.dz)
         xvalues = np.arange(self.x_min, self.x_max, self.dx)
         yvalues = np.arange(self.y_min, self.y_max, self.dy)
         zvalues = np.arange(self.z_min, self.z_max, self.dz)
@@ -67,28 +65,23 @@ class System: #class for the model as a whole including setting up the grid and 
         mask = self.rad > 1
         n_exo[mask] = c_1 * np.exp((c_2)/self.rad[mask])
         return n_exo
+
+    def volumetric_emission(self,n_n,n_q):
+        abundance_slow = 1.48E-5 #from Whittaker and Sembay (2016)
+        #abundance_fast = 6.69E-6
+        n_n = n_n * abundance_slow #magnetosheath ion density = 1*0.1*abundance
+        T_sheath = 5.45e4
+        v_bulk = 400e3
+        v_therm = np.sqrt((3*constants.Boltzmann*T_sheath)/constants.m_p) 
+        v_rel = np.sqrt(v_bulk**2 + v_therm**2)
+        sigma_sqn_slow = (1/3)*((34+10+11+1.3+0.79+1.3+0.06)*(1e-16)) + (2/3)*(12e-15)
+        #sigma_sqn_fast = (1/3)*((32+9.9+11+1.2+1.2+0.68+0.02)*(1e-16)) + (2/3)*(12e-15)
+        sigma_sqn = sigma_sqn_slow
+        ver = n_n * n_q * v_rel * sigma_sqn * 1/(4*np.pi)
+        return ver
+        
     
 
 
-"""     def sheath(self, r_mp_grid, r_bs_grid, x_mp, y_mp, z_mp, x_bs, y_bs, z_bs):
-        valid = ~np.isnan(r_mp_grid) & ~np.isnan(r_bs_grid)
-        magnetosheath_region = valid & (r_mp_grid <= self.rad) & (self.rad <= r_bs_grid)
-        density = np.zeros_like(self.rad)  
-        density[magnetosheath_region] = 1  
-        ##extract the magnetosheath points 
-        x_sheath = self.xbox[magnetosheath_region]
-        y_sheath = self.ybox[magnetosheath_region]
-        z_sheath = self.zbox[magnetosheath_region]
 
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        ax.scatter(x_sheath,y_sheath,z_sheath)
-        ax.plot_surface(x_mp, y_mp, z_mp, cmap='plasma', edgecolor='none', alpha=0.2)
-        ax.plot_surface(x_bs, y_bs, z_bs, cmap='viridis', edgecolor='none', alpha=0.2)
-        ax.set_xlabel(r'$x$ ($R_{U}$)')
-        ax.set_ylabel(r'$y$ ($R_{U}$)')
-        ax.set_zlabel(r'$z$ ($R_{U}$)')
-        ax.set_xlim(-80,80)
-        ax.set_ylim(-80,80)
-        ax.set_zlim(-80,80) """
 

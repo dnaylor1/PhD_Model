@@ -39,7 +39,8 @@ sheath = Magnetosheath(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,system.X_grid,system.Y_grid
 points_mp,points_bs,x_points,y_points,z_points,x_sheath,y_sheath,z_sheath,density_grid = sheath.sheath_surface()
 #plotter.plot_sheath(points_bs,points_mp,x_points,y_points,z_points,x_sheath,y_sheath,z_sheath,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,density_grid)
 plotter.plot_sheath(density_grid,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
-
+ver = system.volumetric_emission(total_density,density_grid)
+plotter.plot_ver(ver)
 
 plt.show()
 

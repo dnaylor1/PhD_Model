@@ -26,30 +26,30 @@ Code up sheath stuff (even though not working) [DONE]
 Neutrals projection [DONE]
 Reorganise files [DONE]
 
-Meeting: ask about tomorrow's meeting and also about next week's supervisor meeting.
+Meeting: ask about tomorrow's meeting and also about next week's supervisor meeting [DONE]
 
 Add exosphere* [DONE]
 Other projection for neutrals* 
-Other projection for sheath*
-VER results*: if any results for Friday, could take to MIST?
+Other projection for sheath* [DONE]
+VER results*: if any results for Friday, could take to MIST? [NO]
 Continue with Saturn paper:
     - Combine some figures
     - Link back to SMILE at Earth
     - Make sure point source graph is correct
 Sort out grid limits etc.
 Tidy up code? Make sure all functions commented properly
-Set Sheath density*
+Set Sheath density* [DONE]
 SW variations: change flaring
 MIST: name badge* [DONE]
-Any unused code can be put in a separate file? Comment where it came from
+Any unused code can be put in a separate file? Comment where it came from [DONE]
 Sort out import file
 Neutrals: moons orbit in equatorial plane*
 
-Maybe take slice of the magnetopause and bow shock too? Just so I know the sheath fits?
+Maybe take slice of the magnetopause and bow shock too? Just so I know the sheath fits? [DONE]
 Make sure code is suitable to be used at other planets
 
 For next meeting:
-- sheath density
+- sheath density [DONE]
 - VER results
 - neutrals projection
-- 
+
