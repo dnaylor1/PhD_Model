@@ -112,3 +112,36 @@
         #ax.set_xlabel(r'$x$ ($R_{U}$)')
         #ax.set_ylabel(r'$y$ ($R_{U}$)')
         #ax.set_zlabel(r'$z$ ($R_{U}$)')
+
+
+
+
+        z_slice = 0
+        # Indices where the grid intersects the slicing plane
+        slice_indices = np.abs(self.Z_grid - z_slice) < 1e-2 
+        ## grid points may not align exactly with the slicing plane due to interpolation so this makes sure they are close enough
+        # Data points for the slicing plane
+        x_slice = self.X_grid[slice_indices]
+        y_slice = self.Y_grid[slice_indices]
+        density_slice = density_grid[slice_indices]
+
+        fig, ax = plt.subplots()
+        scatter = ax.scatter(x_slice, y_slice, c=density_slice, cmap='Blues')
+
+        from Surface import Surface
+        bs = Surface(20,0.88)
+        mp = Surface(16,0.6)
+        x_bow, y_bow = bs.surf_2D()
+        x_mag, y_mag = mp.surf_2D()
+
+        
+        ax.plot(x_bow,y_bow,color='red')
+        ax.plot(x_mag,y_mag,color='blue')
+        ax.set_xlim(-80,80)
+        ax.set_ylim(-80,80)
+        ax.set_xlabel(r'$x$ ($R_{U}$)')
+        ax.set_ylabel(r'$y$ ($R_{U}$)')
+        fig.colorbar(scatter, label='Density')
+        #plt.title(f'Slice through region at z = {z_slice}')
+        plt.title(r"Magnetosheath $x$-$y$ Projection")
+        #plt.savefig("High res sheath x-y",dpi=1200)

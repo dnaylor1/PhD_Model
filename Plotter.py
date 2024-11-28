@@ -96,7 +96,7 @@ class Plotter:
         #plt.savefig("3D MP BS",dpi=1200)
 
 
-    def plot_sheath(self,density_grid):
+    def plot_sheath(self,density_grid,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs):
         """
         Plot the magnetosheath region
 
@@ -104,46 +104,54 @@ class Plotter:
             density_grid (ndarray): needs renaming*. Grid that defines whether points are inside or outside the magnetosheath. 
                                     Density set to 1 in the sheath and 0 elsewhere.
         """
-        z_slice = 0
-        # Indices where the grid intersects the slicing plane
-        slice_indices = np.abs(self.Z_grid - z_slice) < 1e-2 
-        ## grid points may not align exactly with the slicing plane due to interpolation so this makes sure they are close enough
-        # Data points for the slicing plane
-        x_slice = self.X_grid[slice_indices]
-        y_slice = self.Y_grid[slice_indices]
-        density_slice = density_grid[slice_indices]
-
-        fig, ax = plt.subplots()
-        scatter = ax.scatter(x_slice, y_slice, c=density_slice, cmap='Blues')
-
-        from Surface import Surface
-        bs = Surface(20,0.88)
-        mp = Surface(16,0.6)
-        x_bow, y_bow = bs.surf_2D()
-        x_mag, y_mag = mp.surf_2D()
-        
-        ax.plot(x_bow,y_bow,color='red')
-        ax.plot(x_mag,y_mag,color='blue')
-        ax.set_xlim(-80,80)
-        ax.set_ylim(-80,80)
-        ax.set_xlabel(r'$x$ ($R_{U}$)')
-        ax.set_ylabel(r'$y$ ($R_{U}$)')
-        fig.colorbar(scatter, label='Density')
-        #plt.title(f'Slice through region at z = {z_slice}')
-        plt.title(r"Magnetosheath $x$-$y$ Projection")
-        plt.savefig("High res sheath x-y",dpi=1200)
 
         fig = plt.figure()
         ax = plt.gca()
         x_mid = int(np.shape(self.X_grid)[0]/2)
+        #x_mid = -20
         yz_plane = ax.contourf(self.Y_grid[x_mid,:,:],self.Z_grid[x_mid,:,:],density_grid[x_mid,:,:],cmap='Blues')
-        fig.colorbar(yz_plane)
+        fig.colorbar(yz_plane,label=r'Density (cm$^{-3}$)')
         ax.set_xlim(-80,80)
         ax.set_ylim(-80,80)
         ax.set_xlabel(r'$y$ ($R_{U}$)')
         ax.set_ylabel(r'$z$ ($R_{U}$)')
         plt.title(r"Magnetosheath $y$-$z$ Projection")
         #plt.savefig("Magnetosheath y-z Projection Low Res",dpi=1200)
-        plt.savefig("High res sheath y-z",dpi=1200)
+        #plt.savefig("High res sheath y-z",dpi=1200)
+        plt.savefig("Magnetosheath y-z Value",dpi=1200)
+
+        fig = plt.figure()
+        ax = plt.gca()
+        z_mid = int(np.shape(self.Z_grid)[0]/2)
+        xy_plane = ax.contourf(self.X_grid[:,:,z_mid],self.Y_grid[:,:,z_mid],density_grid[:,:,z_mid],cmap='Greens')
+        ax.plot(x_mp,y_mp,color='red',alpha=0.1)
+        ax.plot(x_bs,y_bs,color='blue',alpha=0.1)
+        fig.colorbar(xy_plane,label=r'Density (cm$^{-3}$)')
+        ax.set_xlim(-80,80)
+        ax.set_ylim(-80,80)
+        ax.set_xlabel(r'$x$ ($R_{U}$)')
+        ax.set_ylabel(r'$y$ ($R_{U}$)')
+        plt.title(r"Magnetosheath $x$-$y$ Projection")       
+        #plt.savefig("Magnetosheath Surfaces Plotted",dpi=1200)
+        plt.savefig("Magnetosheath x-y Value",dpi=1200)
+
+        plt.figure()
+        ax = plt.gca()
+        from Surface import Surface
+        bs = Surface(20,0.88)
+        mp = Surface(16,0.6)
+        x_bow, y_bow = bs.surf_2D()
+        x_mag, y_mag = mp.surf_2D()        
+        ax.plot(x_bow,y_bow,color='red')
+        ax.plot(x_mag,y_mag,color='green')
+        ax.set_xlim(-80,80)
+        ax.set_ylim(-80,80)
+        ax.set_xlabel(r'$x$ ($R_{U}$)')
+        ax.set_ylabel(r'$y$ ($R_{U}$)')
+        xy2 = ax.contourf(self.X_grid[:,:,z_mid],self.Y_grid[:,:,z_mid],density_grid[:,:,z_mid],cmap='Blues')
+        fig.colorbar(xy2, label=r'Density (cm$^{-3}$)')
+        #plt.title(f'Slice through region at z = {z_slice}')
+        plt.title(r"Magnetosheath $x$-$y$ Projection")
+        plt.savefig("Magnetosheath x-y 2 Value",dpi=1200)
 
         

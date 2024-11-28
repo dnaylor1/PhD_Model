@@ -28,7 +28,7 @@ Reorganise files [DONE]
 
 Meeting: ask about tomorrow's meeting and also about next week's supervisor meeting.
 
-Add exosphere*
+Add exosphere* [DONE]
 Other projection for neutrals* 
 Other projection for sheath*
 VER results*: if any results for Friday, could take to MIST?
@@ -47,3 +47,9 @@ Neutrals: moons orbit in equatorial plane*
 
 Maybe take slice of the magnetopause and bow shock too? Just so I know the sheath fits?
 Make sure code is suitable to be used at other planets
+
+For next meeting:
+- sheath density
+- VER results
+- neutrals projection
+- 

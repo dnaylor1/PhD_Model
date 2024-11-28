@@ -51,16 +51,17 @@ class Magnetosheath:
 
         ###########################################################################################
 
-        #density_grid[np.isfinite(interpolated_bs) & np.isfinite(interpolated_mp)] = True
         density_grid = np.zeros_like(self.rad)
-        """ density_grid[np.isfinite(interpolated_bs)] = True
-        density_grid[np.isfinite(interpolated_mp)] = False """
-        """ for i,j,k in range(0,np.shape(density_grid)[0]):
-            if density_grid == True:
-                density_grid[i,j,k] = 0.1 """
 
-        density_grid[np.isfinite(griddata(points_bs, np.ones(len(points_bs)), (self.X_grid, self.Y_grid, self.Z_grid), method='linear')) & 
-                    ~np.isfinite(griddata(points_mp, np.ones(len(points_mp)), (self.X_grid, self.Y_grid, self.Z_grid), method='linear'))] = True
+        #density_grid[np.isfinite(griddata(points_bs, np.ones(len(points_bs)), (self.X_grid, self.Y_grid, self.Z_grid), method='linear')) & 
+                    #~np.isfinite(griddata(points_mp, np.ones(len(points_mp)), (self.X_grid, self.Y_grid, self.Z_grid), method='linear'))] = True
+        
+        sheath_region = (
+            np.isfinite(griddata(points_bs, np.ones(len(points_bs)), (self.X_grid, self.Y_grid, self.Z_grid), method='linear')) &
+            ~np.isfinite(griddata(points_mp, np.ones(len(points_mp)), (self.X_grid, self.Y_grid, self.Z_grid), method='linear'))
+        )
+
+        density_grid[sheath_region] = 0.1
 
         indices = np.where(density_grid)
         x_points = self.X_grid[indices]
