@@ -56,7 +56,7 @@ class System: #class for the model as a whole including setting up the grid and 
             self.Z1 = np.zeros_like(self.rad) #resets Z1 so that when it is passed add_density again in the next loop, it doesn't pass a non-zero array.
         #return total_density #returns this to the bottom of the code, then passed back into the class when calling plot_density. Could be changed by using self.total_density maybe?
         #Plotter.plot_density(self, self.total_density) #once the total density at each point is calculated, the plot_density method is called. Saves having to have another line at the bottom of the code.
-        return self.total_density
+        return self.total_density, n_exo
     
     def exosphere(self):
         c_1 = 4.2e-5
@@ -68,17 +68,22 @@ class System: #class for the model as a whole including setting up the grid and 
 
     def volumetric_emission(self,n_n,n_q):
         abundance_slow = 1.48E-5 #from Whittaker and Sembay (2016)
-        #abundance_fast = 6.69E-6
-        n_n = n_n * abundance_slow #magnetosheath ion density = 1*0.1*abundance
+        abundance_fast = 6.69E-6
+        n_n = n_n * abundance_slow #magnetosheath ion density = 0.1*abundance
         T_sheath = 5.45e4
         v_bulk = 400e3
         v_therm = np.sqrt((3*constants.Boltzmann*T_sheath)/constants.m_p) 
-        v_rel = np.sqrt(v_bulk**2 + v_therm**2)
+        v_rel = (np.sqrt(v_bulk**2 + v_therm**2))*10**2
         sigma_sqn_slow = (1/3)*((34+10+11+1.3+0.79+1.3+0.06)*(1e-16)) + (2/3)*(12e-15)
-        #sigma_sqn_fast = (1/3)*((32+9.9+11+1.2+1.2+0.68+0.02)*(1e-16)) + (2/3)*(12e-15)
+        sigma_sqn_fast = (1/3)*((32+9.9+11+1.2+1.2+0.68+0.02)*(1e-16)) + (2/3)*(12e-15)
         sigma_sqn = sigma_sqn_slow
         ver = n_n * n_q * v_rel * sigma_sqn * 1/(4*np.pi)
+        print(ver.max(),ver.min())
+        print(ver.mean())
         return ver
+    
+
+
         
     
 

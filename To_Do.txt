@@ -52,4 +52,6 @@ For next meeting:
 - sheath density [DONE]
 - VER results
 - neutrals projection
+- SW variations - change flaring
+- exosphere plot
 

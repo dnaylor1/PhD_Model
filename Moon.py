@@ -29,7 +29,8 @@ class Moon: #moon class to give properties to all the moons in the system
         mask_r = (rad >= self.r_min) & (rad <= self.r_max) #radial mask
         mask_z = np.abs(zbox) < self.delta_Z #z-direction mask
         mask = mask_r & mask_z
-        Z1[mask] = self.density 
+        #Z1[mask] = self.density
+        Z1[mask] = self.ER_max_H+self.ER_max_O 
         return Z1
     
 class Miranda(Moon):
