@@ -202,6 +202,7 @@ class Plotter:
         fig = plt.figure()
         ax = plt.gca()
         z_mid = int(np.shape(self.Z_grid)[0]/2)
+        #z_mid = 80
         xy_plane = ax.contourf(self.X_grid[:,:,z_mid],self.Y_grid[:,:,z_mid],ver[:,:,z_mid],cmap='YlOrRd')
         from Surface import Surface
         bs = Surface(20,0.88)

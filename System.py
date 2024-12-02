@@ -78,8 +78,7 @@ class System: #class for the model as a whole including setting up the grid and 
         sigma_sqn_fast = (1/3)*((32+9.9+11+1.2+1.2+0.68+0.02)*(1e-16)) + (2/3)*(12e-15)
         sigma_sqn = sigma_sqn_slow
         ver = n_n * n_q * v_rel * sigma_sqn * 1/(4*np.pi)
-        print(ver.max(),ver.min())
-        print(ver.mean())
+        #print("Fast: "+str(ver.max())+", "+str(ver.mean()))
         return ver
     
 

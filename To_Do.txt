@@ -53,5 +53,5 @@ For next meeting:
 - VER results
 - neutrals projection
 - SW variations - change flaring
-- exosphere plot
+- exosphere plot [DONE]
 
