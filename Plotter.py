@@ -13,14 +13,14 @@ from Magnetosheath_New import *
 import json
 
 class Plotter:
-    def __init__(self,x_min,x_max,y_min,y_max,z_min,z_max,xbox,ybox,zbox,X_grid,Y_grid,Z_grid):
+    def __init__(self,x_min,x_max,y_min,y_max,z_min,z_max,X_grid,Y_grid,Z_grid):
         self.x_min = x_min
         self.x_max = x_max
         self.y_min = y_min
         self.y_max = y_max
         self.z_min = z_min
         self.z_max = z_max
-        self.xbox, self.ybox, self.zbox = xbox,ybox,zbox
+        #self.xbox, self.ybox, self.zbox = xbox,ybox,zbox
         self.X_grid, self.Y_grid, self.Z_grid = X_grid, Y_grid, Z_grid
     def plot_density(self,total_density):
         """
@@ -31,7 +31,8 @@ class Plotter:
         """
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
-        im = ax.scatter(self.xbox, self.ybox, self.zbox, c=total_density, cmap='plasma', alpha=0.4)
+        #im = ax.scatter(self.xbox, self.ybox, self.zbox, c=total_density, cmap='plasma', alpha=0.4)
+        im = ax.scatter(self.X_grid,self.Y_grid,self.Z_grid,c=total_density,cmap='plasma',alpha=0.4)
         fig.colorbar(im, shrink=0.5)
         ax.set_xlabel(r"$x$ ($R_{U}$)")
         ax.set_ylabel(r"$y$ ($R_{U}$)")
@@ -193,13 +194,16 @@ class Plotter:
         #ax.set_xlim([self.x_min, self.x_max])
         #ax.set_ylim([self.y_min, self.y_max])
         #ax.set_zlim([self.z_min, self.z_max])
-        #ver_scatter = plt.scatter(self.xbox, self.ybox, self.zbox, c=ver, cmap='YlOrRd')
+        #levs = np.linspace(ver.min(),ver.max(),100)
+        #ver_cont = plt.contourf(self.X_grid, self.Y_grid, self.Z_grid, ver, cmap='YlOrRd',levels = levs)
+        #ver_scatter = plt.scatter(self.X_grid,self.Y_grid,self.Z_grid,c=ver,cmap='YlOrRd')
         #fig.colorbar(ver_scatter, label=r'Volumetric Emission (photon cm$^{-3}$ s$^{-1}$)')
         #ax.set_xlabel(r'$x$ ($R_{U}$)')
         #ax.set_ylabel(r'$y$ ($R_{U}$)')
         #ax.set_zlabel(r'$z$ ($R_{U}$)')
+        #plt.savefig("3D VER not working",dpi=1200)
 
-        fig = plt.figure()
+        fig = plt.figure(figsize=(6.4,5.8)) #default: width = 6.4inches, height = 4.8inches
         ax = plt.gca()
         z_mid = int(np.shape(self.Z_grid)[0]/2)
         #z_mid = 80
@@ -216,6 +220,12 @@ class Plotter:
         ax.set_ylim(-80,80)
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
-        plt.title(r"Volumetric Emission $x$-$y$ Projection")   
-        #plt.savefig("VER_x-y_slow V3",dpi=1200)
+        plt.title(r"VER $x$-$y$ Projection: $v_{\mathrm{SW}}=400$ km s$^{-1}$")
+        ver_max = ver.max()
+        ver_mean = ver.mean()
+        ver_max_3 = f"{ver_max:.3g}"
+        ver_mean_3 = f"{ver_mean:.3g}"
+        plt.gcf().text(0.05, 0.05, f"Max VER: {ver_max_3}", ha='left', fontsize=12)
+        plt.gcf().text(0.05, 0.01, f"Mean VER: {ver_mean_3}", ha='left', fontsize=12)   
+        plt.savefig("VER_x-y_slow V4",dpi=1200)
         

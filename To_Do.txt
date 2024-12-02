@@ -50,8 +50,10 @@ Make sure code is suitable to be used at other planets
 
 For next meeting:
 - sheath density [DONE]
-- VER results
+- VER results [DONE]
 - neutrals projection
 - SW variations - change flaring
 - exosphere plot [DONE]
+- grid limits reduce 
+- https://iopscience.iop.org/article/10.3847/PSJ/ad7c4d
 
