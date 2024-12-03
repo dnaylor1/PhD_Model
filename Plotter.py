@@ -9,7 +9,7 @@ from System import *
 from Surface import *
 from Miscellaneous.Moons import moons
 from Plotter import *
-from Magnetosheath_New import *
+from Magnetosheath import *
 import json
 
 class Plotter:
@@ -22,43 +22,61 @@ class Plotter:
         self.z_max = z_max
         #self.xbox, self.ybox, self.zbox = xbox,ybox,zbox
         self.X_grid, self.Y_grid, self.Z_grid = X_grid, Y_grid, Z_grid
-    def plot_density(self,total_density):
+    def plot_density(self,moon_density):
         """
-        Plots the total density at each point on a 3D grid.
+        Plots the total moon-sourced density at each point on a 3D grid.
 
         Parameters:
-            total_density (ndarray): total density at each point in the grid from the moon tori and exosphere
+            moon_density (ndarray): total moon-sourced density at each point in the grid from the moon tori and exosphere
         """
-        fig = plt.figure()
-        ax = fig.add_subplot(projection='3d')
-        #im = ax.scatter(self.xbox, self.ybox, self.zbox, c=total_density, cmap='plasma', alpha=0.4)
-        im = ax.scatter(self.X_grid,self.Y_grid,self.Z_grid,c=total_density,cmap='plasma',alpha=0.4)
-        fig.colorbar(im, shrink=0.5)
-        ax.set_xlabel(r"$x$ ($R_{U}$)")
-        ax.set_ylabel(r"$y$ ($R_{U}$)")
-        ax.set_zlabel(r"$z$ ($R_{U}$)")
-        #ax.set_xlim([self.x_min, self.x_max])
-        #ax.set_ylim([self.y_min, self.y_max])
-        #ax.set_zlim([self.z_min, self.z_max])
-        ax.set_xlim(-10,10)
-        ax.set_ylim(-10,10)
-        ax.set_zlim(-10,10)
-        plt.tight_layout()
-        ax.view_init(elev=10,azim=60)
-        #ax.tick_params(axis='both', direction='out', top=True, bottom=True, left=True, right=True)
-        plt.title("3D Neutral Tori")
-        ax.tick_params(axis='both', which='major', labelsize=8)
+        #fig = plt.figure()
+        #ax = fig.add_subplot(projection='3d')
+        #im = ax.scatter(self.X_grid,self.Y_grid,self.Z_grid,c=moon_density,cmap='plasma',alpha=0.4)
+        #fig.colorbar(im, shrink=0.5)
+        #ax.set_xlabel(r"$x$ ($R_{U}$)")
+        #ax.set_ylabel(r"$y$ ($R_{U}$)")
+        #ax.set_zlabel(r"$z$ ($R_{U}$)")
+        #ax.set_xlim(-10,10)
+        #ax.set_ylim(-10,10)
+        #ax.set_zlim(-10,10)
+        #plt.tight_layout()
+        #ax.view_init(elev=10,azim=60)
+        #plt.title("3D Neutral Tori")
+        #ax.tick_params(axis='both', which='major', labelsize=8)
         #plt.savefig("3D Neutrals Small Labels",dpi=1200)
+
+        ##solstice: pole pointed at Sun
+        ##equinox: equator pointed at Sun
 
         fig = plt.figure()
         ax = plt.gca()
         xmid = int(np.shape(self.Y_grid)[0]/2)
-        yzplane = ax.contourf(self.Y_grid[xmid,:,:],self.Z_grid[xmid,:,:],total_density[xmid,:,:],cmap='plasma')
-        fig.colorbar(yzplane,shrink=0.5,aspect=5)
-        plt.title('Neutral Tori in y-z plane')
+        yzplane = ax.contourf(self.Y_grid[xmid,:,:],self.Z_grid[xmid,:,:],moon_density[xmid,:,:],cmap='plasma')
+        fig.colorbar(yzplane,label=r"Density (cm$^{-3}$)")
+        plt.title(r'Equinox: Neutral Tori in $y$-$z$ plane')
         ax.set_xlabel(r'$y$ ($R_{U}$)')
         ax.set_ylabel(r'$z$ ($R_{U}$)')
-        #plt.savefig("Neutrals y-z Projection",dpi=1200)
+        #plt.savefig("neutrals_solstice_yz",dpi=1200)
+
+        fig = plt.figure()
+        ax = plt.gca()
+        zmid = int(np.shape(self.Z_grid)[0]/2)
+        xyplane = ax.contourf(self.X_grid[:,:,zmid],self.Y_grid[:,:,zmid],moon_density[:,:,zmid],cmap='plasma')
+        fig.colorbar(xyplane,label=r"Density (cm$^{-3}$)")
+        plt.title(r'Equinox: Neutral Tori in $x$-$y$ plane')
+        ax.set_xlabel(r'$y$ ($R_{U}$)')
+        ax.set_ylabel(r'$z$ ($R_{U}$)')
+        #plt.savefig("neutrals_solstice_xy",dpi=1200)
+
+        fig = plt.figure()
+        ax = plt.gca()
+        ymid = int(np.shape(self.Y_grid)[0]/2)
+        xzplane = ax.contourf(self.X_grid[:,ymid,:],self.Z_grid[:,ymid,:],moon_density[:,ymid,:],cmap='plasma')
+        fig.colorbar(xzplane,label=r"Density (cm$^{-3}$)")
+        plt.title(r'Equinox: Neutral Tori in $x$-$z$ plane')
+        ax.set_xlabel(r'$y$ ($R_{U}$)')
+        ax.set_ylabel(r'$z$ ($R_{U}$)')
+        #plt.savefig("neutrals_solstice_xz",dpi=1200)
 
     def plot_surfaces(self, x_mp,y_mp,z_mp,x_bs,y_bs,z_bs):
         """
@@ -97,7 +115,7 @@ class Plotter:
         #plt.savefig("3D MP BS",dpi=1200)
 
 
-    def plot_sheath(self,density_grid,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs):
+    def plot_sheath(self,density_grid,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,r0_mag,k_mag,r0_bow,k_bow):
         """
         Plot the magnetosheath region
 
@@ -136,11 +154,11 @@ class Plotter:
         #plt.savefig("Magnetosheath Surfaces Plotted",dpi=1200)
         #plt.savefig("Magnetosheath x-y Value",dpi=1200)
 
-        plt.figure()
+        fig = plt.figure()
         ax = plt.gca()
         from Surface import Surface
-        bs = Surface(20,0.88)
-        mp = Surface(16,0.6)
+        bs = Surface(r0_bow,k_bow)
+        mp = Surface(r0_mag,k_mag)
         x_bow, y_bow = bs.surf_2D()
         x_mag, y_mag = mp.surf_2D()        
         ax.plot(x_bow,y_bow,color='red')
@@ -170,25 +188,7 @@ class Plotter:
         plt.title(r"Exosphere $y$-$z$ Projection")
         #plt.savefig("Exosphere y-z",dpi=1200)
 
-
-        #fig = plt.figure()
-        #ax = plt.gca()
-        #z_mid = int(np.shape(self.Z_grid)[0]/2)
-        #levs = np.linspace(n_exo.min(),n_exo.max(),1000)
-        #xy_plane = ax.contourf(self.X_grid[:,:,z_mid],self.Y_grid[:,:,z_mid],n_exo[:,:,z_mid],cmap='plasma',levels=levs)
-        #fig.colorbar(xy_plane,label=r'Density (cm$^{-3}$)')
-        #ax.set_xlim(-10,10)
-        #ax.set_ylim(-10,10)
-        #ax.set_xlabel(r'$y$ ($R_{U}$)')
-        #ax.set_ylabel(r'$z$ ($R_{U}$)')
-        #plt.title(r"Exosphere $x$-$y$ Projection")
-        #plt.savefig("Magnetosheath y-z Projection Low Res",dpi=1200)
-        #plt.savefig("High res sheath y-z",dpi=1200)
-        #plt.savefig("Magnetosheath y-z Value",dpi=1200)        
-        #plt.savefig("Exosphere x-y",dpi=1200)
-
-
-    def plot_ver(self,ver):
+    def plot_ver(self,ver,r0_mag,k_mag,r0_bow,k_bow):
         #fig = plt.figure()
         #ax = fig.add_subplot(111,projection='3d')
         #ax.set_xlim([self.x_min, self.x_max])
@@ -209,8 +209,8 @@ class Plotter:
         #z_mid = 80
         xy_plane = ax.contourf(self.X_grid[:,:,z_mid],self.Y_grid[:,:,z_mid],ver[:,:,z_mid],cmap='YlOrRd')
         from Surface import Surface
-        bs = Surface(20,0.88)
-        mp = Surface(16,0.6)
+        bs = Surface(r0_bow,k_bow)
+        mp = Surface(r0_mag,k_mag)
         x_bow, y_bow = bs.surf_2D()
         x_mag, y_mag = mp.surf_2D()        
         ax.plot(x_bow,y_bow,color='red')
@@ -220,12 +220,13 @@ class Plotter:
         ax.set_ylim(-80,80)
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
-        plt.title(r"VER $x$-$y$ Projection: $v_{\mathrm{SW}}=400$ km s$^{-1}$")
+        #plt.title(r"VER $x$-$y$ Projection: $v_{\mathrm{SW}}=400$ km s$^{-1}$")
+        plt.title(r"VER: $v_{\mathrm{SW}}$ = 390 km s$^{-1}$, $n_{\mathrm{SW,1AU}}=24.3$ cm$^{-3}$",fontsize=12)
         ver_max = ver.max()
         ver_mean = ver.mean()
         ver_max_3 = f"{ver_max:.3g}"
         ver_mean_3 = f"{ver_mean:.3g}"
         plt.gcf().text(0.05, 0.05, f"Max VER: {ver_max_3}", ha='left', fontsize=12)
         plt.gcf().text(0.05, 0.01, f"Mean VER: {ver_mean_3}", ha='left', fontsize=12)   
-        plt.savefig("VER_x-y_slow V4",dpi=1200)
+        #plt.savefig("VER_x-y_high_n",dpi=1200)
         
