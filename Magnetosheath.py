@@ -23,6 +23,12 @@ class Magnetosheath:
         self.rad = rad
 
     def sheath_surface(self):
+        """
+        Defines the magnetosheath surface, the area between the magnetopause and the bow shock
+
+        Returns:
+        density_grid (ndarray): array of magnetosheath points with density set to 0.1 cm^-3 inside the sheath.
+        """
         # Flatten the surface data for magnetopause
         x_mp_flat = self.x_mp.flatten()
         y_mp_flat = self.y_mp.flatten()
@@ -77,4 +83,4 @@ class Magnetosheath:
         y_sheath = self.Y_grid[magnetosheath_region]
         z_sheath = self.Z_grid[magnetosheath_region]
 
-        return points_mp,points_bs,x_points,y_points,z_points,x_sheath,y_sheath,z_sheath,density_grid
+        return density_grid

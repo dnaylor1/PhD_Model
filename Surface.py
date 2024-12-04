@@ -1,4 +1,3 @@
-#from Import import *
 from scipy.interpolate import LinearNDInterpolator
 from scipy.interpolate import UnivariateSpline
 from scipy import interpolate
@@ -19,7 +18,7 @@ class Surface:
         self.r0 = r0
         self.K = K
     
-    def define_surface(self, X_grid, n_p=None, v_sw=None, type=None):
+    def define_surface(self, X_grid, n_p=None, v_sw=None, type=None, x_min=10, x_max=10):
         """
         Defines the surface for either the magnetopause or bow shock
         
@@ -28,6 +27,7 @@ class Surface:
 
         Returns:
         x,y,z (Ndarray): arrays for the x,y,z coordinates of the surface
+        r0, k (float): returns updated standoff distances and flaring parameters if solar wind variations are used
         """
         if n_p != None:
             surf_type = type
@@ -48,12 +48,13 @@ class Surface:
             else:
                 print("Invalid surface type, must be MP (magnetopause) or BS (bow shock)")
                 exit()
-            K = self.K - (diff*self.K)
+            K = self.K - (diff*0.5*self.K)
         else:
             r0 = self.r0
             K = self.K
 
-        theta = np.linspace(-np.pi,0,162)
+        theta_num = np.abs(x_max)+np.abs(x_min)+1
+        theta = np.linspace(-np.pi,0,theta_num)
         exclude = np.pi
         theta_exc = theta[~np.isclose(np.abs(theta),exclude)]
         theta = theta_exc
@@ -71,8 +72,18 @@ class Surface:
         z = _z
         return x,y,z,r0,K
     
-    def surf_2D(self):
-        theta = np.linspace(-np.pi, np.pi, num=361)
+    def surf_2D(self,x_max,x_min):
+        """
+        Defines the 2D magnetopause and bow shock surfaces for visualisation
+
+        Parameters:
+        x_max, x_min (float): grid limits in the x plane, used to define theta
+
+        Returns:
+        x, y (ndaaray): x and y points of the magnetopause and bow shock
+        """
+        theta_num = np.abs(x_max)+np.abs(x_min)+1
+        theta = np.linspace(-np.pi, np.pi, num=theta_num)
         exclude=np.pi
         theta_ex = theta[~np.isclose(np.abs(theta),exclude)]
         theta = theta_ex

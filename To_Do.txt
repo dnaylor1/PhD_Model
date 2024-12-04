@@ -11,11 +11,11 @@ VS Code Stuff:
 
 
 To do:
-## Solar wind variations - change flaring: do this when doing 3D VER results?
+## Solar wind variations - change flaring: do this when doing 3D VER results? [DONE]
 ## Make plotter class [DONE]
 ## Moon class update {DONE}
 ## New magnetopause - keep old file though [DONE]
-## Important files like ACE data from other folder - again do when sheath is done 
+## Important files like ACE data from other folder - again do when sheath is done [DONE]
 ## Neutrals x-z projection - do it!!! [DONE]
 
 For meeting (25th Nov):
@@ -29,21 +29,21 @@ Reorganise files [DONE]
 Meeting: ask about tomorrow's meeting and also about next week's supervisor meeting [DONE]
 
 Add exosphere* [DONE]
-Other projection for neutrals* 
+Other projection for neutrals* [DONE]
 Other projection for sheath* [DONE]
 VER results*: if any results for Friday, could take to MIST? [NO]
 Continue with Saturn paper:
     - Combine some figures
     - Link back to SMILE at Earth
     - Make sure point source graph is correct
-Sort out grid limits etc.
-Tidy up code? Make sure all functions commented properly
+Sort out grid limits etc. [DONE]
+Tidy up code? Make sure all functions commented properly [DONE]
 Set Sheath density* [DONE]
-SW variations: change flaring
+SW variations: change flaring [DONE]
 MIST: name badge* [DONE]
 Any unused code can be put in a separate file? Comment where it came from [DONE]
 Sort out import file
-Neutrals: moons orbit in equatorial plane*
+Neutrals: moons orbit in equatorial plane* [DONE]
 
 Maybe take slice of the magnetopause and bow shock too? Just so I know the sheath fits? [DONE]
 Make sure code is suitable to be used at other planets
@@ -54,6 +54,7 @@ For next meeting:
 - neutrals projection [DONE]
 - SW variations - change flaring [DONE]
 - exosphere plot [DONE]
-- grid limits reduce 
+- grid limits reduce [DONE]
+- Commenting all functions [DONE]
 - https://iopscience.iop.org/article/10.3847/PSJ/ad7c4d
 

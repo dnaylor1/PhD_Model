@@ -1,7 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import cm
 from Import import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -44,6 +40,11 @@ class System: #class for the model as a whole including setting up the grid and 
     def calculate_total_density(self):
         """
         Calculates the total density at each point, i.e. iterates through each torus to calculate total. Then calls the plot method.
+        
+        Returns:
+        total_density (ndarray): total density at each point, i.e. moon density + exospheric density
+        moon_density (ndarray): moon density at each point
+        n_exo (ndarray): exospheric density at each point
         """
         self.moon_density = np.zeros_like(self.rad)
         self.total_density = np.zeros_like(self.rad)
@@ -59,6 +60,12 @@ class System: #class for the model as a whole including setting up the grid and 
         return self.total_density, self.moon_density, n_exo
     
     def exosphere(self):
+        """
+        Calculates the density of the exosphere at each point, returns to the calculate total density method
+
+        Returns:
+        n_exo (ndarray): exospheric density of each point in the grid
+        """
         c_1 = 4.2e-5
         c_2 = 31
         n_exo = np.zeros_like(self.rad)
@@ -67,6 +74,19 @@ class System: #class for the model as a whole including setting up the grid and 
         return n_exo
 
     def volumetric_emission(self,n_n,n_q,n_p=None,T_sw=None, v_sw=None):
+        """
+        Calculates volumetric emission of soft x-rays in the magnetosheath
+
+        Parameters:
+        n_n (ndarray): neutral density array
+        n_q (ndarray): sheath ion density array
+        n_p (float): solar wind density in the case of solar wind variations
+        T_sw (float): solar wind temperature in the case of variations
+        v_sw (float): solar wind speed in the case of variations
+
+        Returns:
+        ver (ndarray): volumetric emission at each point in the magnetosheath
+        """
         if n_p != None:
             n_scaled = n_p/((19.2)**2)
             n_sw = n_scaled * 1e-6
@@ -77,17 +97,23 @@ class System: #class for the model as a whole including setting up the grid and 
         else:
             T_sheath = 5.45e4
             v_bulk = 400e3
+            v_sw = v_bulk
 
         abundance_slow = 1.48E-5 #from Whittaker and Sembay (2016)
         abundance_fast = 6.69E-6
-        n_n = n_n * abundance_slow #magnetosheath ion density = 0.1*abundance
+        if v_sw > 500e3:
+            n_n = n_n * abundance_fast #magnetosheath ion density = 0.1*abundance
+        else:
+            n_n = n_n * abundance_slow
         v_therm = np.sqrt((3*constants.Boltzmann*T_sheath)/constants.m_p) 
         v_rel = (np.sqrt(v_bulk**2 + v_therm**2))*(1e2)
         sigma_sqn_slow = (1/3)*((34+10+11+1.3+0.79+1.3+0.06)*(1e-16)) + (2/3)*(12e-15)
         sigma_sqn_fast = (1/3)*((32+9.9+11+1.2+1.2+0.68+0.02)*(1e-16)) + (2/3)*(12e-15)
-        sigma_sqn = sigma_sqn_slow
+        if v_sw > 500e3:
+            sigma_sqn = sigma_sqn_fast
+        else:
+            sigma_sqn = sigma_sqn_slow
         ver = n_n * n_q * v_rel * sigma_sqn * 1/(4*np.pi)
-        #print("Fast: "+str(ver.max())+", "+str(ver.mean()))
         return ver
     
 
