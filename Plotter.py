@@ -82,7 +82,7 @@ class Plotter:
         Plots the exosphere density
 
         Parameters:
-        n_exo (ndarray): exosphere density at each point
+            n_exo (ndarray): exosphere density at each point
         """
         fig = plt.figure()
         ax = plt.gca()
@@ -162,8 +162,8 @@ class Plotter:
 
         fig = plt.figure()
         ax = plt.gca()
-        z_mid = int(np.shape(self.Z_grid)[0]/2)
-        xy_plane = ax.contourf(self.X_grid[:,:,z_mid],self.Y_grid[:,:,z_mid],density_grid[:,:,z_mid],cmap='Greens')
+        z_pos = int(np.shape(self.Z_grid)[0]/2)
+        xy_plane = ax.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],density_grid[:,:,z_pos],cmap='Greens')
         ax.plot(x_mp,y_mp,color='red',alpha=0.1)
         ax.plot(x_bs,y_bs,color='blue',alpha=0.1)
         fig.colorbar(xy_plane,label=r'Density (cm$^{-3}$)')
@@ -188,7 +188,7 @@ class Plotter:
         ax.set_ylim(self.y_min,self.y_max)
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
-        xy2 = ax.contourf(self.X_grid[:,:,z_mid],self.Y_grid[:,:,z_mid],density_grid[:,:,z_mid],cmap='Blues')
+        xy2 = ax.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],density_grid[:,:,z_pos],cmap='Blues')
         fig.colorbar(xy2, label=r'Density (cm$^{-3}$)')
         #plt.title(f'Slice through region at z = {z_slice}')
         plt.title(r"Magnetosheath $x$-$y$ Projection")
@@ -199,9 +199,9 @@ class Plotter:
         Plots the volumetric emission
 
         Parameters:
-        ver (ndarray): volumetric emission in photon cm^-3 s^-1
-        r0_mag,k_mag (float): magnetopause standoff distance and flaring parameter
-        r0_bow,k_bow (float): bow shock standoff distance and flaring parameter
+            ver (ndarray): volumetric emission in photon cm^-3 s^-1
+            r0_mag,k_mag (float): magnetopause standoff distance and flaring parameter
+            r0_bow,k_bow (float): bow shock standoff distance and flaring parameter
         """
         #fig = plt.figure()
         #ax = fig.add_subplot(111,projection='3d')
@@ -220,7 +220,6 @@ class Plotter:
         fig = plt.figure(figsize=(6.4,5.8)) #default: width = 6.4inches, height = 4.8inches
         ax = plt.gca()
         z_pos = int(np.shape(self.Z_grid)[0]/2)
-        #z_mid = 80
         xy_plane = ax.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver[:,:,z_pos],cmap='YlOrRd')
         from Surface import Surface
         bs = Surface(r0_bow,k_bow)
@@ -230,20 +229,24 @@ class Plotter:
         ax.plot(x_bow,y_bow,color='red')
         ax.plot(x_mag,y_mag,color='blue')
         fig.colorbar(xy_plane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)')
-        ax.set_xlim(self.x_min,30)
+        ax.set_xlim(self.x_min,40)
         ax.set_ylim(self.y_min,self.y_max)
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
         #plt.title(r"VER $x$-$y$ Projection: $v_{\mathrm{SW}}=400$ km s$^{-1}$")
-        #plt.title(r"VER: $v_{\mathrm{SW}}$ = 690 km s$^{-1}$, $n_{\mathrm{SW,1AU}}=1.86$ cm$^{-3}$",fontsize=12)
-        plt.title("Volumetric Emission: Reduced Grid Limits")
+        plt.title(r"VER: $v_{\mathrm{SW}}$ = 690 km s$^{-1}$, $n_{\mathrm{SW,1AU}}=1.856$ cm$^{-3}$",fontsize=12)
+        #plt.title("Volumetric Emission: Reduced Grid Limits")
         ver_max = ver.max()
         ver_mean = ver.mean()
         ver_max_3 = f"{ver_max:.3g}"
         ver_mean_3 = f"{ver_mean:.3g}"
         plt.gcf().text(0.05, 0.05, f"Max VER: {ver_max_3}", ha='left', fontsize=12)
         plt.gcf().text(0.05, 0.01, f"Mean VER: {ver_mean_3}", ha='left', fontsize=12)   
-        #plt.savefig("VER_x-y_reduced_grid",dpi=1200)
+        #plt.savefig("VER_x-y_high_vsw_v3",dpi=1200)
+
+
+
+
 
 
         

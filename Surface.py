@@ -23,21 +23,22 @@ class Surface:
         Defines the surface for either the magnetopause or bow shock
         
         Parameters:
-        X_grid (ndarray): x grid to create a meshgrid
+            X_grid (ndarray): x grid to create a meshgrid
 
         Returns:
-        x,y,z (Ndarray): arrays for the x,y,z coordinates of the surface
-        r0, k (float): returns updated standoff distances and flaring parameters if solar wind variations are used
+            x,y,z (Ndarray): arrays for the x,y,z coordinates of the surface
+            r0, k (float): returns updated standoff distances and flaring parameters if solar wind variations are used
         """
         if n_p != None:
             surf_type = type
+            print(type)
             
             n_scaled = n_p/((19.2)**2)
+            #n_scaled = 0.1e6
             #T_scaled = T_sw/((19.2)**0.5) #Richardson paper for temp scaling
 
             R_standoff = ((2*(2.3e-5)**2)/(constants.mu_0*constants.m_p*n_scaled*(v_sw)**2))**(1/6)
 
-            mp = Surface(16,0.6)
             from Model import magnetopause
             diff = (R_standoff-magnetopause.r0)/magnetopause.r0
 
@@ -48,10 +49,18 @@ class Surface:
             else:
                 print("Invalid surface type, must be MP (magnetopause) or BS (bow shock)")
                 exit()
-            K = self.K - (diff*0.5*self.K)
+            K = self.K + (diff*0.25*self.K)
+            #K = self.K
         else:
             r0 = self.r0
             K = self.K
+        
+        print(type)
+        print(self.r0)
+        print(R_standoff)
+        print(diff)
+        print(r0)
+        print(self.K,K)
 
         theta_num = np.abs(x_max)+np.abs(x_min)+1
         theta = np.linspace(-np.pi,0,theta_num)
@@ -77,10 +86,10 @@ class Surface:
         Defines the 2D magnetopause and bow shock surfaces for visualisation
 
         Parameters:
-        x_max, x_min (float): grid limits in the x plane, used to define theta
+            x_max, x_min (float): grid limits in the x plane, used to define theta
 
         Returns:
-        x, y (ndaaray): x and y points of the magnetopause and bow shock
+            x, y (ndaaray): x and y points of the magnetopause and bow shock
         """
         theta_num = np.abs(x_max)+np.abs(x_min)+1
         theta = np.linspace(-np.pi, np.pi, num=theta_num)

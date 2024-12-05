@@ -16,20 +16,21 @@ T_sw = None
 
 ###### SOLAR WIND VARIATIONS
 
-""" ### NOVEMBER 7-8 2023 HIGH SW SPEED
-n_p = 24.3e6
+### NOVEMBER 7-8 2023 HIGH SW SPEED
+""" n_p = 24.3e6
 v_sw = 370e3
-T_sw = 4.16e4 """
+T_sw = 4.16e4
+ """
 
-
-""" ### MAY 28 2008, 01:00-03:00 HIGH SW DENSITY
-n_p = 1.856e6
+### MAY 28 2008, 01:00-03:00 HIGH SW DENSITY
+""" n_p = 1.856e6
 v_sw = 690e3
 T_sw = 2.54e5 """
 
 ###### SET GRID LIMITS AND RESOLUTION
-grid_lims = [-40,40,-40,40,-40,40]
+#grid_lims = [-40,40,-40,40,-40,40]
 grid_res = [1,1,1]
+grid_lims=[-80,80,-80,80,-80,80]
 
 ###### MOONS
 miranda = Miranda()
