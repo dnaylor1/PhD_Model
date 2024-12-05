@@ -18,7 +18,7 @@ class Surface:
         self.r0 = r0
         self.K = K
     
-    def define_surface(self, X_grid, n_p=None, v_sw=None, type=None, x_min=10, x_max=10):
+    def define_surface(self, X_grid, n_p=None, v_sw=None, type=None, x_min=10, x_max=10, combd=None, v_type = None):
         """
         Defines the surface for either the magnetopause or bow shock
         
@@ -51,6 +51,10 @@ class Surface:
                 exit()
             K = self.K + (diff*0.25*self.K)
             #K = self.K
+        elif combd == "Y":
+            if surf_type == "MP":
+                r0_slow = self.r0
+                r0_fast = self.r0*1.26
         else:
             r0 = self.r0
             K = self.K

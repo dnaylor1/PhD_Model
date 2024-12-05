@@ -58,3 +58,21 @@ For next meeting:
 - Commenting all functions [DONE]
 - https://iopscience.iop.org/article/10.3847/PSJ/ad7c4d
 
+05/12/24:
+-https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2019JA027382
+-https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2015JA022272
+-https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2015JA022272
+
+- Change standoff distance for the basic slow-fast distinction
+- Create combined plot for this
+- Shock physics reading: Cravens, Russell
+- Papers (above) reading
+- Sheath density scaling
+- Flux projections
+- Other VER projections - combine into multi pane figure
+- Equinox, solstice configurations
+- Jasinski data sample
+- Uranus paper outline
+- More Saturn paper writing
+- Read me file for model
+

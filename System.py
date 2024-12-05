@@ -41,10 +41,10 @@ class System: #class for the model as a whole including setting up the grid and 
         """
         Calculates the total density at each point, i.e. iterates through each torus to calculate total. Then calls the plot method.
         
-        Returns:
-        total_density (ndarray): total density at each point, i.e. moon density + exospheric density
-        moon_density (ndarray): moon density at each point
-        n_exo (ndarray): exospheric density at each point
+        Returns
+            total_density (ndarray): total density at each point (moon density + exospheric density).
+            moon_density (ndarray): moon density at each point.
+            n_exo (ndarray): exospheric density at each point.
         """
         self.moon_density = np.zeros_like(self.rad)
         self.total_density = np.zeros_like(self.rad)
@@ -64,7 +64,7 @@ class System: #class for the model as a whole including setting up the grid and 
         Calculates the density of the exosphere at each point, returns to the calculate total density method
 
         Returns:
-        n_exo (ndarray): exospheric density of each point in the grid
+            n_exo (ndarray): exospheric density of each point in the grid
         """
         c_1 = 4.2e-5
         c_2 = 31
@@ -78,14 +78,14 @@ class System: #class for the model as a whole including setting up the grid and 
         Calculates volumetric emission of soft x-rays in the magnetosheath
 
         Parameters:
-        n_n (ndarray): neutral density array
-        n_q (ndarray): sheath ion density array
-        n_p (float): solar wind density in the case of solar wind variations
-        T_sw (float): solar wind temperature in the case of variations
-        v_sw (float): solar wind speed in the case of variations
+            n_n (ndarray): neutral density array
+            n_q (ndarray): sheath ion density array
+            n_p (float): solar wind density in the case of solar wind variations
+            T_sw (float): solar wind temperature in the case of variations
+            v_sw (float): solar wind speed in the case of variations
 
         Returns:
-        ver (ndarray): volumetric emission at each point in the magnetosheath
+            ver (ndarray): volumetric emission at each point in the magnetosheath
         """
         if n_p != None:
             n_scaled = n_p/((19.2)**2)
