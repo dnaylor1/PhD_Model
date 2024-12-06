@@ -37,7 +37,7 @@ class System: #class for the model as a whole including setting up the grid and 
         Z1 = np.zeros_like(rad)
         return rad, Z1, X_grid, Y_grid, Z_grid
 
-    def calculate_total_density(self):
+    def calculate_total_density(self,config):
         """
         Calculates the total density at each point, i.e. iterates through each torus to calculate total. Then calls the plot method.
         
@@ -51,7 +51,7 @@ class System: #class for the model as a whole including setting up the grid and 
         n_exo = self.exosphere()
         self.total_density += n_exo
         for moon in self.moons: #for each moon in the list of moons
-            self.Z1 = moon.add_density(self.rad, self.Z_grid, self.Z1) #calls the add density method in the moon class to calculate the density at each point due to this moon. Adds to the total density
+            self.Z1 = moon.add_density(self.rad, self.Z_grid, self.Y_grid, self.Z1, config) #calls the add density method in the moon class to calculate the density at each point due to this moon. Adds to the total density
             self.moon_density += self.Z1 #sets the total density to this variable due to have a better name (could be changed by renaming Z1)
             self.Z1 = np.zeros_like(self.rad) #resets Z1 so that when it is passed add_density again in the next loop, it doesn't pass a non-zero array.
         #return total_density #returns this to the bottom of the code, then passed back into the class when calling plot_density. Could be changed by using self.total_density maybe?

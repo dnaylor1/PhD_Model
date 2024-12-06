@@ -10,6 +10,9 @@ from Plotter import *
 import json
 from Magnetosheath import *
 
+#Solstice or equiniox ("S" or "E")
+config = "E"
+
 n_p = None #defaults when no solar wind variations used
 v_sw = None
 T_sw = None
@@ -28,16 +31,19 @@ T_sw = 4.16e4
 v_sw = 690e3
 T_sw = 2.54e5 """
 
-### Slow-Fast Distinction
+### Slow-Fast Distinction - uncomment for combined figure
 combd = "Y"
 v_slow = 400e3
 v_fast = 800e3
 
-
 ###### SET GRID LIMITS AND RESOLUTION
+
 #grid_lims = [-40,40,-40,40,-40,40]
 grid_res = [1,1,1]
 grid_lims=[-80,80,-80,80,-80,80]
+
+""" grid_res = [0.05,0.05,0.05]
+grid_lims = [-10,10,-10,10,-10,10] """
 
 ###### MOONS
 miranda = Miranda()
@@ -52,11 +58,11 @@ system = System(moons,B_eq=2.3e-5,grid_limits=grid_lims,grid_resolution=grid_res
 plotter = Plotter(grid_lims,system.X_grid,system.Y_grid,system.Z_grid)
 
 ###### SYSTEM NEUTRAL DENSITIES
-total_density, moon_density, n_exo = system.calculate_total_density()
-#plotter.plot_density(moon_density)
+total_density, moon_density, n_exo = system.calculate_total_density(config)
+plotter.plot_density(moon_density)
 #plotter.plot_exo(n_exo)
 
-###### MAGNETOPAUSE AND BOW SHOCK SURFACES - singular
+""" ###### MAGNETOPAUSE AND BOW SHOCK SURFACES - singular
 if combd == None:
     magnetopause = Surface(r0=16,K=0.6)
     bow_shock = Surface(r0=20,K=0.88)
@@ -93,7 +99,7 @@ else:
     ###### VOLUMETRIC EMISSION
     ver_slow = system.volumetric_emission(total_density,sheath_density_slow,n_p,T_sw,v_sw,v_slow)
     ver_fast = system.volumetric_emission(total_density,sheath_density_fast,n_p,T_sw,v_sw,v_fast)
-    plotter.plot_ver_combined(ver_slow,ver_fast,r0_mag_f,k_mag_f,r0_bow_f,k_bow_f)
+    plotter.plot_ver_combined(ver_slow,ver_fast,r0_mag_f,k_mag_f,r0_bow_f,k_bow_f) """
     
     
     

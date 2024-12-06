@@ -10,6 +10,7 @@ from Miscellaneous.Moons import moons
 from Plotter import *
 from Magnetosheath import *
 import json
+from matplotlib.gridspec import GridSpec
 
 class Plotter:
     def __init__(self,grid_limits=[-10,10,-10,10,-10,10],X_grid=None,Y_grid=None,Z_grid=None):
@@ -55,7 +56,7 @@ class Plotter:
         plt.title(r'Equinox: Neutral Tori in $y$-$z$ plane')
         ax.set_xlabel(r'$y$ ($R_{U}$)')
         ax.set_ylabel(r'$z$ ($R_{U}$)')
-        #plt.savefig("neutrals_solstice_yz",dpi=1200)
+        #plt.savefig("neutrals_equinox_yz_reduced",dpi=1200)
 
         fig = plt.figure()
         ax = plt.gca()
@@ -63,9 +64,9 @@ class Plotter:
         xyplane = ax.contourf(self.X_grid[:,:,zmid],self.Y_grid[:,:,zmid],moon_density[:,:,zmid],cmap='plasma')
         fig.colorbar(xyplane,label=r"Density (cm$^{-3}$)")
         plt.title(r'Equinox: Neutral Tori in $x$-$y$ plane')
-        ax.set_xlabel(r'$y$ ($R_{U}$)')
-        ax.set_ylabel(r'$z$ ($R_{U}$)')
-        #plt.savefig("neutrals_solstice_xy",dpi=1200)
+        ax.set_xlabel(r'$x$ ($R_{U}$)')
+        ax.set_ylabel(r'$y$ ($R_{U}$)')
+        #plt.savefig("neutrals_equinox_xy_reduced",dpi=1200)
 
         fig = plt.figure()
         ax = plt.gca()
@@ -73,9 +74,41 @@ class Plotter:
         xzplane = ax.contourf(self.X_grid[:,ymid,:],self.Z_grid[:,ymid,:],moon_density[:,ymid,:],cmap='plasma')
         fig.colorbar(xzplane,label=r"Density (cm$^{-3}$)")
         plt.title(r'Equinox: Neutral Tori in $x$-$z$ plane')
-        ax.set_xlabel(r'$y$ ($R_{U}$)')
+        ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$z$ ($R_{U}$)')
-        #plt.savefig("neutrals_solstice_xz",dpi=1200)
+        #plt.savefig("neutrals_equinox_xz_reduced",dpi=1200)
+
+        #fig,ax = plt.subplots(1,3,figsize=(18,10),gridspec_kw={'width_ratios': [1, 1, 1]})
+        fig = plt.figure(figsize=(17,5))
+        gs = GridSpec(1, 4, width_ratios=[1, 1, 1, 0.1], wspace=0.5)
+        ax0 = fig.add_subplot(gs[0, 0])
+        ax1 = fig.add_subplot(gs[0, 1])
+        ax2 = fig.add_subplot(gs[0, 2])
+        z_pos = int(np.shape(self.Z_grid)[0]/2)
+        x_pos = int(np.shape(self.Y_grid)[0]/2)
+        y_pos = int(np.shape(self.Y_grid)[0]/2)
+        yzplane = ax0.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],moon_density[x_pos,:,:],cmap='plasma')
+        xyplane = ax1.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],moon_density[:,:,z_pos],cmap='plasma')
+        xzplane = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],moon_density[:,y_pos,:],cmap='plasma')
+        #plt.colorbar(yzplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax[0])
+        #plt.colorbar(xyplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax[1])
+        #plt.colorbar(xzplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax2,shrink=0.5)
+        cbar = fig.colorbar(xzplane, ax=[ax0, ax1, ax2], location='right', shrink=0.65, pad=0.02)
+        cbar.set_label(r'Neutral Density (cm$^{-3}$)')
+        ax0.set_aspect('equal')
+        ax1.set_aspect('equal')
+        ax2.set_aspect('equal')
+        ax0.set_xlabel(r'$y$ ($R_{U}$)')
+        ax0.set_ylabel(r'$z$ ($R_{U}$)')
+        ax1.set_xlabel(r'$x$ ($R_{U}$)')
+        ax1.set_ylabel(r'$y$ ($R_{U}$)')
+        ax2.set_xlabel(r'$x$ ($R_{U}$)')
+        ax2.set_ylabel(r'$z$ ($R_{U}$)')
+        ax0.set_title(r"(a) $y$-$z$ plane")
+        ax1.set_title(r"(b) $x$-$y$ plane")
+        ax2.set_title(r"(c) $x$-$z$ plane")
+        #plt.tight_layout()
+        #plt.savefig("neutrals_combined_equinox_full",dpi=1200)
 
     def plot_exo(self,n_exo):
         """
@@ -287,7 +320,7 @@ class Plotter:
         plt.gcf().text(0.99, 0.05, f"Max Fast VER: {ver_max_3_f}", ha='right', fontsize=12)
         plt.gcf().text(0.99, 0.01, f"Mean Fast VER: {ver_mean_3_f}", ha='right', fontsize=12)
         plt.tight_layout()
-        plt.savefig("VER_combined",dpi=1200)
+        #plt.savefig("VER_combined",dpi=1200)
 
 
 
