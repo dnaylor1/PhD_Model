@@ -61,7 +61,7 @@ For next meeting:
 05/12/24:
 -https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2019JA027382
 -https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2015JA022272
--https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2015JA022272
+-https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2017JA024595
 
 - Change standoff distance for the basic slow-fast distinction
 - Create combined plot for this
@@ -75,4 +75,4 @@ For next meeting:
 - Uranus paper outline
 - More Saturn paper writing
 - Read me file for model
-
+- Neutrals labels - rerun also maybe combine?

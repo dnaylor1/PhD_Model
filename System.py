@@ -73,7 +73,7 @@ class System: #class for the model as a whole including setting up the grid and 
         n_exo[mask] = c_1 * np.exp((c_2)/self.rad[mask])
         return n_exo
 
-    def volumetric_emission(self,n_n,n_q,n_p=None,T_sw=None, v_sw=None):
+    def volumetric_emission(self,n_n,n_q,n_p=None,T_sw=None,v_sw=None,v_sf=None):
         """
         Calculates volumetric emission of soft x-rays in the magnetosheath
 
@@ -94,6 +94,10 @@ class System: #class for the model as a whole including setting up the grid and 
             T_sheath = T_scaled
             v_bulk = v_sw
             n_q = n_q * (1/n_q.max()) * n_sw
+        if v_sf != None:
+            v_bulk = v_sf
+            v_sw = v_bulk
+            T_sheath = 5.45e4
         else:
             T_sheath = 5.45e4
             v_bulk = 400e3

@@ -88,11 +88,12 @@ else:
     sheath_slow = Magnetosheath(x_mp_s,y_mp_s,z_mp_s,x_bs_s,y_bs_s,z_bs_s,system.X_grid,system.Y_grid,system.Z_grid,system.rad)
     sheath_density_slow = sheath_slow.sheath_surface()
     sheath_fast = Magnetosheath(x_mp_f,y_mp_f,z_mp_f,x_bs_f,y_bs_f,z_bs_f,system.X_grid,system.Y_grid,system.Z_grid,system.rad)
-    sheath_density_fast = sheath_slow.sheath_surface()
+    sheath_density_fast = sheath_fast.sheath_surface()
 
     ###### VOLUMETRIC EMISSION
-    ver_slow = system.volumetric_emission(total_density,sheath_density_slow,n_p,T_sw,v_sw)
-    ver_fast = system.volumetric_emission(total_density,sheath_density_fast,n_p,T_sw,v_sw)
+    ver_slow = system.volumetric_emission(total_density,sheath_density_slow,n_p,T_sw,v_sw,v_slow)
+    ver_fast = system.volumetric_emission(total_density,sheath_density_fast,n_p,T_sw,v_sw,v_fast)
+    plotter.plot_ver_combined(ver_slow,ver_fast,r0_mag_f,k_mag_f,r0_bow_f,k_bow_f)
     
     
     

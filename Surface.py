@@ -31,7 +31,6 @@ class Surface:
         """
         if n_p != None:
             surf_type = type
-            print(type)
             
             n_scaled = n_p/((19.2)**2)
             #n_scaled = 0.1e6
@@ -52,19 +51,47 @@ class Surface:
             K = self.K + (diff*0.25*self.K)
             #K = self.K
         elif combd == "Y":
-            if surf_type == "MP":
-                r0_slow = self.r0
-                r0_fast = self.r0*1.26
+            if v_type == "S":
+                    r0 = self.r0
+                    K = self.K
+                #if surf_type == "MP":
+                    #r0 = self.r0
+                    #K = self.K
+                #elif surf_type == "BS":
+                    #r0 = self.r0
+                    #K = self.K
+                #else:
+                    #print("Invalid surface type")
+                    #exit()
+            elif v_type == "F":
+                r0 = self.r0/1.26
+                diff = (r0-self.r0)/self.r0
+                K = self.K + (self.K*0.25*diff)                
+                #if surf_type == "MP":
+                 #   r0 = self.r0/1.26
+                  #  diff = (r0-self.r0)/self.r0
+                   # K = self.K + (self.K*0.25*diff)
+                #elif surf_type == "BS":
+                 #   from Model import magnetopause
+                  #  r0 = self.r0/1.26
+                   # K = self.K/(1.26*0.25)
+                #else:
+                #    print("Invalid surface type")
+                #    exit()
+            else:
+                print("Invalid v_type")
+                exit()
+
         else:
             r0 = self.r0
             K = self.K
         
-        print(type)
-        print(self.r0)
-        print(R_standoff)
-        print(diff)
-        print(r0)
-        print(self.K,K)
+        #print(type)
+        #print(self.r0)
+        #print(R_standoff)
+        #print(diff)
+        #print(r0)
+        #print(self.K,K)
 
         theta_num = np.abs(x_max)+np.abs(x_min)+1
         theta = np.linspace(-np.pi,0,theta_num)
@@ -85,7 +112,7 @@ class Surface:
         z = _z
         return x,y,z,r0,K
     
-    def surf_2D(self,x_max,x_min):
+    def surf_2D(self,x_max,x_min,r0=None,K=None):
         """
         Defines the 2D magnetopause and bow shock surfaces for visualisation
 
@@ -93,7 +120,7 @@ class Surface:
             x_max, x_min (float): grid limits in the x plane, used to define theta
 
         Returns:
-            x, y (ndaaray): x and y points of the magnetopause and bow shock
+            x, y (ndarray): x and y points of the magnetopause and bow shock
         """
         theta_num = np.abs(x_max)+np.abs(x_min)+1
         theta = np.linspace(-np.pi, np.pi, num=theta_num)
@@ -101,7 +128,11 @@ class Surface:
         theta_ex = theta[~np.isclose(np.abs(theta),exclude)]
         theta = theta_ex
 
-        R = self.r0 * (2/(1+np.cos(theta)))**self.K
+        if r0 == None:
+            r0 = self.r0
+            K = self.K
+
+        R = r0 * (2/(1+np.cos(theta)))**K
         x = R * np.cos(theta)
         y = R * np.sin(theta)
 
