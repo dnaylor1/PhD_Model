@@ -277,6 +277,40 @@ class Plotter:
         plt.gcf().text(0.05, 0.01, f"Mean VER: {ver_mean_3}", ha='left', fontsize=12)   
         #plt.savefig("VER_x-y_high_vsw_v3",dpi=1200)
 
+        fig = plt.figure(figsize=(17,5))
+        gs = GridSpec(1, 4, width_ratios=[1, 1, 1, 0.1], wspace=0.5)
+        ax0 = fig.add_subplot(gs[0, 0])
+        ax1 = fig.add_subplot(gs[0, 1])
+        ax2 = fig.add_subplot(gs[0, 2])
+        z_pos = int(np.shape(self.Z_grid)[0]/2)
+        x_pos = int(np.shape(self.Y_grid)[0]/2)
+        y_pos = int(np.shape(self.Y_grid)[0]/2)
+        yzplane = ax0.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],ver[x_pos,:,:],cmap='YlOrRd')
+        xyplane = ax1.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver[:,:,z_pos],cmap='YlOrRd')
+        xzplane = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver[:,y_pos,:],cmap='YlOrRd')
+        ax1.plot(x_bow,y_bow,color='red')
+        ax1.plot(x_mag,y_mag,color='blue')
+        #plt.colorbar(yzplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax[0])
+        #plt.colorbar(xyplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax[1])
+        #plt.colorbar(xzplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax2,shrink=0.5)
+        cbar = fig.colorbar(xzplane, ax=[ax0, ax1, ax2], location='right', shrink=0.65, pad=0.02)
+        cbar.set_label(r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)')
+        ax0.set_aspect('equal')
+        ax1.set_aspect('equal')
+        ax2.set_aspect('equal')
+        ax1.set_xlim(-80,80)
+        ax1.set_ylim(-80,80)
+        ax0.set_xlabel(r'$y$ ($R_{U}$)')
+        ax0.set_ylabel(r'$z$ ($R_{U}$)')
+        ax1.set_xlabel(r'$x$ ($R_{U}$)')
+        ax1.set_ylabel(r'$y$ ($R_{U}$)')
+        ax2.set_xlabel(r'$x$ ($R_{U}$)')
+        ax2.set_ylabel(r'$z$ ($R_{U}$)')
+        ax0.set_title(r"(a) $y$-$z$ plane")
+        ax1.set_title(r"(b) $x$-$y$ plane")
+        ax2.set_title(r"(c) $x$-$z$ plane")
+        #plt.savefig("VER_all_planes",dpi=1200)
+
     def plot_ver_combined(self,ver_slow,ver_fast,r_mag_f,k_mag_f,r_bow_f,k_bow_f):
 
         fig,ax = plt.subplots(1,2,figsize=(10,5))
@@ -323,8 +357,20 @@ class Plotter:
         #plt.savefig("VER_combined",dpi=1200)
 
 
+    def plot_flux(self,flux):
+
+        fig = plt.figure()
+        ax = plt.gca()
+        levs = np.linspace(flux.min(),flux.max(),10)
+        xmid = int(np.shape(self.Y_grid)[0]/2)
+        yzplane = ax.contourf(self.Y_grid[xmid,:,:],self.Z_grid[xmid,:,:],flux,cmap='plasma',levels=levs)
+        fig.colorbar(yzplane,label=r"Density (cm$^{-3}$)")
+        ax.set_xlim(self.y_min,self.y_max)
+        ax.set_ylim(self.z_min,self.z_max)
+        ax.set_xlabel(r"$y$ ($R_{U}$)")
+        ax.set_ylabel(r"$z$ ($R_{U}$)")
+        plt.title(r"Flux Detected by SMILE-like SXI 300 $R_{U}$ Downstream",fontsize=11)
+        #plt.savefig("flux_image",dpi=1200)
 
 
 
-
-        

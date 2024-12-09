@@ -7,11 +7,12 @@ from Moon import *
 from System import *
 from Surface import *
 from Plotter import *
+from SXI import *
 import json
 from Magnetosheath import *
 
 #Solstice or equiniox ("S" or "E")
-config = "S"
+config = "E"
 
 n_p = None #defaults when no solar wind variations used
 v_sw = None
@@ -40,7 +41,9 @@ v_fast = 800e3 """
 
 ###### SET GRID LIMITS AND RESOLUTION
 
-#grid_lims = [-40,40,-40,40,-40,40]
+""" grid_lims = [-40,40,-40,40,-40,40]
+grid_res = [2,2,2] """
+
 grid_res = [1,1,1]
 grid_lims=[-80,80,-80,80,-80,80]
 
@@ -70,7 +73,7 @@ if combd == None:
     bow_shock = Surface(r0=20,K=0.88)
     x_mp,y_mp,z_mp,r0_mag,k_mag = magnetopause.define_surface(system.X_grid,n_p,v_sw,"MP",grid_lims[0],grid_lims[1])
     x_bs,y_bs,z_bs,r0_bow,k_bow = bow_shock.define_surface(system.X_grid,n_p,v_sw,"BS",grid_lims[2],grid_lims[3])
-    #plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
+    plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
 
 
     ##### MAGNETOSHEATH
@@ -80,7 +83,12 @@ if combd == None:
 
     ###### VOLUMETRIC EMISSION
     ver = system.volumetric_emission(total_density,sheath_density,n_p,T_sw,v_sw)
-    plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow)
+    #plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow)
+
+    ###### FLUX
+    SMILE = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver,grid_res,system.rad)
+    flux = SMILE.flux()
+    plotter.plot_flux(flux)
 
 else:
     magnetopause = Surface(r0=16,K=0.6)
