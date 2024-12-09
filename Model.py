@@ -11,6 +11,8 @@ from SXI import *
 import json
 from Magnetosheath import *
 
+###test to commit
+ 
 #Solstice or equiniox ("S" or "E")
 config = "E"
 
