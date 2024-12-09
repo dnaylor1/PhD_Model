@@ -68,11 +68,27 @@ For next meeting:
 - Shock physics reading: Cravens, Russell
 - Papers (above) reading
 - Sheath density scaling
-- Flux projections
-- Other VER projections - combine into multi pane figure
+- Flux projections [DONE]
+- Other VER projections - combine into multi pane figure [DONE]
 - Equinox, solstice configurations
 - Jasinski data sample
 - Uranus paper outline
 - More Saturn paper writing
 - Read me file for model
 - Neutrals labels - rerun also maybe combine? [DONE]
+
+Monday 9th December:
+- VER all planes figure [DONE]
+- Flux projection [DONE]
+- Space physics reading [DONE]
+- Ranquist paper [DONE]
+
+Tuesday 10th December:
+- Remove scale height and see what it does to flux
+- Integration times
+- Combined VER and flux fig with title
+- Uranus paper outline
+- Finish Ranqist et al. paper
+- Equninox, solstice configs 
+- Shock physics questions
+- Solar wind at the bow shock chapter
