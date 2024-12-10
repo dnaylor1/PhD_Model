@@ -14,7 +14,7 @@ class Moon: #moon class to give properties to all the moons in the system
         self.ER_max_H = ER_max_H
         self.ER_max_O = ER_max_O
 
-    def add_density(self, rad, Z_grid, Y_grid, Z1, config):
+    def add_density(self, rad, X_grid, Y_grid, Z_grid, Z1, config):
         """
         Creates the neutral tori and finds the density contribution of that torus at each point in the model
         
@@ -29,7 +29,7 @@ class Moon: #moon class to give properties to all the moons in the system
         ## using z_grid: equinox, y for solstice
         if config == "E":
             mask_r = (rad >= self.r_min) & (rad <= self.r_max) #radial mask
-            mask_z = np.abs(Z_grid) < self.delta_Z #z-direction mask
+            mask_z = np.abs(X_grid) < self.delta_Z #z-direction mask
             mask = mask_r & mask_z
             #Z1[mask] = self.density
             Z1[mask] = self.ER_max_H+self.ER_max_O 

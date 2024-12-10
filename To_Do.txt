@@ -92,3 +92,12 @@ Tuesday 10th December:
 - Equninox, solstice configs [DONE]
 - Shock physics questions
 - Solar wind at the bow shock chapter
+
+After meeting:
+- Get my head around equinox and solstice [DONE]
+- Re-do the configurations - equinox should have donut in y-z plane [DONE]
+- Update plotter so it will automatically update title for equinox and solstice [DONE]
+- Coordinate systems
+- Re-do the paper outline
+- New Solar System reading - return Licia's copy
+- Different slices for emission and flux

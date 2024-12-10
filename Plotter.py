@@ -13,7 +13,7 @@ import json
 from matplotlib.gridspec import GridSpec
 
 class Plotter:
-    def __init__(self,grid_limits=[-10,10,-10,10,-10,10],X_grid=None,Y_grid=None,Z_grid=None):
+    def __init__(self,grid_limits=[-10,10,-10,10,-10,10],X_grid=None,Y_grid=None,Z_grid=None,config=None):
         self.x_min = grid_limits[0]
         self.x_max = grid_limits[1]
         self.y_min = grid_limits[2]
@@ -22,6 +22,7 @@ class Plotter:
         self.z_max = grid_limits[5]
         #self.xbox, self.ybox, self.zbox = xbox,ybox,zbox
         self.X_grid, self.Y_grid, self.Z_grid = X_grid, Y_grid, Z_grid
+        self.config = config
     def plot_density(self,moon_density):
         """
         Plots the total moon-sourced density at each point on a 3D grid.
@@ -48,34 +49,34 @@ class Plotter:
         ##solstice: pole pointed at Sun
         ##equinox: equator pointed at Sun
 
-        fig = plt.figure()
-        ax = plt.gca()
-        xmid = int(np.shape(self.Y_grid)[0]/2)
-        yzplane = ax.contourf(self.Y_grid[xmid,:,:],self.Z_grid[xmid,:,:],moon_density[xmid,:,:],cmap='plasma')
-        fig.colorbar(yzplane,label=r"Density (cm$^{-3}$)")
-        plt.title(r'Equinox: Neutral Tori in $y$-$z$ plane')
-        ax.set_xlabel(r'$y$ ($R_{U}$)')
-        ax.set_ylabel(r'$z$ ($R_{U}$)')
+        #fig = plt.figure()
+        #ax = plt.gca()
+        #xmid = int(np.shape(self.Y_grid)[0]/2)
+        #yzplane = ax.contourf(self.Y_grid[xmid,:,:],self.Z_grid[xmid,:,:],moon_density[xmid,:,:],cmap='plasma')
+        #fig.colorbar(yzplane,label=r"Density (cm$^{-3}$)")
+        #plt.title(r'Equinox: Neutral Tori in $y$-$z$ plane')
+        #ax.set_xlabel(r'$y$ ($R_{U}$)')
+        #ax.set_ylabel(r'$z$ ($R_{U}$)')
         #plt.savefig("neutrals_equinox_yz_reduced",dpi=1200)
 
-        fig = plt.figure()
-        ax = plt.gca()
-        zmid = int(np.shape(self.Z_grid)[0]/2)
-        xyplane = ax.contourf(self.X_grid[:,:,zmid],self.Y_grid[:,:,zmid],moon_density[:,:,zmid],cmap='plasma')
-        fig.colorbar(xyplane,label=r"Density (cm$^{-3}$)")
-        plt.title(r'Equinox: Neutral Tori in $x$-$y$ plane')
-        ax.set_xlabel(r'$x$ ($R_{U}$)')
-        ax.set_ylabel(r'$y$ ($R_{U}$)')
+        #fig = plt.figure()
+        #ax = plt.gca()
+        #zmid = int(np.shape(self.Z_grid)[0]/2)
+        #xyplane = ax.contourf(self.X_grid[:,:,zmid],self.Y_grid[:,:,zmid],moon_density[:,:,zmid],cmap='plasma')
+        #fig.colorbar(xyplane,label=r"Density (cm$^{-3}$)")
+        #plt.title(r'Equinox: Neutral Tori in $x$-$y$ plane')
+        #ax.set_xlabel(r'$x$ ($R_{U}$)')
+        #ax.set_ylabel(r'$y$ ($R_{U}$)')
         #plt.savefig("neutrals_equinox_xy_reduced",dpi=1200)
 
-        fig = plt.figure()
-        ax = plt.gca()
-        ymid = int(np.shape(self.Y_grid)[0]/2)
-        xzplane = ax.contourf(self.X_grid[:,ymid,:],self.Z_grid[:,ymid,:],moon_density[:,ymid,:],cmap='plasma')
-        fig.colorbar(xzplane,label=r"Density (cm$^{-3}$)")
-        plt.title(r'Equinox: Neutral Tori in $x$-$z$ plane')
-        ax.set_xlabel(r'$x$ ($R_{U}$)')
-        ax.set_ylabel(r'$z$ ($R_{U}$)')
+        #fig = plt.figure()
+        #ax = plt.gca()
+        #ymid = int(np.shape(self.Y_grid)[0]/2)
+        #xzplane = ax.contourf(self.X_grid[:,ymid,:],self.Z_grid[:,ymid,:],moon_density[:,ymid,:],cmap='plasma')
+        #fig.colorbar(xzplane,label=r"Density (cm$^{-3}$)")
+        #plt.title(r'Equinox: Neutral Tori in $x$-$z$ plane')
+        #ax.set_xlabel(r'$x$ ($R_{U}$)')
+        #ax.set_ylabel(r'$z$ ($R_{U}$)')
         #plt.savefig("neutrals_equinox_xz_reduced",dpi=1200)
 
         #fig,ax = plt.subplots(1,3,figsize=(18,10),gridspec_kw={'width_ratios': [1, 1, 1]})
@@ -107,8 +108,12 @@ class Plotter:
         ax0.set_title(r"(a) $y$-$z$ plane")
         ax1.set_title(r"(b) $x$-$y$ plane")
         ax2.set_title(r"(c) $x$-$z$ plane")
+        if self.config == "E":
+            fig.suptitle("Moon-Sourced Neutral Tori: Equinox",fontsize=13)
+        elif self.config == "S":
+            fig.suptitle("Moon-Sourced Neutral Tori: Solstice",fontsize=13)
         #plt.tight_layout()
-        #plt.savefig("neutrals_no_dZ",dpi=1200)
+        #plt.savefig("neutrals_equinox_reduced",dpi=1200)
 
     def plot_exo(self,n_exo):
         """
@@ -227,7 +232,7 @@ class Plotter:
         plt.title(r"Magnetosheath $x$-$y$ Projection")
         #plt.savefig("Magnetosheath x-y Reduced Grid",dpi=1200)
 
-    def plot_ver(self,ver,r0_mag,k_mag,r0_bow,k_bow,config):
+    def plot_ver(self,ver,r0_mag,k_mag,r0_bow,k_bow):
         """
         Plots the volumetric emission
 
@@ -288,20 +293,19 @@ class Plotter:
         yzplane = ax0.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],ver[x_pos,:,:],cmap='YlOrRd')
         xyplane = ax1.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver[:,:,z_pos],cmap='YlOrRd')
         xzplane = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver[:,y_pos,:],cmap='YlOrRd')
-        if config == "N":
+        if self.config == "N":
             ax2.plot(x_bow,y_bow,color='red')
             ax2.plot(x_mag,y_mag,color='blue')
             ax1.plot(x_bow,y_bow,color='red')
             ax1.plot(x_mag,y_mag,color='blue')
-        if config == "E":
+        if self.config == "E":
             ax1.plot(x_bow,y_bow,color='red')
             ax1.plot(x_mag,y_mag,color='blue')
-        if config == "S":
+            plt.suptitle(r"Volumetric Emission Rate: Equinox, $v_{\mathrm{SW}} = 400$ km s$^{-1}$")
+        if self.config == "S":
             ax2.plot(x_bow,y_bow,color='red')
             ax2.plot(x_mag,y_mag,color='blue')
-        #plt.colorbar(yzplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax[0])
-        #plt.colorbar(xyplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax[1])
-        #plt.colorbar(xzplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax2,shrink=0.5)
+            plt.suptitle(r"Volumetric Emission Rate: Solstice, $v_{\mathrm{SW}} = 400$ km s$^{-1}$")
         cbar = fig.colorbar(xzplane, ax=[ax0, ax1, ax2], location='right', shrink=0.65, pad=0.02)
         cbar.set_label(r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)')
         ax0.set_aspect('equal')
@@ -320,14 +324,17 @@ class Plotter:
         ax0.set_title(r"(a) $y$-$z$ plane")
         ax1.set_title(r"(b) $x$-$y$ plane")
         ax2.set_title(r"(c) $x$-$z$ plane")
-        plt.suptitle(r"Volumetric Emission Rate: Solstice, $v_{\mathrm{SW}} = 400$ km s$^{-1}$")
+        if self.config == "S":
+            plt.suptitle(r"Volumetric Emission Rate: Solstice, $v_{\mathrm{SW}} = 400$ km s$^{-1}$")
+        if self.config == "E":
+            plt.suptitle(r"Volumetric Emission Rate: Equinox, $v_{\mathrm{SW}} = 400$ km s$^{-1}$")
         ver_max_s = ver.max()
         ver_mean_s = ver.mean()
         ver_max_3_s = f"{ver_max_s:.3g}"
         ver_mean_3_s = f"{ver_mean_s:.3g}"
         plt.gcf().text(0.01, 0.05, f"Max VER: {ver_max_3_s}", ha='left', fontsize=12)
         plt.gcf().text(0.01, 0.01, f"Mean VER: {ver_mean_3_s}", ha='left', fontsize=12)   
-        #plt.savefig("VER_all_planes_solstice",dpi=1200)
+        #plt.savefig("VER_equinox_allplanes",dpi=1200)
         #plt.savefig("VER_allplanes_no_dZ",dpi=1200)
 
     def plot_ver_combined(self,ver_slow,ver_fast,r_mag_f,k_mag_f,r_bow_f,k_bow_f):
@@ -389,57 +396,76 @@ class Plotter:
         ax.set_xlabel(r"$y$ ($R_{U}$)")
         ax.set_ylabel(r"$z$ ($R_{U}$)")
         #plt.title(r"Flux: Equinox, SMILE-like SXI 300 $R_{U}$ Upstream",fontsize=11)
-        plt.title(r"Flux: Solstice, SMILE-like SXI 300 $R_{U}$ Upstream",fontsize=11)
+        if self.config == "S":
+            plt.title(r"Flux: Solstice, SMILE-like SXI 300 $R_{U}$ Upstream",fontsize=11)
+        if self.config == "E":
+            plt.title(r"Flux: Equinox, SMILE-like SXI 300 $R_{U}$ Upstream",fontsize=11)
         #plt.savefig("flux_image_no_dZ",dpi=1200)
-        #plt.savefig("flux_image_solstice",dpi=1200)
+        #plt.savefig("flux_equinox",dpi=1200)
 
-    def plot_flux_ver(self,ver,flux,config):
-        fig, axes = plt.subplots(1,2,figsize=(10,5))
+    def plot_flux_ver(self,ver,flux):
+        fig, ax = plt.subplots(1,2,figsize=(10,5))
         #plt.rcParams.update({'font.size': 13})
-        fig.suptitle(r'VER & Flux: No Scale Height Configuration',fontsize=13)
-        z_pos = int(np.shape(self.Z_grid)[0]/2)
-        axes[0].set_xlim([self.x_min, self.x_max])
-        axes[0].set_ylim([self.y_min, self.y_max])
+        if self.config == "S":
+            plt.suptitle(r'VER & Flux: Solstice Configuration',fontsize=13)
+            pos = int(np.shape(self.Y_grid)[0]/2)
+        elif self.config == "E":
+            plt.suptitle(r'VER & Flux: Equinox Configuration',fontsize=13)
+            pos = int(np.shape(self.Z_grid)[0]/2)
+        #z_pos = int(np.shape(self.Z_grid)[0]/2)
+        ax[0].set_xlim([self.x_min, self.x_max])
+        ax[0].set_ylim([self.y_min, self.y_max])
         contour_levels1 = np.linspace(ver.min(), ver.max(), 10)
-        xy_plane = axes[0].contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver[:,:,z_pos],cmap='YlOrRd',levels=contour_levels1)
-        fig.colorbar(xy_plane, label='Volumetric Emission (photon cm'r"$^{-3}$"' s'r"$^{-1}$"')', ax=axes[0])
+        if self.config == "S":
+            xz_plane = ax[0].contourf(self.X_grid[:,pos,:],self.Z_grid[:,pos,:],ver[:,pos,:],cmap='YlOrRd',levels=contour_levels1)
+            plt.colorbar(xz_plane, label='Volumetric Emission (photon cm'r"$^{-3}$"' s'r"$^{-1}$"')', ax=ax[0])
+        elif self.config == "E":
+            xy_plane = ax[0].contourf(self.X_grid[:,:,pos],self.Y_grid[:,:,pos],ver[:,:,pos],cmap='YlOrRd',levels=contour_levels1)
+            plt.colorbar(xy_plane, label='Volumetric Emission (photon cm'r"$^{-3}$"' s'r"$^{-1}$"')', ax=ax[0])
         from Model import magnetopause, bow_shock
         from Surface import Surface
         mp = Surface(magnetopause.r0,magnetopause.K)
         bs = Surface(bow_shock.r0,bow_shock.K)
         x_bow, y_bow = bs.surf_2D(self.x_max,self.x_min)
         x_mag, y_mag = mp.surf_2D(self.x_max,self.x_min)   
-        axes[0].plot(x_mag, y_mag, color='blue')
-        axes[0].plot(x_bow, y_bow, color='red')
-        axes[0].set_xlabel(r"$x$ ($R_{U}$)",fontsize=13)
-        axes[0].set_ylabel(r"$y$ ($R_{U}$)",fontsize=13)
-        axes[0].set_title('Volumetric Emission', fontsize = 13)
+        ax[0].plot(x_mag, y_mag, color='blue')
+        ax[0].plot(x_bow, y_bow, color='red')
+        ax[0].set_xlabel(r"$x$ ($R_{U}$)",fontsize=13)
+        ax[0].set_ylabel(r"$y$ ($R_{U}$)",fontsize=13)
+        ax[0].set_title('Volumetric Emission',fontsize=13)
         #axes[0].set_title('(a)')
-        axes[0].grid(False)
-        axes[0].tick_params(axis='both', direction='out', top=True, bottom=True, left=True, right=True,labelsize=13)
+        ax[0].grid(False)
+        ax[0].tick_params(axis='both', direction='out', top=True, bottom=True, left=True, right=True,labelsize=13)
         x_pos = int(np.shape(self.Y_grid)[0]/2)
         levs = np.linspace(flux.min(),flux.max(),10)
-        yz_plane = axes[1].contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],flux,cmap='plasma',levels=levs)
-        fig.colorbar(yz_plane, label='Detected Flux (photon cm'r"$^{-2}$"' s'r"$^{-1}$"')', ax=axes[1])
-        axes[1].set_xlim([self.y_min, self.y_max])
-        axes[1].set_ylim([self.z_min, self.z_max])
-        axes[1].set_title('SMILE-like SXI Image', fontsize = 13)
+        yz_plane = ax[1].contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],flux,cmap='plasma',levels=levs)
+        plt.colorbar(yz_plane, label='Detected Flux (photon cm'r"$^{-2}$"' s'r"$^{-1}$"')', ax=ax[1])
+        ax[1].set_xlim([self.y_min, self.y_max])
+        ax[1].set_ylim([self.z_min, self.z_max])
+        ax[1].set_title('SMILE-like SXI Image',fontsize=13)
         #axes[1].set_title('(b)')
-        axes[1].set_ylabel(r'$z$ ($R_{U}$)',fontsize=13)
-        axes[1].set_xlabel(r"$y$ ($R_{U}$)",fontsize=13)
-        axes[1].grid(False)
+        ax[1].set_ylabel(r'$z$ ($R_{U}$)',fontsize=13)
+        ax[1].set_xlabel(r"$y$ ($R_{U}$)",fontsize=13)
+        ax[1].grid(False)
         #cbar = fig.colorbar(contour1, ax=axes.ravel().tolist())
-        axes[1].tick_params(axis='both', direction='out', top=True, bottom=True, left=True, right=True,labelsize=13)
-        # Add text below the plot in the figure area
+        ax[1].tick_params(axis='both', direction='out', top=True, bottom=True, left=True, right=True,labelsize=13)
         #plt.gcf().text(0.48, 0.05, f"Peak Integration time (s): {integration_time_sec_3sf}", ha='center', fontsize=12)
         #plt.gcf().text(0.48, 0.01, f"Peak Integration time (h): {integration_time_hour_3sf}", ha='center', fontsize=12)
         #plt.subplots_adjust(bottom=0.2)
         plt.tight_layout()
-        #plt.savefig('ver_flux_no_dZ',dpi=1200)
+        #plt.savefig('ver_flux_equinox',dpi=1200)
 
+
+    def plot_all_ver_flux(self,ver,flux):
 
         fig = plt.figure(figsize=(17,5))
         gs = GridSpec(1, 6, width_ratios=[1, 1, 1, 0.1, 1, 0.1], wspace=0.5)
+        from Model import magnetopause, bow_shock
+        from Surface import Surface
+        mp = Surface(magnetopause.r0,magnetopause.K)
+        bs = Surface(bow_shock.r0,bow_shock.K)
+        x_bow, y_bow = bs.surf_2D(self.x_max,self.x_min)
+        x_mag, y_mag = mp.surf_2D(self.x_max,self.x_min) 
         ax0 = fig.add_subplot(gs[0, 0])
         ax1 = fig.add_subplot(gs[0, 1])
         ax2 = fig.add_subplot(gs[0, 2])
@@ -451,15 +477,15 @@ class Plotter:
         xyplane_v = ax1.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver[:,:,z_pos],cmap='YlOrRd')
         xzplane_v = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver[:,y_pos,:],cmap='YlOrRd')
         yzplane_f = ax3.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],flux,cmap='plasma')   
-        if config == "N":
+        if self.config == "N":
             ax2.plot(x_bow,y_bow,color='red')
             ax2.plot(x_mag,y_mag,color='blue')
             ax1.plot(x_bow,y_bow,color='red')
             ax1.plot(x_mag,y_mag,color='blue')
-        if config == "E":
+        if self.config == "E":
             ax1.plot(x_bow,y_bow,color='red')
             ax1.plot(x_mag,y_mag,color='blue')
-        if config == "S":
+        if self.config == "S":
             ax2.plot(x_bow,y_bow,color='red')
             ax2.plot(x_mag,y_mag,color='blue')
         #plt.colorbar(yzplane,label=r'Emission Rate (photon cm$^{-3}$ s$^{-1}$)',ax=ax[0])

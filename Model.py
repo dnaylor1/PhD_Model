@@ -10,8 +10,6 @@ from Plotter import *
 from SXI import *
 import json
 from Magnetosheath import *
-
-###test to commit
  
 #Solstice or equiniox ("S" or "E") #E default
 config = "E"
@@ -62,11 +60,11 @@ moons = [miranda,ariel,umbriel,titania,oberon]
 
 ###### INITIALISE SYSTEM AND PLOTTER CLASS
 system = System(moons,B_eq=2.3e-5,grid_limits=grid_lims,grid_resolution=grid_res)
-plotter = Plotter(grid_lims,system.X_grid,system.Y_grid,system.Z_grid)
+plotter = Plotter(grid_lims,system.X_grid,system.Y_grid,system.Z_grid,config)
 
 ###### SYSTEM NEUTRAL DENSITIES
 total_density, moon_density, n_exo = system.calculate_total_density(config)
-#plotter.plot_density(moon_density)
+plotter.plot_density(moon_density)
 #plotter.plot_exo(n_exo)
 
 ###### MAGNETOPAUSE AND BOW SHOCK SURFACES - singular
@@ -85,13 +83,13 @@ if combd == None:
 
     ###### VOLUMETRIC EMISSION
     ver = system.volumetric_emission(total_density,sheath_density,n_p,T_sw,v_sw)
-    #plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow,config)
+    plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow)
 
     ###### FLUX
     SMILE = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver,grid_res,system.rad)
     flux = SMILE.flux()
-    #plotter.plot_flux(flux)
-    plotter.plot_flux_ver(ver,flux,config)
+    plotter.plot_flux(flux)
+    plotter.plot_flux_ver(ver,flux)
 
 else:
     magnetopause = Surface(r0=16,K=0.6)
