@@ -41,6 +41,10 @@ class Moon: #moon class to give properties to all the moons in the system
             #Z1[mask] = self.density
             Z1[mask] = self.ER_max_H+self.ER_max_O 
             return Z1
+        if config == "N":
+            mask_r = (rad >= self.r_min) & (rad <= self.r_max)
+            Z1[mask_r] = self.ER_max_H+self.ER_max_O 
+            return Z1
         else:
              print("Invalid configuration")
              exit()

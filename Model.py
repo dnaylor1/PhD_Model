@@ -13,7 +13,7 @@ from Magnetosheath import *
 
 ###test to commit
  
-#Solstice or equiniox ("S" or "E")
+#Solstice or equiniox ("S" or "E") #E default
 config = "E"
 
 n_p = None #defaults when no solar wind variations used
@@ -75,7 +75,7 @@ if combd == None:
     bow_shock = Surface(r0=20,K=0.88)
     x_mp,y_mp,z_mp,r0_mag,k_mag = magnetopause.define_surface(system.X_grid,n_p,v_sw,"MP",grid_lims[0],grid_lims[1])
     x_bs,y_bs,z_bs,r0_bow,k_bow = bow_shock.define_surface(system.X_grid,n_p,v_sw,"BS",grid_lims[2],grid_lims[3])
-    plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
+    #plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
 
 
     ##### MAGNETOSHEATH
@@ -85,12 +85,13 @@ if combd == None:
 
     ###### VOLUMETRIC EMISSION
     ver = system.volumetric_emission(total_density,sheath_density,n_p,T_sw,v_sw)
-    #plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow)
+    #plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow,config)
 
     ###### FLUX
     SMILE = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver,grid_res,system.rad)
     flux = SMILE.flux()
-    plotter.plot_flux(flux)
+    #plotter.plot_flux(flux)
+    plotter.plot_flux_ver(ver,flux,config)
 
 else:
     magnetopause = Surface(r0=16,K=0.6)

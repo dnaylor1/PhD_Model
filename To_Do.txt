@@ -70,9 +70,9 @@ For next meeting:
 - Sheath density scaling
 - Flux projections [DONE]
 - Other VER projections - combine into multi pane figure [DONE]
-- Equinox, solstice configurations
+- Equinox, solstice configurations [DONE]
 - Jasinski data sample
-- Uranus paper outline
+- Uranus paper outline [DONE]
 - More Saturn paper writing
 - Read me file for model
 - Neutrals labels - rerun also maybe combine? [DONE]
@@ -84,11 +84,11 @@ Monday 9th December:
 - Ranquist paper [DONE]
 
 Tuesday 10th December:
-- Remove scale height and see what it does to flux
+- Remove scale height and see what it does to flux [DONE]
 - Integration times
-- Combined VER and flux fig with title
-- Uranus paper outline
+- Combined VER and flux fig with title [DONE]
+- Uranus paper outline [DONE]
 - Finish Ranqist et al. paper
-- Equninox, solstice configs 
+- Equninox, solstice configs [DONE]
 - Shock physics questions
 - Solar wind at the bow shock chapter
