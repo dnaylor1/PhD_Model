@@ -100,4 +100,4 @@ After meeting:
 - Coordinate systems
 - Re-do the paper outline
 - New Solar System reading - return Licia's copy
-- Different slices for emission and flux
+- Different slices for emission and flux - make gif
