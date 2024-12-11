@@ -59,7 +59,7 @@ For next meeting:
 - https://iopscience.iop.org/article/10.3847/PSJ/ad7c4d
 
 05/12/24:
--https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2019JA027382
+-https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2019JA027382 [DONE]
 -https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2015JA022272
 -https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2017JA024595
 
@@ -73,7 +73,7 @@ For next meeting:
 - Equinox, solstice configurations [DONE]
 - Jasinski data sample
 - Uranus paper outline [DONE]
-- More Saturn paper writing
+- More Saturn paper writing [DONE]
 - Read me file for model
 - Neutrals labels - rerun also maybe combine? [DONE]
 
@@ -85,19 +85,22 @@ Monday 9th December:
 
 Tuesday 10th December:
 - Remove scale height and see what it does to flux [DONE]
-- Integration times
+- Integration times [DONE]
 - Combined VER and flux fig with title [DONE]
 - Uranus paper outline [DONE]
-- Finish Ranqist et al. paper
+- Finish Ranqist et al. paper [DONE]
 - Equninox, solstice configs [DONE]
 - Shock physics questions
-- Solar wind at the bow shock chapter
+- Solar wind at the bow shock chapter [DONE]
 
 After meeting:
 - Get my head around equinox and solstice [DONE]
 - Re-do the configurations - equinox should have donut in y-z plane [DONE]
 - Update plotter so it will automatically update title for equinox and solstice [DONE]
+- VER all planes and flux plot [DONE]
+- GGG! [DONE]
 - Coordinate systems
 - Re-do the paper outline
 - New Solar System reading - return Licia's copy
 - Different slices for emission and flux - make gif
+

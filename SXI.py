@@ -39,10 +39,16 @@ class SXI:
         flux = x_projection
         return flux
     
+    def integration_time(self,flux):
+        counts_second = flux*9.6
+        counts_hour = counts_second * 3600
+        integration_time_s = 1/(counts_second.max())
+        integration_time_h = 1/(counts_hour.max())
+        integration_time_sec_3sf = f"{integration_time_s:.3g}" #to give integration time to 3sf on graph
+        integration_time_hour_3sf = f"{integration_time_h:.3g}"
+        return integration_time_sec_3sf, integration_time_hour_3sf
 
-        
-
-        
+    
 
 """ intensity_integral_slow = intensity_scaled_slow * dl * dl * (4*dl) ## assume 2Rs scale height  ## *dl*dl*(40dl) = dxdydz // units of cm^-2
 x_projection_slow = np.sum(intensity_integral_slow,axis=1) ##axis = 0 for column, 1 for row.

@@ -10,7 +10,7 @@ from Plotter import *
 from SXI import *
 import json
 from Magnetosheath import *
- 
+
 #Solstice or equiniox ("S" or "E") #E default
 config = "E"
 
@@ -23,8 +23,8 @@ T_sw = None
 ### NOVEMBER 7-8 2023 HIGH SW SPEED
 """ n_p = 24.3e6
 v_sw = 370e3
-T_sw = 4.16e4
- """
+T_sw = 4.16e4 """
+
 
 ### MAY 28 2008, 01:00-03:00 HIGH SW DENSITY
 """ n_p = 1.856e6
@@ -35,6 +35,7 @@ T_sw = 2.54e5 """
 combd = None
 v_slow = None
 v_fast = None
+
 """ combd = "Y"
 v_slow = 400e3
 v_fast = 800e3 """
@@ -75,7 +76,6 @@ if combd == None:
     x_bs,y_bs,z_bs,r0_bow,k_bow = bow_shock.define_surface(system.X_grid,n_p,v_sw,"BS",grid_lims[2],grid_lims[3])
     #plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
 
-
     ##### MAGNETOSHEATH
     sheath = Magnetosheath(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,system.X_grid,system.Y_grid,system.Z_grid,system.rad)
     sheath_density = sheath.sheath_surface()
@@ -83,13 +83,15 @@ if combd == None:
 
     ###### VOLUMETRIC EMISSION
     ver = system.volumetric_emission(total_density,sheath_density,n_p,T_sw,v_sw)
-    plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow)
+    #plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow)
 
     ###### FLUX
     SMILE = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver,grid_res,system.rad)
     flux = SMILE.flux()
-    plotter.plot_flux(flux)
-    plotter.plot_flux_ver(ver,flux)
+    int_s,int_h = SMILE.integration_time(flux)
+    #plotter.plot_flux(flux)
+    #plotter.plot_flux_ver(ver,flux,r0_mag,k_mag,r0_bow,k_bow)
+    plotter.plot_all_ver_flux(ver,flux,r0_mag,k_mag,r0_bow,k_bow,int_s,int_h)
 
 else:
     magnetopause = Surface(r0=16,K=0.6)
@@ -111,11 +113,6 @@ else:
     ver_slow = system.volumetric_emission(total_density,sheath_density_slow,n_p,T_sw,v_sw,v_slow)
     ver_fast = system.volumetric_emission(total_density,sheath_density_fast,n_p,T_sw,v_sw,v_fast)
     plotter.plot_ver_combined(ver_slow,ver_fast,r0_mag_f,k_mag_f,r0_bow_f,k_bow_f)
-    
-    
-    
-    
-    
-    
+
 plt.show()
 
