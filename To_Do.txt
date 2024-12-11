@@ -104,3 +104,5 @@ After meeting:
 - New Solar System reading - return Licia's copy
 - Different slices for emission and flux - make gif
 
+- Try plotting 3D surfaces in the VER projections and see if that clears anything up
+
