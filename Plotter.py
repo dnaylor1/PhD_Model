@@ -112,7 +112,7 @@ class Plotter:
         elif self.config == "S":
             fig.suptitle("Moon-Sourced Neutral Tori: Solstice",fontsize=13,y=0.9)
         #plt.tight_layout()
-        #plt.savefig("neutrals_equinox_full",dpi=1200)
+        #plt.savefig("neutrals_equinox_reduced",dpi=1200)
 
     def plot_exo(self,n_exo):
         """
@@ -391,7 +391,7 @@ class Plotter:
         """
         fig = plt.figure()
         ax = plt.gca()
-        levs = np.linspace(flux.min(),flux.max(),10)
+        levs = np.linspace(flux.min(),flux.max(),20)
         xmid = int(np.shape(self.Y_grid)[0]/2)
         yzplane = ax.contourf(self.Y_grid[xmid,:,:],self.Z_grid[xmid,:,:],flux,cmap='plasma',levels=levs)
         fig.colorbar(yzplane,label=r"Flux (photon cm$^{-2}$ s$^{-1}$)")
@@ -405,7 +405,7 @@ class Plotter:
         if self.config == "E":
             plt.title(r"Flux: Equinox, SMILE-like SXI 300 $R_{U}$ Upstream",fontsize=11)
         #plt.savefig("flux_image_no_dZ",dpi=1200)
-        #plt.savefig("flux_equinox",dpi=1200)
+        #plt.savefig("flux_solstice",dpi=1200)
 
     def plot_flux_ver(self,ver,flux,r0_mag,k_mag,r0_bow,k_bow):
         fig, ax = plt.subplots(1,2,figsize=(10,5))
@@ -475,36 +475,36 @@ class Plotter:
         z_pos = int(np.shape(self.Z_grid)[0]/2)
         x_pos = int(np.shape(self.Y_grid)[0]/2)
         y_pos = int(np.shape(self.Y_grid)[0]/2)
-        yzplane_v = ax0.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],ver[x_pos,:,:],cmap='YlOrRd')
-        xyplane_v = ax1.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver[:,:,z_pos],cmap='YlOrRd')
-        xzplane_v = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver[:,y_pos,:],cmap='YlOrRd')
-        yzplane_f = ax3.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],flux,cmap='plasma')   
-        if self.config == "N":
-            ax2.plot(x_bow,y_bow,color='red')
-            ax2.plot(x_mag,y_mag,color='blue')
-            ax1.plot(x_bow,y_bow,color='red')
-            ax1.plot(x_mag,y_mag,color='blue')
+        yzplane_v = ax0.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],ver[x_pos,:,:],cmap='YlOrRd',levels=20)
+        xyplane_v = ax1.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver[:,:,z_pos],cmap='YlOrRd',levels=20)
+        xzplane_v = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver[:,y_pos,:],cmap='YlOrRd',levels=20)
+        yzplane_f = ax3.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],flux,cmap='plasma',levels=20)   
+        #if self.config == "N":
+            #ax2.plot(x_bow,y_bow,color='red')
+            #ax2.plot(x_mag,y_mag,color='blue')
+            #ax1.plot(x_bow,y_bow,color='red')
+            #ax1.plot(x_mag,y_mag,color='blue')
         if self.config == "E":
-            ax1.plot(x_bow,y_bow,color='red')
-            ax1.plot(x_mag,y_mag,color='blue')
-            ax2.plot(x_bow,y_bow,color='red')
-            ax2.plot(x_mag,y_mag,color='blue')
+            #ax1.plot(x_bow,y_bow,color='red')
+            #ax1.plot(x_mag,y_mag,color='blue')
+            #ax2.plot(x_bow,y_bow,color='red')
+            #ax2.plot(x_mag,y_mag,color='blue')
             plt.suptitle(r"VER and Flux: Equinox, $v_{\mathrm{SW}}=400$ km s$^{-1}$",x=0.5,y=0.9)
         if self.config == "S":
-            ax0.plot(x_bow,y_bow,color='red')
-            ax0.plot(x_mag,y_mag,color='blue')
-            ax1.plot(x_bow,y_bow,color='red')
-            ax1.plot(x_mag,y_mag,color='blue')
-            ax2.plot(x_bow,y_bow,color='red')
-            ax2.plot(x_mag,y_mag,color='blue')
+            #ax0.plot(x_bow,y_bow,color='red')
+            #ax0.plot(x_mag,y_mag,color='blue')
+            #ax1.plot(x_bow,y_bow,color='red')
+            #ax1.plot(x_mag,y_mag,color='blue')
+            #ax2.plot(x_bow,y_bow,color='red')
+            #ax2.plot(x_mag,y_mag,color='blue')
             plt.suptitle(r"VER and Flux: Solstice, $v_{\mathrm{SW}}=400$ km s$^{-1}$",x=0.5,y=0.9)
         cax1 = fig.add_axes([0.91, 0.22, 0.01, 0.55])  # Manually define position of colorbar
         cbar1 = fig.colorbar(yzplane_f, cax=cax1,label=r"Flux (photon cm$^{-2}$ s$^{-1}$)",shrink=0.3)
         cax2 = fig.add_axes([0.04, 0.22, 0.01, 0.55])  # Manually define position of colorbar
         if self.config == "E":
-            cbar2 = fig.colorbar(yzplane_v, cax=cax2,label=r"Volumetric Emission (photon cm$^{-3}$ s$^{-1}$)",shrink=0.3)
-        if self.config == "S":
             cbar2 = fig.colorbar(xzplane_v, cax=cax2,label=r"Volumetric Emission (photon cm$^{-3}$ s$^{-1}$)",shrink=0.3)
+        if self.config == "S":
+            cbar2 = fig.colorbar(yzplane_v, cax=cax2,label=r"Volumetric Emission (photon cm$^{-3}$ s$^{-1}$)",shrink=0.3)
         cbar2.ax.yaxis.set_label_position('left')  # Move the label to the left
         #cbar2.ax.set_ylim(cbar2.get_ticks()[0], cbar2.get_ticks()[0] + 0.5)  # Shrink the range if necessary
         ax0.set_aspect('equal')

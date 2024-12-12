@@ -89,8 +89,9 @@ if combd == None:
     SMILE = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver,grid_res,system.rad)
     flux = SMILE.flux()
     int_s,int_h = SMILE.integration_time(flux)
-    #plotter.plot_flux(flux)
+    plotter.plot_flux(flux)
     #plotter.plot_flux_ver(ver,flux,r0_mag,k_mag,r0_bow,k_bow)
+    #plotter.plot_all_ver_flux(ver,flux,r0_mag,k_mag,r0_bow,k_bow,int_s,int_h)
     plotter.plot_all_ver_flux(ver,flux,r0_mag,k_mag,r0_bow,k_bow,int_s,int_h)
 
 else:

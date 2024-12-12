@@ -59,15 +59,15 @@ For next meeting:
 - https://iopscience.iop.org/article/10.3847/PSJ/ad7c4d
 
 05/12/24:
--https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2019JA027382 [DONE]
--https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2015JA022272
--https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2017JA024595
+-https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2019JA027382 [DONE] Jupiter
+-https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2015JA022272 [DONE] Neptune
+-https://agupubs.onlinelibrary.wiley.com/doi/10.1002/2017JA024595 [DONE] Saturn
 
 - Change standoff distance for the basic slow-fast distinction [DONE]
 - Create combined plot for this [DONE]
 - Shock physics reading: Cravens, Russell
-- Papers (above) reading
-- Sheath density scaling
+- Papers (above) reading [DONE]
+- Sheath density scaling [DONE]
 - Flux projections [DONE]
 - Other VER projections - combine into multi pane figure [DONE]
 - Equinox, solstice configurations [DONE]
@@ -101,8 +101,24 @@ After meeting:
 - GGG! [DONE]
 - Coordinate systems
 - Re-do the paper outline
-- New Solar System reading - return Licia's copy
+- New Solar System reading - return Licia's copy [DONE]
 - Different slices for emission and flux - make gif
 
-- Try plotting 3D surfaces in the VER projections and see if that clears anything up
+- Try plotting 3D surfaces in the VER projections and see if that clears anything up [DONE]
+- Fix all plots [DONE]
+- Sheath scaling: x4 [DONE]
+- Sulaiman Saturn sheath paper [DONE]
+- Re-do paper outline
+- Leave request [DONE]
+
+- Kivelson space physics shocks chapter
+
+For Monday:
+- Finish New Solar System planetary magnetospheres chapter
+- Neptune paper [DONE]
+- Uranus paper outline
+- Coordinate systems reading
+- Different slices
+- Solar wind variations all projections/flux - maybe use Jasinski data sample
+
 

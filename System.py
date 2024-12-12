@@ -117,6 +117,7 @@ class System: #class for the model as a whole including setting up the grid and 
             sigma_sqn = sigma_sqn_fast
         else:
             sigma_sqn = sigma_sqn_slow
+        n_n = n_n*4
         ver = n_n * n_q * v_rel * sigma_sqn * 1/(4*np.pi)
         return ver
     
