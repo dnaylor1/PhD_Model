@@ -112,6 +112,7 @@ After meeting:
 - Leave request [DONE]
 
 - Kivelson space physics shocks chapter
+- Make sure all methods are properly commented
 
 For Monday:
 - Finish New Solar System planetary magnetospheres chapter
