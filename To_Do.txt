@@ -100,26 +100,30 @@ After meeting:
 - VER all planes and flux plot [DONE]
 - GGG! [DONE]
 - Coordinate systems
-- Re-do the paper outline
+- Re-do the paper outline [DONE]
 - New Solar System reading - return Licia's copy [DONE]
-- Different slices for emission and flux - make gif
+- Different slices for emission and flux - make gif [DONE]
 
 - Try plotting 3D surfaces in the VER projections and see if that clears anything up [DONE]
 - Fix all plots [DONE]
 - Sheath scaling: x4 [DONE]
 - Sulaiman Saturn sheath paper [DONE]
-- Re-do paper outline
+- Re-do paper outline [DONE]
 - Leave request [DONE]
 
 - Kivelson space physics shocks chapter
 - Make sure all methods are properly commented
 
 For Monday:
-- Finish New Solar System planetary magnetospheres chapter
+- Finish New Solar System planetary magnetospheres chapter [DONE]
 - Neptune paper [DONE]
-- Uranus paper outline
-- Coordinate systems reading
-- Different slices
-- Solar wind variations all projections/flux - maybe use Jasinski data sample
+- Uranus paper outline [DONE]
+- Coordinate systems reading - https://lasp.colorado.edu/mop/files/2015/02/CoOrd_systems12.pdf
+- Different slices [DONE]
+- Solar wind variations all projections/flux [DONE]
+- Maybe use Jasinski data sample
+- Slow fast distinction with all plots [DONE]
+- Respond Saturn paper [DONE]
+- Organise figures [DONE]
 
 

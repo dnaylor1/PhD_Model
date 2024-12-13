@@ -10,9 +10,11 @@ from Plotter import *
 from SXI import *
 import json
 from Magnetosheath import *
+from PIL import Image
+import io
 
 #Solstice or equiniox ("S" or "E") #E default
-config = "E"
+config = "S"
 
 n_p = None #defaults when no solar wind variations used
 v_sw = None
@@ -25,20 +27,19 @@ T_sw = None
 v_sw = 370e3
 T_sw = 4.16e4 """
 
-
 ### MAY 28 2008, 01:00-03:00 HIGH SW DENSITY
 """ n_p = 1.856e6
 v_sw = 690e3
 T_sw = 2.54e5 """
 
 ### Slow-Fast Distinction - uncomment for combined figure
-combd = None
+""" combd = None
 v_slow = None
-v_fast = None
+v_fast = None """
 
-""" combd = "Y"
+combd = "Y"
 v_slow = 400e3
-v_fast = 800e3 """
+v_fast = 800e3
 
 ###### SET GRID LIMITS AND RESOLUTION
 
@@ -65,7 +66,7 @@ plotter = Plotter(grid_lims,system.X_grid,system.Y_grid,system.Z_grid,config)
 
 ###### SYSTEM NEUTRAL DENSITIES
 total_density, moon_density, n_exo = system.calculate_total_density(config)
-plotter.plot_density(moon_density)
+#plotter.plot_density(moon_density)
 #plotter.plot_exo(n_exo)
 
 ###### MAGNETOPAUSE AND BOW SHOCK SURFACES - singular
@@ -86,13 +87,14 @@ if combd == None:
     #plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow)
 
     ###### FLUX
+    flux_figs = []
     SMILE = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver,grid_res,system.rad)
     flux = SMILE.flux()
     int_s,int_h = SMILE.integration_time(flux)
-    plotter.plot_flux(flux)
+    #plotter.plot_flux(flux)
     #plotter.plot_flux_ver(ver,flux,r0_mag,k_mag,r0_bow,k_bow)
-    #plotter.plot_all_ver_flux(ver,flux,r0_mag,k_mag,r0_bow,k_bow,int_s,int_h)
     plotter.plot_all_ver_flux(ver,flux,r0_mag,k_mag,r0_bow,k_bow,int_s,int_h)
+    plotter.plot_flux_gif(ver,flux,int_s,int_h,config)
 
 else:
     magnetopause = Surface(r0=16,K=0.6)
@@ -113,7 +115,14 @@ else:
     ###### VOLUMETRIC EMISSION
     ver_slow = system.volumetric_emission(total_density,sheath_density_slow,n_p,T_sw,v_sw,v_slow)
     ver_fast = system.volumetric_emission(total_density,sheath_density_fast,n_p,T_sw,v_sw,v_fast)
-    plotter.plot_ver_combined(ver_slow,ver_fast,r0_mag_f,k_mag_f,r0_bow_f,k_bow_f)
+    SMILE_slow = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver_slow,grid_res,system.rad)
+    SMILE_fast = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver_fast,grid_res,system.rad)
+    flux_slow = SMILE_slow.flux()
+    flux_fast = SMILE_fast.flux()
+    int_s_s, int_h_s = SMILE_slow.integration_time(flux_slow)
+    int_s_f, int_h_f = SMILE_fast.integration_time(flux_fast)
+    #plotter.plot_ver_combined(ver_slow,ver_fast,r0_mag_f,k_mag_f,r0_bow_f,k_bow_f)
+    plotter.plot_combined_ver_flux(ver_slow,ver_fast,flux_slow,flux_fast,int_s_s,int_h_s,int_s_f,int_h_f)
 
 plt.show()
 
