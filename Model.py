@@ -14,29 +14,31 @@ from PIL import Image
 import io
 
 #Solstice or equiniox ("S" or "E") #E default
-config = "E"
+config = "S"
 
 n_p = None #defaults when no solar wind variations used
 v_sw = None
 T_sw = None
 j_s = None
+r0_mp = None
+K = None
 
 ###### SOLAR WIND VARIATIONS
 
-### Jasinski et al. (2024)
+""" ### Jasinski et al. (2024)
 K = None
-j_s = True
+j_s = True """
 """ ## 1985, DOY 290.16667
 v_sw = 435.2e3     
 n_p = 0.02139e6    
 P_dyn = 0.0073806539 #nPa      
 r0_mp = 20.319744 """
 
-## DOY: 350.58333
+""" ## DOY: 350.58333
 v_sw= 480.4    
 n_p = 0.0030400000    
 P_dyn = 0.0012781619       
-r0_mp = 27.638616
+r0_mp = 27.638616 """
 
 ### NOVEMBER 7-8 2023 HIGH SW SPEED
 """ n_p = 24.3e6
@@ -112,7 +114,12 @@ if combd == None:
     int_s,int_h = SMILE.integration_time(flux)
     #plotter.plot_flux(flux)
     #plotter.plot_flux_ver(ver,flux,r0_mag,k_mag,r0_bow,k_bow)
-    x_pos, y_pos, z_pos = 40,40,40
+    print(np.shape(system.X_grid))
+    x_pos, y_pos, z_pos = 80,80,80
+    #x_pos = int(np.shape(system.Y_grid)[0]/2)
+    #y_pos = int(np.shape(system.X_grid)[1]/2)
+    #z_pos = int(np.shape(system.X_grid)[2]/2)
+    print(x_pos,y_pos,z_pos)
     plotter.plot_all_ver_flux(ver,flux,int_s,int_h,x_pos,y_pos,z_pos,v_sw)
     #plotter.plot_flux_gif(ver,flux,int_s,int_h,config)
 

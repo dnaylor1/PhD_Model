@@ -132,7 +132,7 @@ Year	    DOY             V (km/s)      Density(/cc)   P_dyn(nPa)         R_SS (R
 1985.00       350.58333       480.40000    0.0030400000    0.0012781619       27.638616
 
 Week MV1:
-
+- redo gifs
 
 
 
