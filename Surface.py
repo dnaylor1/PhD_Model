@@ -17,6 +17,7 @@ class Surface:
     def __init__(self, r0, K):
         self.r0 = r0
         self.K = K
+
     
     def define_surface(self, X_grid, n_p=None, v_sw=None, type=None, x_min=10, x_max=10, combd=None, v_type = None):
         """
@@ -29,7 +30,7 @@ class Surface:
             x,y,z (Ndarray): arrays for the x,y,z coordinates of the surface
             r0, k (float): returns updated standoff distances and flaring parameters if solar wind variations are used
         """
-        if n_p != None:
+        if n_p != None and self.K != None:
             surf_type = type
             
             n_scaled = n_p/((19.2)**2)
@@ -82,6 +83,16 @@ class Surface:
                 print("Invalid v_type")
                 exit()
 
+        elif self.K == None:
+            s_type = type
+            if s_type == "MP":
+                r0 = self.r0
+                diff = (r0-16)/16
+                K = 0.6 + (diff*0.25*0.6)
+            elif s_type == "BS":
+                diff = (self.r0-16)/16
+                r0 = 20 + (20*diff)
+                K = 0.88 + (diff*0.25*0.6)
         else:
             r0 = self.r0
             K = self.K

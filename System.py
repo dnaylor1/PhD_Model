@@ -73,7 +73,7 @@ class System: #class for the model as a whole including setting up the grid and 
         n_exo[mask] = c_1 * np.exp((c_2)/self.rad[mask])
         return n_exo
 
-    def volumetric_emission(self,n_n,n_q,n_p=None,T_sw=None,v_sw=None,v_sf=None):
+    def volumetric_emission(self,n_n,n_q,n_p=None,T_sw=None,v_sw=None,v_sf=None,j_s=None):
         """
         Calculates volumetric emission of soft x-rays in the magnetosheath
 
@@ -87,7 +87,11 @@ class System: #class for the model as a whole including setting up the grid and 
         Returns:
             ver (ndarray): volumetric emission at each point in the magnetosheath
         """
-        if n_p != None:
+        if j_s == True:
+            n_sw = n_p * 1e-6
+            T_sheath = 5.45e4
+            n_q = n_q * (1/n_q.max()) * n_sw
+        if n_p != None and j_s == None:
             n_scaled = n_p/((19.2)**2)
             n_sw = n_scaled * 1e-6
             T_scaled = T_sw/((19.2)**0.5) #Richardson paper for temp scaling
@@ -117,7 +121,7 @@ class System: #class for the model as a whole including setting up the grid and 
             sigma_sqn = sigma_sqn_fast
         else:
             sigma_sqn = sigma_sqn_slow
-        n_n = n_n*4
+        n_q = n_q * 4
         ver = n_n * n_q * v_rel * sigma_sqn * 1/(4*np.pi)
         return ver
     

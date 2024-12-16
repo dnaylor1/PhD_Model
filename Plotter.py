@@ -479,10 +479,10 @@ class Plotter:
         plt.gcf().text(0.75, 0.08, f"Integration time (Fast) (s): {int_s_f} s", ha='left', fontsize=12)
         plt.gcf().text(0.75, 0.05, f"Integration time (Fast) (h): {int_h_f} h", ha='left', fontsize=12) 
         #return fig
-        if self.config == "S":
-            plt.savefig("ver_flux_combined_solstice",dpi=1200)  
-        elif self.config == "E":
-            plt.savefig("ver_flux_combined_equinox",dpi=1200)
+        #if self.config == "S":
+            #plt.savefig("ver_flux_combined_solstice",dpi=1200)  
+        #elif self.config == "E":
+            #plt.savefig("ver_flux_combined_equinox",dpi=1200)
 
 
 
@@ -563,7 +563,7 @@ class Plotter:
         #plt.savefig('ver_flux_equinox',dpi=1200)
 
 
-    def plot_all_ver_flux(self,ver,flux,int_s,int_h,x_pos,y_pos,z_pos):
+    def plot_all_ver_flux(self,ver,flux,int_s,int_h,x_pos,y_pos,z_pos,v_sw):
 
         fig = plt.figure(figsize=(15,5))
         gs = GridSpec(1, 4, width_ratios=[1, 1, 1, 1], wspace=0.6)
@@ -586,10 +586,10 @@ class Plotter:
         xzplane_v = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver[:,y_pos,:],cmap='YlOrRd',levels=20)
         yzplane_f = ax3.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],flux,cmap='plasma',levels=20)  
         if self.config == "E":
-            plt.suptitle(r"VER and Flux: Equinox, $v_{\mathrm{SW}}=400$ km s$^{-1}$, $x$,$y$,$z$ position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
+            plt.suptitle(r"VER and Flux: Equinox, $v_{\mathrm{SW}}=$"+f"{v_sw/1000:.3g}"+r" km s$^{-1}$, $x$,$y$,$z$ position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
             #plt.suptitle(r"VER & Flux: Equinox, $v_{\mathrm{SW}} = 690$ km s$^{-1}$, $n_{\mathrm{SW,1 AU}}=1.86$ cm$^{-3}$",x=0.5,y=0.9)
         if self.config == "S":
-            plt.suptitle(r"VER and Flux: Solstice, $v_{\mathrm{SW}}=400$ km s$^{-1}$, $x$,$y$,$z$ position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
+            plt.suptitle(r"VER and Flux: Solstice, $v_{\mathrm{SW}}=$"+f"{v_sw/1000:.3g}"+r" km s$^{-1}$, $x$,$y$,$z$ position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
             #plt.suptitle(r"VER & Flux: Solstice, $v_{\mathrm{SW}} = 690$ km s$^{-1}$, $n_{\mathrm{SW,1 AU}}=1.86$ cm$^{-3}$",x=0.5,y=0.9)
         cax1 = fig.add_axes([0.91, 0.22, 0.01, 0.55])  # Manually define position of colorbar
         cbar1 = fig.colorbar(yzplane_f, cax=cax1,label=r"Flux (photon cm$^{-2}$ s$^{-1}$)",shrink=0.3)
@@ -626,8 +626,8 @@ class Plotter:
         plt.gcf().text(0.05, 0.05, f"Mean VER: {ver.mean():.3g}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)   
         plt.gcf().text(0.75, 0.10, f"Integration time (s): {int_s}s", ha='left', fontsize=12)
         plt.gcf().text(0.75, 0.05, f"Integration time (h): {int_h}h", ha='left', fontsize=12) 
-        return fig
-        #plt.savefig("ver_flux_high_vsw_solstice",dpi=1200)  .
+        plt.savefig("ver_flux_equinox_j2",dpi=1200)
+        #plt.savefig("ver_flux_high_vsw_solstice",dpi=1200)
 
     def plot_flux_gif(self,ver,flux,int_s,int_h,config):
         x_pos,y_pos,z_pos = 10,10,10

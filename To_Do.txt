@@ -71,7 +71,7 @@ For next meeting:
 - Flux projections [DONE]
 - Other VER projections - combine into multi pane figure [DONE]
 - Equinox, solstice configurations [DONE]
-- Jasinski data sample
+- Jasinski data sample [DONE]
 - Uranus paper outline [DONE]
 - More Saturn paper writing [DONE]
 - Read me file for model
@@ -118,13 +118,21 @@ For Monday:
 - Finish New Solar System planetary magnetospheres chapter [DONE]
 - Neptune paper [DONE]
 - Uranus paper outline [DONE]
-- Coordinate systems reading - https://lasp.colorado.edu/mop/files/2015/02/CoOrd_systems12.pdf
+- Coordinate systems reading - https://lasp.colorado.edu/mop/files/2015/02/CoOrd_systems12.pdf [DONE]
 - Different slices [DONE]
 - Solar wind variations all projections/flux [DONE]
-- Maybe use Jasinski data sample
+- Maybe use Jasinski data sample [DONE]
 - Slow fast distinction with all plots [DONE]
 - Respond Saturn paper [DONE]
 - Organise figures [DONE]
-- Improve plotter code?
+- Improve plotter code? [DONE]
+
+Year	    DOY             V (km/s)      Density(/cc)   P_dyn(nPa)         R_SS (R_U) 
+1985.00       290.16667       435.20000     0.021390000    0.0073806539       20.319744
+1985.00       350.58333       480.40000    0.0030400000    0.0012781619       27.638616
+
+Week MV1:
+
+
 
 
