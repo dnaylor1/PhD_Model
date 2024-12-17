@@ -116,6 +116,59 @@ class Plotter:
         #plt.tight_layout()
         #plt.savefig("neutrals_equinox_reduced",dpi=1200)
 
+    def plot_density_combined(self,density_s,density_e):
+        fig = plt.figure(figsize=(12,7))
+        gs = GridSpec(2, 4, width_ratios=[1, 1, 1, 0.1], wspace=0.6)
+        ax0 = fig.add_subplot(gs[0, 0])
+        ax1 = fig.add_subplot(gs[0, 1])
+        ax2 = fig.add_subplot(gs[0, 2])
+        ax3 = fig.add_subplot(gs[1, 0])
+        ax4 = fig.add_subplot(gs[1, 1])
+        ax5 = fig.add_subplot(gs[1, 2])
+        z_pos = int(np.shape(self.Z_grid)[0]/2)
+        x_pos = int(np.shape(self.Y_grid)[0]/2)
+        y_pos = int(np.shape(self.Y_grid)[0]/2)
+        cmapp = 'viridis'
+        yzplane_s = ax0.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],density_s[x_pos,:,:],cmap=cmapp,levels=20)
+        xyplane_s = ax1.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],density_s[:,:,z_pos],cmap=cmapp,levels=20)
+        xzplane_s = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],density_s[:,y_pos,:],cmap=cmapp,levels=20)
+        yzplane_e = ax3.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],density_e[x_pos,:,:],cmap=cmapp,levels=20)  
+        xyplane_e = ax4.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],density_e[:,:,z_pos],cmap=cmapp,levels=20)
+        xzplane_e = ax5.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],density_e[:,y_pos,:],cmap=cmapp,levels=20) 
+        cax1 = fig.add_axes([0.85, 0.125, 0.01, 0.75]) 
+        cbar1 = fig.colorbar(yzplane_s, cax=cax1)
+        cbar1.set_label(r"Numebr Density (cm$^{-3}$)",fontsize=12)
+        ax0.set_aspect('equal')
+        ax1.set_aspect('equal')
+        ax2.set_aspect('equal')
+        ax3.set_aspect('equal')
+        ax4.set_aspect('equal')
+        ax5.set_aspect('equal')
+        ax0.set_xlabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax0.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax1.set_xlabel(r'$x$ ($R_{U}$)',fontsize=12)
+        ax1.set_ylabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax2.set_xlabel(r'$x$ ($R_{U}$)',fontsize=12)
+        ax2.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax3.set_xlabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax3.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax4.set_xlabel(r'$x$ ($R_{U}$)',fontsize=12)
+        ax4.set_ylabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax5.set_xlabel(r'$x$ ($R_{U}$)',fontsize=12)
+        ax5.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax0.set_title(r"(a) $y$-$z$ plane (Solstice)")
+        ax1.set_title(r"(b) $x$-$y$ plane (Solstice)")
+        ax2.set_title(r"(c) $x$-$z$ plane (Solstice)")
+        ax3.set_title(r"(e) $y$-$z$ plane (Equinox)")
+        ax4.set_title(r"(f) $x$-$y$ plane (Equinox)")
+        ax5.set_title(r"(g) $x$-$z$ plane (Equinox)")
+        for ax in [ax0, ax1, ax2, ax3, ax4, ax5]:
+            ax.tick_params(axis='both', which='both', direction='out', top=True, right=True, labeltop=False, labelright=False)
+            ax.set_aspect('equal') 
+        plt.savefig("paper_neutrals",dpi=1200)
+
+
+
     def plot_exo(self,n_exo):
         """
         Plots the exosphere density
@@ -163,14 +216,14 @@ class Plotter:
         #ax.plot_surface(x_mp,y_mp,z_mp,cmap='plasma', edgecolor='none', alpha=0.2)
         #ax.plot_surface(x_bs,y_bs,z_bs,cmap='viridis', edgecolor='none',alpha=0.2)
 
-        ax.plot_surface(x_mp,y_mp,z_mp,cmap='plasma', edgecolor='none', alpha=0.2)
-        ax.plot_surface(x_bs,y_bs,z_bs,cmap='viridis', edgecolor='none',alpha=0.2)
-        plt.title("3D Magnetopause and Bow Shock Surfaces")
+        ax.plot_surface(x_mp,y_mp,z_mp,color='red', edgecolor='none', alpha=0.2)
+        ax.plot_surface(x_bs,y_bs,z_bs,color='blue', edgecolor='none',alpha=0.2)
+        #plt.title("3D Magnetopause and Bow Shock Surfaces")
         ax.set_xlabel(r'$x$ ($R_{U}$)')
         ax.set_ylabel(r'$y$ ($R_{U}$)')
         ax.set_zlabel(r'$z$ ($R_{U}$)')
         ax.view_init(elev=20, azim=-130)
-        #plt.savefig("3D MP BS",dpi=1200)
+        plt.savefig("paper_surfaces",dpi=1200)
 
 
     def plot_sheath(self,density_grid,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,r0_mag,k_mag,r0_bow,k_bow):
@@ -567,22 +620,13 @@ class Plotter:
 
         fig = plt.figure(figsize=(15,5))
         gs = GridSpec(1, 4, width_ratios=[1, 1, 1, 1], wspace=0.6)
-        #from Surface import Surface
-        #bs = Surface(r0_bow,k_bow)
-        #mp = Surface(r0_mag,k_mag)
-        #x_bow, y_bow = bs.surf_2D(self.x_max,self.x_min)
-        #x_mag, y_mag = mp.surf_2D(self.x_max,self.x_min)
         ax0 = fig.add_subplot(gs[0, 0])
         ax1 = fig.add_subplot(gs[0, 1])
         ax2 = fig.add_subplot(gs[0, 2])
         ax3 = fig.add_subplot(gs[0, 3])
-        #z_pos = int(np.shape(self.Z_grid)[0]/2)
-        #x_pos = int(np.shape(self.Y_grid)[0]/2)
-        #y_pos = int(np.shape(self.Y_grid)[0]/2)
-        #print(x_pos,y_pos,z_pos)
-        #x_pos, y_pos, z_pos = 40,40,40
-        levs1 = np.linspace(flux.min(),flux.max(),20)
-        levs2 = np.linspace(ver.min(),ver.max(),20)
+        levs1 = np.linspace(flux.min(),flux.max(),1000)
+        levs2 = np.linspace(ver.min(),ver.max(),1000)
+        #levs3 = np.linspace()
         yzplane_v = ax0.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],ver[x_pos,:,:],cmap='YlOrRd',levels=levs2)
         xyplane_v = ax1.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver[:,:,z_pos],cmap='YlOrRd',levels=levs2)
         xzplane_v = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver[:,y_pos,:],cmap='YlOrRd',levels=levs2)
@@ -595,9 +639,9 @@ class Plotter:
             #plt.suptitle(r"VER & Flux: Equinox, $v_{\mathrm{SW}} = 690$ km s$^{-1}$, $n_{\mathrm{SW,1 AU}}=1.86$ cm$^{-3}$",x=0.5,y=0.9)
         if self.config == "S":
             if v_sw != None:
-                plt.suptitle(r"VER and Flux: Solstice, $v_{\mathrm{SW}}=$"+f"{v_sw/1000:.3g}"+r" km s$^{-1}$, $x$,$y$,$z$ position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
+                plt.suptitle(r"VER and Flux: Solstice, $v_{\mathrm{SW}}=$"+f"{v_sw/1000:.3g}"+r" km s$^{-1}$, $x$,$y$,$z$ slice position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
             else:
-                plt.suptitle(r"VER and Flux: Solstice, $v_{\mathrm{SW}}=$400 km s$^{-1}$, $x$,$y$,$z$ position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
+                plt.suptitle(r"VER and Flux: Solstice, $v_{\mathrm{SW}}=$400 km s$^{-1}$, $x$,$y$,$z$ slice position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
             #plt.suptitle(r"VER & Flux: Solstice, $v_{\mathrm{SW}} = 690$ km s$^{-1}$, $n_{\mathrm{SW,1 AU}}=1.86$ cm$^{-3}$",x=0.5,y=0.9)
         cax1 = fig.add_axes([0.91, 0.22, 0.01, 0.55])  # Manually define position of colorbar
         cbar1 = fig.colorbar(yzplane_f, cax=cax1,label=r"Flux (photon cm$^{-2}$ s$^{-1}$)",shrink=0.3)
@@ -634,14 +678,15 @@ class Plotter:
         plt.gcf().text(0.05, 0.05, f"Mean VER: {ver.mean():.3g}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)   
         plt.gcf().text(0.75, 0.10, f"Integration time (s): {int_s}s", ha='left', fontsize=12)
         plt.gcf().text(0.75, 0.05, f"Integration time (h): {int_h}h", ha='left', fontsize=12) 
-        #plt.savefig("ver_flux_equinox_j2",dpi=1200)
+        #plt.savefig("ver_flux_equinox_j1",dpi=1200)
+        return fig
         #plt.savefig("ver_flux_high_vsw_solstice",dpi=1200)
 
     def plot_flux_gif(self,ver,flux,int_s,int_h,config):
         x_pos,y_pos,z_pos = 10,10,10
         flux_figs = []
-        for x in range(7):
-            fig = self.plot_all_ver_flux(ver,flux,int_s,int_h,x_pos,y_pos,z_pos)
+        for x in range(8):
+            fig = self.plot_all_ver_flux(ver,flux,int_s,int_h,x_pos,y_pos,z_pos,v_sw=None)
             flux_figs.append(fig)
             x_pos += 10
             y_pos += 10
@@ -651,16 +696,16 @@ class Plotter:
         images = []
         for fig in flux_figs:
             buf = io.BytesIO()
-            fig.savefig(buf, format='png')  # Save to buffer
+            fig.savefig(buf, format='png',dpi=600)  # Save to buffer
             buf.seek(0)  # Move to the start of the buffer
             images.append(Image.open(buf))
             plt.close(fig)  # Close the figure to free memory
 
         # Step 3: Create the GIF
         if config == "S":
-            gif_path = "ver_flux_gif_solstice.gif"
+            gif_path = "ver_flux_gif_solstice_2.gif"
         elif config == "E":
-            gif_path = "ver_flux_gif_equinox.gif"
+            gif_path = "ver_flux_gif_equinox_2.gif"
         images[0].save(
             gif_path,
             save_all=True,
@@ -668,6 +713,154 @@ class Plotter:
             duration=2000,  # Duration of each frame in milliseconds
             loop=0          # Infinite loop
         )
+
+    def plot_ver_separate(self,ver):
+        fig = plt.figure()
+        ax = plt.gca()
+        #xmid = int(np.shape(self.X_grid)[0]/2)
+        xmid=80 ###
+        levs = np.linspace(ver[xmid,:,:].min(),ver[xmid,:,:].max(),100)
+        yzplane = ax.contourf(self.Y_grid[xmid,:,:],self.Z_grid[xmid,:,:],ver[xmid,:,:],cmap='YlOrRd',levels=levs)
+        fig.colorbar(yzplane)
+        ax.set_xlim(self.y_min,self.y_max)
+        ax.set_ylim(self.z_min,self.z_max)
+        ax.set_xlabel(r"$y$ ($R_{U}$)")
+        ax.set_ylabel(r"$z$ ($R_{U}$)")
+
+        fig = plt.figure()
+        ax = plt.gca()
+        #zmid = int(np.shape(self.Z_grid)[0]/2)
+        zmid=80
+        levs = np.linspace(ver[:,:,zmid].min(),ver[:,:,zmid].max(),100)
+        xyplane = ax.contourf(self.X_grid[:,:,zmid],self.Y_grid[:,:,zmid],ver[:,:,zmid],cmap='YlOrRd',levels=levs)
+        fig.colorbar(xyplane)
+        ax.set_xlim(self.x_min,self.x_max)
+        ax.set_ylim(self.y_min,self.y_max)
+        ax.set_xlabel(r"$x$ ($R_{U}$)")
+        ax.set_ylabel(r"$y$ ($R_{U}$)")
+
+        fig = plt.figure()
+        ax = plt.gca()
+        #ymid = int(np.shape(self.Y_grid)[0]/2)
+        ymid=80
+        levs = np.linspace(ver[:,ymid,:].min(),ver[:,ymid,:].max(),100)
+        xzplane = ax.contourf(self.X_grid[:,ymid,:],self.Z_grid[:,ymid,:],ver[:,ymid,:],cmap='YlOrRd',levels=levs)
+        fig.colorbar(xzplane)
+        ax.set_xlim(self.y_min,self.y_max)
+        ax.set_ylim(self.z_min,self.z_max)
+        ax.set_xlabel(r"$x$ ($R_{U}$)")
+        ax.set_ylabel(r"$z$ ($R_{U}$)")
+
+    def plot_ver_flux_equsol(self,ver_equ,ver_sol,flux_equ,flux_sol):
+        fig = plt.figure(figsize=(15,10))
+        gs = GridSpec(2, 4, width_ratios=[1, 1, 1, 1], wspace=0.6)
+        ax0 = fig.add_subplot(gs[0, 0])
+        ax1 = fig.add_subplot(gs[0, 1])
+        ax2 = fig.add_subplot(gs[0, 2])
+        ax3 = fig.add_subplot(gs[0, 3])
+        ax4 = fig.add_subplot(gs[1, 0])
+        ax5 = fig.add_subplot(gs[1, 1])
+        ax6 = fig.add_subplot(gs[1, 2])
+        ax7 = fig.add_subplot(gs[1, 3])
+        z_pos = int(np.shape(self.Z_grid)[0]/2)
+        x_pos = int(np.shape(self.Y_grid)[0]/2)
+        y_pos = int(np.shape(self.Y_grid)[0]/2)
+        yzplane_v_s = ax0.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],ver_equ[x_pos,:,:],cmap='YlOrRd',levels=20)
+        xyplane_v_s = ax1.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver_equ[:,:,z_pos],cmap='YlOrRd',levels=20)
+        xzplane_v_s = ax2.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver_equ[:,y_pos,:],cmap='YlOrRd',levels=20)
+        yzplane_f_s = ax3.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],flux_equ,cmap='plasma',levels=20)  
+        yzplane_v_f = ax4.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],ver_sol[x_pos,:,:],cmap='YlOrRd',levels=20)
+        xyplane_v_f = ax5.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver_sol[:,:,z_pos],cmap='YlOrRd',levels=20)
+        xzplane_v_f = ax6.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver_sol[:,y_pos,:],cmap='YlOrRd',levels=20)
+        yzplane_f_f = ax7.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],flux_sol,cmap='plasma',levels=20)  
+        #if self.config == "E":
+            #plt.suptitle(r"VER and Flux: Equinox, $v_{\mathrm{SW, Slow}}=400$ km s$^{-1}$, $v_{\mathrm{SW, Fast}}=800$ km s$^{-1}$, $x$,$y$,$z$ Slice Position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
+            #plt.suptitle(r"VER & Flux: Equinox, $v_{\mathrm{SW}} = 690$ km s$^{-1}$, $n_{\mathrm{SW,1 AU}}=1.86$ cm$^{-3}$",x=0.5,y=0.9)
+        #if self.config == "S":
+            #plt.suptitle(r"VER and Flux: Solstice, $v_{\mathrm{SW, Slow}}=400$ km s$^{-1}$, $v_{\mathrm{SW, Fast}}=800$ km s$^{-1}$, $x$,$y$,$z$ Slice Position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
+            #plt.suptitle(r"VER & Flux: Solstice, $v_{\mathrm{SW}} = 690$ km s$^{-1}$, $n_{\mathrm{SW,1 AU}}=1.86$ cm$^{-3}$",x=0.5,y=0.9)
+        cax1 = fig.add_axes([0.93, 0.57, 0.01, 0.275])  # Manually define position of colorbar
+        cbar1 = fig.colorbar(yzplane_f_s, cax=cax1,label=r"Flux (photon cm$^{-2}$ s$^{-1}$)",shrink=0.3)
+        cax4 = fig.add_axes([0.93, 0.14, 0.01, 0.275])  # Manually define position of colorbar
+        cbar4 = fig.colorbar(yzplane_f_f, cax=cax4,label=r"Flux (photon cm$^{-2}$ s$^{-1}$)",shrink=0.3)
+        cax2 = fig.add_axes([0.04, 0.57, 0.01, 0.275])  # Manually define position of colorbar #left, bottom, width, height
+        cax3 = fig.add_axes([0.04, 0.14, 0.01, 0.275])
+        if self.config == "E":
+            cbar2 = fig.colorbar(xzplane_v_s, cax=cax2,label=r"Volumetric Emission (photon cm$^{-3}$ s$^{-1}$)",shrink=0.3)
+            cbar3 = fig.colorbar(xzplane_v_f, cax=cax3,label=r"Volumetric Emission (photon cm$^{-3}$ s$^{-1}$)",shrink=0.3)
+        if self.config == "S":
+            cbar2 = fig.colorbar(yzplane_v_s, cax=cax2,label=r"Volumetric Emission (photon cm$^{-3}$ s$^{-1}$)",shrink=0.3)
+            cbar3 = fig.colorbar(yzplane_v_f, cax=cax3,label=r"Volumetric Emission (photon cm$^{-3}$ s$^{-1}$)",shrink=0.3)
+        cbar2.ax.yaxis.set_label_position('left')  # Move the label to the left
+        cbar3.ax.yaxis.set_label_position('left')
+        #cbar2.ax.set_ylim(cbar2.get_ticks()[0], cbar2.get_ticks()[0] + 0.5)  # Shrink the range if necessary
+        ax0.set_aspect('equal')
+        ax1.set_aspect('equal')
+        ax2.set_aspect('equal')
+        ax3.set_aspect('equal')
+        ax0.set_xlim(self.x_min,self.x_max)
+        ax0.set_ylim(self.y_min,self.y_max)
+        ax1.set_xlim(self.x_min,self.x_max)
+        ax1.set_ylim(self.z_min,self.z_max)
+        ax2.set_xlim(self.y_min,self.y_max)
+        ax2.set_ylim(self.z_min,self.z_max)
+        ax0.set_xlabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax0.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax1.set_xlabel(r'$x$ ($R_{U}$)',fontsize=12)
+        ax1.set_ylabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax2.set_xlabel(r'$x$ ($R_{U}$)',fontsize=12)
+        ax2.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax3.set_xlabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax3.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax4.set_aspect('equal')
+        ax5.set_aspect('equal')
+        ax6.set_aspect('equal')
+        ax7.set_aspect('equal')
+        ax4.set_xlim(self.x_min,self.x_max)
+        ax4.set_ylim(self.y_min,self.y_max)
+        ax5.set_xlim(self.x_min,self.x_max)
+        ax5.set_ylim(self.z_min,self.z_max)
+        ax6.set_xlim(self.y_min,self.y_max)
+        ax6.set_ylim(self.z_min,self.z_max)
+        ax3.set_xlabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax3.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax4.set_xlabel(r'$x$ ($R_{U}$)',fontsize=12)
+        ax4.set_ylabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax5.set_xlabel(r'$x$ ($R_{U}$)',fontsize=12)
+        ax5.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax6.set_xlabel(r'$y$ ($R_{U}$)',fontsize=12)
+        ax6.set_ylabel(r'$z$ ($R_{U}$)',fontsize=12)
+        ax0.set_title(r"(a) $y$-$z$ plane (Equinox)")
+        ax1.set_title(r"(b) $x$-$y$ plane (Equinox)")
+        ax2.set_title(r"(c) $x$-$z$ plane (Equinox)")
+        ax3.set_title(r"(d) Flux (Equinox)")
+        ax4.set_title(r"(e) $y$-$z$ plane (Solstice)")
+        ax5.set_title(r"(f) $x$-$y$ plane (Solstice)")
+        ax6.set_title(r"(g) $x$-$z$ plane (Solstice)")
+        ax7.set_title(r"(h) Flux (Solstice)")
+        for ax in [ax0, ax1, ax2, ax3, ax4, ax5]:
+            ax.tick_params(axis='both', which='both', direction='out', top=True, right=True, labeltop=False, labelright=False)
+            ax.set_aspect('equal') 
+        #plt.savefig("paper_ver_flux",dpi=1200)
+        #plt.gcf().text(0.05, 0.53, f"Max VER (Slow): {f"{ver_slow.max():.3g}"}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)
+        #plt.gcf().text(0.05, 0.50, f"Mean VER (Slow): {ver_slow.mean():.3g}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)   
+        #plt.gcf().text(0.05, 0.08, f"Max VER (Fast): {f"{ver_fast.max():.3g}"}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)
+        #plt.gcf().text(0.05, 0.05, f"Mean VER (Fast): {ver_fast.mean():.3g}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)   
+        #plt.gcf().text(0.75, 0.53, f"Integration time (Slow) (s): {int_s_s} s", ha='left', fontsize=12)
+        #plt.gcf().text(0.75, 0.50, f"Integration time (Slow) (h): {int_h_s} h", ha='left', fontsize=12) 
+        #plt.gcf().text(0.75, 0.08, f"Integration time (Fast) (s): {int_s_f} s", ha='left', fontsize=12)
+        #plt.gcf().text(0.75, 0.05, f"Integration time (Fast) (h): {int_h_f} h", ha='left', fontsize=12) 
+        #return fig
+        #if self.config == "S":
+            #plt.savefig("ver_flux_combined_solstice",dpi=1200)  
+        #elif self.config == "E":
+            #plt.savefig("ver_flux_combined_equinox",dpi=1200)
+
+
+
+
+
+
 
 
 

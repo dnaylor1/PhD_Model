@@ -14,7 +14,8 @@ from PIL import Image
 import io
 
 #Solstice or equiniox ("S" or "E") #E default
-config = "S"
+config = "E"
+config_combd = True
 
 n_p = None #defaults when no solar wind variations used
 v_sw = None
@@ -28,15 +29,17 @@ K = None
 """ ### Jasinski et al. (2024)
 K = None
 j_s = True """
+
 """ ## 1985, DOY 290.16667
 v_sw = 435.2e3     
 n_p = 0.02139e6    
 P_dyn = 0.0073806539 #nPa      
-r0_mp = 20.319744 """
+r0_mp = 20.319744
+ """
 
 """ ## DOY: 350.58333
-v_sw= 480.4    
-n_p = 0.0030400000    
+v_sw= 480.4e3    
+n_p = 0.0030400000e6    
 P_dyn = 0.0012781619       
 r0_mp = 27.638616 """
 
@@ -82,13 +85,22 @@ moons = [miranda,ariel,umbriel,titania,oberon]
 system = System(moons,B_eq=2.3e-5,grid_limits=grid_lims,grid_resolution=grid_res)
 plotter = Plotter(grid_lims,system.X_grid,system.Y_grid,system.Z_grid,config)
 
+""" ####################
+magnetopause = Surface(r0=16,K=0.6)
+bow_shock = Surface(r0=20,K=0.88)
+x_mp,y_mp,z_mp,r0_mag,k_mag = magnetopause.define_surface(system.X_grid,n_p,v_sw,"MP",grid_lims[0],grid_lims[1])
+x_bs,y_bs,z_bs,r0_bow,k_bow = bow_shock.define_surface(system.X_grid,n_p,v_sw,"BS",grid_lims[2],grid_lims[3])
+plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
+##################### """
+
+
 ###### SYSTEM NEUTRAL DENSITIES
 total_density, moon_density, n_exo = system.calculate_total_density(config)
 #plotter.plot_density(moon_density)
 #plotter.plot_exo(n_exo)
 
 ###### MAGNETOPAUSE AND BOW SHOCK SURFACES - singular
-if combd == None:
+if combd == None and config_combd == None:
     if j_s == True:
         magnetopause = Surface(r0=r0_mp,K=K)
         bow_shock = Surface(r0=r0_mp,K=K)
@@ -97,7 +109,7 @@ if combd == None:
         bow_shock = Surface(r0=20,K=0.88)
     x_mp,y_mp,z_mp,r0_mag,k_mag = magnetopause.define_surface(system.X_grid,n_p,v_sw,"MP",grid_lims[0],grid_lims[1])
     x_bs,y_bs,z_bs,r0_bow,k_bow = bow_shock.define_surface(system.X_grid,n_p,v_sw,"BS",grid_lims[2],grid_lims[3])
-    #plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
+    plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
 
     ##### MAGNETOSHEATH
     sheath = Magnetosheath(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,system.X_grid,system.Y_grid,system.Z_grid,system.rad)
@@ -114,14 +126,46 @@ if combd == None:
     int_s,int_h = SMILE.integration_time(flux)
     #plotter.plot_flux(flux)
     #plotter.plot_flux_ver(ver,flux,r0_mag,k_mag,r0_bow,k_bow)
-    print(np.shape(system.X_grid))
+    #print(np.shape(system.X_grid))
     x_pos, y_pos, z_pos = 80,80,80
     #x_pos = int(np.shape(system.Y_grid)[0]/2)
     #y_pos = int(np.shape(system.X_grid)[1]/2)
     #z_pos = int(np.shape(system.X_grid)[2]/2)
-    print(x_pos,y_pos,z_pos)
-    plotter.plot_all_ver_flux(ver,flux,int_s,int_h,x_pos,y_pos,z_pos,v_sw)
+    #print(x_pos,y_pos,z_pos)
+    #plotter.plot_all_ver_flux(ver,flux,int_s,int_h,x_pos,y_pos,z_pos,v_sw)
     #plotter.plot_flux_gif(ver,flux,int_s,int_h,config)
+    #plotter.plot_ver_separate(ver)
+
+elif config_combd != None:
+    total_density_s, moon_density_s, n_exo_s = system.calculate_total_density(config="S")
+    total_density_e, moon_density_e, n_exo_e = system.calculate_total_density(config="E")
+    #plotter.plot_density_combined(moon_density_s,moon_density_e)
+    magnetopause = Surface(r0=16,K=0.6)
+    bow_shock = Surface(r0=20,K=0.88)
+    x_mp,y_mp,z_mp,r0_mag,k_mag = magnetopause.define_surface(system.X_grid,n_p,v_sw,"MP",grid_lims[0],grid_lims[1])
+    x_bs,y_bs,z_bs,r0_bow,k_bow = bow_shock.define_surface(system.X_grid,n_p,v_sw,"BS",grid_lims[2],grid_lims[3])
+    #plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
+    sheath = Magnetosheath(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,system.X_grid,system.Y_grid,system.Z_grid,system.rad)
+    sheath_density = sheath.sheath_surface()
+    ver_equinox = system.volumetric_emission(total_density_e,sheath_density,n_p,T_sw,v_sw,j_s=j_s)
+    ver_solstice = system.volumetric_emission(total_density_s,sheath_density,n_p,T_sw,v_sw,j_s=j_s)
+    SMILE_equinox = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver_equinox,grid_res,system.rad)
+    SMILE_solstice = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver_solstice,grid_res,system.rad)
+    flux_equinox = SMILE_equinox.flux()
+    int_s_equ,int_h_equ = SMILE_equinox.integration_time(flux_equinox)
+    flux_solstice = SMILE_solstice.flux()
+    int_s_sol,int_h_sol = SMILE_solstice.integration_time(flux_solstice)
+    plotter.plot_ver_flux_equsol(ver_equinox,ver_solstice,flux_equinox,flux_solstice)
+
+    #with open("results_data.txt", "w") as file:
+    #    file.write("ver_max_equ:"+str(ver_equinox.max())+"\n")
+    #    file.write("ver_mean_equ:"+str(ver_equinox.mean())+"\n")
+    #    file.write("ver_max_sol:"+str(ver_solstice.max())+"\n")
+    #    file.write("ver_mean_equ:"+str(ver_solstice.mean())+"\n")
+    #    file.write("int_equ (s):"+str(int_s_equ)+"\n")
+    #    file.write("int_equ (h):"+str(int_h_equ)+"\n")
+    #    file.write("int_sol (s):"+str(int_s_sol)+"\n")
+    #    file.write("int_sol (h):"+str(int_h_sol)+"\n")
 
 else:
     magnetopause = Surface(r0=16,K=0.6)

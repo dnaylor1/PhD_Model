@@ -132,7 +132,33 @@ Year	    DOY             V (km/s)      Density(/cc)   P_dyn(nPa)         R_SS (R
 1985.00       350.58333       480.40000    0.0030400000    0.0012781619       27.638616
 
 Week MV1:
-- redo gifs
+- Redo gifs [DONE]
+- Redo Jasinski data sample [DONE]
+- Read me file for model 
+- Paper figures (no titles, combined neutrals, ticks on all 4 axes)
+- Tidy up plotter code
+- Commenting code
+- Saturn paper writing
+- Uranus paper start
+- LEXI paper [DONE]
+- MIXS paper [DONE]
+- Other SXI config results
+- Maybe reduce n_q? [DONE]
+- Kivelson shock physics reading
+- Move configs/variations into separate file? Maybe but also needs to be access so maybe not. Maybe just tidy up
+- Coordinate systems in Toth et al. (2004)
+
+Today:
+- Report figures: neutrals [DONE], surfaces [DONE], 400 km/s results [DONE]
+- Tidy up plotter code from chatgpt
+- Do a bit of the read me file [DONE]
+- Make a note on LEXI configs [DONE]
+- Check n_q [DONE]
+- Results in text file: [DONE]
+ - VER max and mean
+ - Integration time 
+ - At solstice and equinox
+
 
 
 
