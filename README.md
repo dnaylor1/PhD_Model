@@ -20,7 +20,11 @@ This contains the Surface class, which has methods to set up the magnetopause an
 
 ## Magnetosheath
 
-This contains the Magnetosheath class which simply defines the sheath region by interpolating the magnetopause and bow shock surfaces and looking for the region inside the bow shock, but outside the magnetopause. It also calculates volumetric emission from the region, given by $$P = \sum_{n} n_{n}n_{q}v_{\mathrm{rel}}\sigma{sqn}b_{sqj} / 4\pi$$ Where $n_{n}$ is neutral density (with $\sum_{n}$ representing the summation over the different neutral species), $n_{q}$ is the magnetosheath ion density, $v_{\mathrm{rel}}$ is the relative velocity between the ions and neutrals, $\sigma_{sqn}$ is the interaction cross section, and $b_{sqj}$ is the branching ratio of the interaction (the probablility for soft x-ray emission to occur). The cross sections and branching ratios are combined into one $\sigma$ term using the work of Bodewits et al. (2007). Volumetric emission is given in photon cm$^{-3}$ s$^{-1}$.
+This contains the Magnetosheath class which simply defines the sheath region by interpolating the magnetopause and bow shock surfaces and looking for the region inside the bow shock, but outside the magnetopause. It also calculates volumetric emission from the region, given by 
+
+$$P = \sum_{n} n_{n}n_{q}v_{\mathrm{rel}}\sigma{sqn}b_{sqj} / 4\pi$$ 
+
+Where $n_{n}$ is neutral density (with $\sum_{n}$ representing the summation over the different neutral species), $n_{q}$ is the magnetosheath ion density, $v_{\mathrm{rel}}$ is the relative velocity between the ions and neutrals, $\sigma_{sqn}$ is the interaction cross section, and $b_{sqj}$ is the branching ratio of the interaction (the probablility for soft x-ray emission to occur). The cross sections and branching ratios are combined into one $\sigma$ term using the work of Bodewits et al. (2007). Volumetric emission is given in photon cm$^{-3}$ s$^{-1}$.
 
 ## SXI
 
