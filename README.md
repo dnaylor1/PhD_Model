@@ -24,8 +24,7 @@ This contains the Magnetosheath class which simply defines the sheath region by 
 
 $$P = \sum_{n} n_{n}n_{q}v_{\mathrm{rel}}\sigma_{sqn}b_{sqj} / 4\pi$$ 
 
-Where $n_{n}$ is neutral density (with $\sum_{n}$ representing the summation over the different neutral species), $n_{q}$ is the magnetosheath ion density, $v_{\mathrm{rel}}$ is the relative velocity between the ions and neutrals, $\sigma_{sqn}$ is the interaction cross section, and $b_{sqj}$ is the branching ratio of the interaction (the probablility for soft x-ray emission to occur). The cross sections and branching ratios are combined into one $\sigma$ term using the work of Bodewits et al. (2007). Volumetric emission is given in photon cm^-3^ s^-1^.
-
+Where $n_{n}$ is neutral density (with $\sum_{n}$ representing the summation over different neutral species), $n_{q}$ is the magnetosheath ion density, $v_{\mathrm{rel}}$ is the relative velocity between the ions and neutrals, $\sigma_{sqn}$ is the interaction cross section, and $b_{sqj}$ is the branching ratio of the interaction (the probablility for soft x-ray emission to occur). The cross sections and branching ratios are combined into one $\sigma$ term using the work of Bodewits et al. (2007). Volumetric emission is given in photon cm $^{-3}$ s $^{-1}$.
 ## SXI
 
 This contains the SXI class which can be instantiated as SMILE, LEXI etc. This then uses the configurations of the specific SXI to determine how far from the magnetosheath the SXI must be to image the system on approach. It takes VER and calculates flux and integration times from it.

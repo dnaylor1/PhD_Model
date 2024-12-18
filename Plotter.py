@@ -841,7 +841,7 @@ class Plotter:
         for ax in [ax0, ax1, ax2, ax3, ax4, ax5]:
             ax.tick_params(axis='both', which='both', direction='out', top=True, right=True, labeltop=False, labelright=False)
             ax.set_aspect('equal') 
-        #plt.savefig("paper_ver_flux",dpi=1200)
+        plt.savefig("paper_ver_flux",dpi=1200)
         #plt.gcf().text(0.05, 0.53, f"Max VER (Slow): {f"{ver_slow.max():.3g}"}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)
         #plt.gcf().text(0.05, 0.50, f"Mean VER (Slow): {ver_slow.mean():.3g}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)   
         #plt.gcf().text(0.05, 0.08, f"Max VER (Fast): {f"{ver_fast.max():.3g}"}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)

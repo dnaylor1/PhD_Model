@@ -134,19 +134,20 @@ Year	    DOY             V (km/s)      Density(/cc)   P_dyn(nPa)         R_SS (R
 Week MV1:
 - Redo gifs [DONE]
 - Redo Jasinski data sample [DONE]
-- Read me file for model 
+- Read me file for model [DONE]
 - Paper figures (no titles, combined neutrals, ticks on all 4 axes) [DONE]
-- Tidy up plotter code
+- Tidy up plotter code 
 - Commenting code
 - Saturn paper writing
-- Uranus paper start
+- Uranus paper start [DONE]
 - LEXI paper [DONE]
 - MIXS paper [DONE]
 - Other SXI config results
 - Maybe reduce n_q? [DONE]
 - Kivelson shock physics reading
-- Move configs/variations into separate file? Maybe but also needs to be access so maybe not. Maybe just tidy up
+- Move configs/variations into separate file? Maybe but also needs to be accessed so maybe not. Maybe just tidy up
 - Coordinate systems in Toth et al. (2004)
+- Sort out imports and classes
 
 Today (17th December):
 - Report figures: neutrals [DONE], surfaces [DONE], 400 km/s results [DONE]
@@ -159,14 +160,43 @@ Today (17th December):
  - Integration time 
  - At solstice and equinox
 
--https://chatgpt.com/share/6761b358-eb98-800b-9934-390c4ab0b230
+- https://chatgpt.com/share/6761b358-eb98-800b-9934-390c4ab0b230
 
-18th December:
-- Start writing Uranus paper
-- Continue readme file
+18th/19th December:
+- Start writing Uranus paper (model 1,2)
+- Continue readme file [DONE]
 - Use improved plotting file to tidy up plotter code
 - Kivelson shock physics reading
-- Move VER to sheath class?
-- SXI improvement - FOV, area
+- Move VER to sheath class? [DONE]
+- SXI improvement - FOV, area [DONE]
+- References so far
+- Sheath scaling
+
+Model:
+- Magnetopause, bow shock surfaces
+- Magnetosheath density
+- Neutral density (moons, exosphere)
+- Solar wind abundance
+- Volumetric emission
+- Flux and integration times
+- Coordinate system
+
+Results:
+- Voyager (slow wind) (450 km/s) 
+- Fast wind (800 km/s)
+- Jasinski sample 
+- Using Voyager:
+    - LEXI
+    - Double FOV
+    - Cheng (first)
+    - ER Min  (second)
+    - ER Max (third then the rest after this)
+
+Results section:
+- Neutral models (using Voyager conditions)
+- Solar wind conditions (Fast, Jasinski)
+- SXI modifications (maybe increase area)
+- Different approach distances
+
 
 

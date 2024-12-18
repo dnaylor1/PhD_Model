@@ -117,11 +117,12 @@ if combd == None and config_combd == None:
     #plotter.plot_sheath(sheath_density,x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,r0_mag,k_mag,r0_bow,k_bow)
 
     ###### VOLUMETRIC EMISSION
-    ver = system.volumetric_emission(total_density,sheath_density,n_p,T_sw,v_sw,j_s=j_s)
+    ver = sheath.volumetric_emission(total_density,sheath_density,n_p,T_sw,v_sw,j_s=j_s)
     #plotter.plot_ver(ver,r0_mag,k_mag,r0_bow,k_bow)
 
     ###### FLUX
-    SMILE = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver,grid_res,system.rad)
+    SMILE = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver,grid_res,system.rad,26.5,9.6)
+    SMILE.SXI_distance()
     flux = SMILE.flux()
     int_s,int_h = SMILE.integration_time(flux)
     #plotter.plot_flux(flux)
@@ -147,14 +148,14 @@ elif config_combd != None:
     #plotter.plot_surfaces(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs)
     sheath = Magnetosheath(x_mp,y_mp,z_mp,x_bs,y_bs,z_bs,system.X_grid,system.Y_grid,system.Z_grid,system.rad)
     sheath_density = sheath.sheath_surface()
-    ver_equinox = system.volumetric_emission(total_density_e,sheath_density,n_p,T_sw,v_sw,j_s=j_s)
-    ver_solstice = system.volumetric_emission(total_density_s,sheath_density,n_p,T_sw,v_sw,j_s=j_s)
-    SMILE_equinox = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver_equinox,grid_res,system.rad)
-    SMILE_solstice = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver_solstice,grid_res,system.rad)
-    flux_equinox = SMILE_equinox.flux()
-    int_s_equ,int_h_equ = SMILE_equinox.integration_time(flux_equinox)
-    flux_solstice = SMILE_solstice.flux()
-    int_s_sol,int_h_sol = SMILE_solstice.integration_time(flux_solstice)
+    ver_equinox = sheath.volumetric_emission(total_density_e,sheath_density,n_p,T_sw,v_sw,j_s=j_s)
+    ver_solstice = sheath.volumetric_emission(total_density_s,sheath_density,n_p,T_sw,v_sw,j_s=j_s)
+    SMILE = SXI(system.X_grid,system.Y_grid,system.Z_grid,grid_res,system.rad,26.5,9.6)
+    SMILE.SXI_distance()
+    flux_equinox = SMILE.flux(ver_equinox)
+    int_s_equ,int_h_equ = SMILE.integration_time(flux_equinox)
+    flux_solstice = SMILE.flux(ver_solstice)
+    int_s_sol,int_h_sol = SMILE.integration_time(flux_solstice)
     plotter.plot_ver_flux_equsol(ver_equinox,ver_solstice,flux_equinox,flux_solstice)
 
     #with open("results_data.txt", "w") as file:
@@ -184,8 +185,8 @@ else:
     sheath_density_fast = sheath_fast.sheath_surface()
 
     ###### VOLUMETRIC EMISSION
-    ver_slow = system.volumetric_emission(total_density,sheath_density_slow,n_p,T_sw,v_sw,v_slow)
-    ver_fast = system.volumetric_emission(total_density,sheath_density_fast,n_p,T_sw,v_sw,v_fast)
+    ver_slow = sheath_slow.volumetric_emission(total_density,sheath_density_slow,n_p,T_sw,v_sw,v_slow)
+    ver_fast = sheath_fast.volumetric_emission(total_density,sheath_density_fast,n_p,T_sw,v_sw,v_fast)
     SMILE_slow = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver_slow,grid_res,system.rad)
     SMILE_fast = SXI(system.X_grid,system.Y_grid,system.Z_grid,ver_fast,grid_res,system.rad)
     flux_slow = SMILE_slow.flux()

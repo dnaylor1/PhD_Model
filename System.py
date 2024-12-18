@@ -73,57 +73,6 @@ class System: #class for the model as a whole including setting up the grid and 
         n_exo[mask] = c_1 * np.exp((c_2)/self.rad[mask])
         return n_exo
 
-    def volumetric_emission(self,n_n,n_q,n_p=None,T_sw=None,v_sw=None,v_sf=None,j_s=None):
-        """
-        Calculates volumetric emission of soft x-rays in the magnetosheath
-
-        Parameters:
-            n_n (ndarray): neutral density array
-            n_q (ndarray): sheath ion density array
-            n_p (float): solar wind density in the case of solar wind variations
-            T_sw (float): solar wind temperature in the case of variations
-            v_sw (float): solar wind speed in the case of variations
-
-        Returns:
-            ver (ndarray): volumetric emission at each point in the magnetosheath
-        """
-        if j_s == True:
-            n_sw = n_p * 1e-6
-            T_sheath = 5.45e4
-            n_q = n_q * (1/n_q.max()) * n_sw
-        if n_p != None and j_s == None:
-            n_scaled = n_p/((19.2)**2)
-            n_sw = n_scaled * 1e-6
-            T_scaled = T_sw/((19.2)**0.5) #Richardson paper for temp scaling
-            T_sheath = T_scaled
-            v_bulk = v_sw
-            n_q = n_q * (1/n_q.max()) * n_sw
-        if v_sf != None:
-            v_bulk = v_sf
-            v_sw = v_bulk
-            T_sheath = 5.45e4
-        else:
-            T_sheath = 5.45e4
-            v_bulk = 400e3
-            v_sw = v_bulk
-
-        abundance_slow = 1.48E-5 #from Whittaker and Sembay (2016)
-        abundance_fast = 6.69E-6
-        if v_sw > 500e3:
-            n_n = n_n * abundance_fast #magnetosheath ion density = 0.1*abundance
-        else:
-            n_n = n_n * abundance_slow
-        v_therm = np.sqrt((3*constants.Boltzmann*T_sheath)/constants.m_p) 
-        v_rel = (np.sqrt(v_bulk**2 + v_therm**2))*(1e2)
-        sigma_sqn_slow = (1/3)*((34+10+11+1.3+0.79+1.3+0.06)*(1e-16)) + (2/3)*(12e-15)
-        sigma_sqn_fast = (1/3)*((32+9.9+11+1.2+1.2+0.68+0.02)*(1e-16)) + (2/3)*(12e-15)
-        if v_sw > 500e3:
-            sigma_sqn = sigma_sqn_fast
-        else:
-            sigma_sqn = sigma_sqn_slow
-        n_q = n_q * 4
-        ver = n_n * n_q * v_rel * sigma_sqn * 1/(4*np.pi)
-        return ver
     
 
 
