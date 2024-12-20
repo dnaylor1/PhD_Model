@@ -163,28 +163,33 @@ Today (17th December):
 - https://chatgpt.com/share/6761b358-eb98-800b-9934-390c4ab0b230
 
 18th/19th December:
-- Start writing Uranus paper (model 1,2)
+- Start writing Uranus paper (model 1,2) [DONE]
 - Continue readme file [DONE]
 - Use improved plotting file to tidy up plotter code
 - Kivelson shock physics reading
 - Move VER to sheath class? [DONE]
 - SXI improvement - FOV, area [DONE]
-- References so far
-- Sheath scaling
+- References so far [DONE]
+- Sheath scaling write up [DONE]
+- Finish model section [DONE]
+- Say about which neutrals are present in the system (maybe in intro)
+- Maybe table of distances for SMILE, LEXI, double [DONE]
+- SMILE, LEXI in introduction
 
 Model:
-- Magnetopause, bow shock surfaces
-- Magnetosheath density
-- Neutral density (moons, exosphere)
-- Solar wind abundance
-- Volumetric emission
-- Flux and integration times
+- Magnetopause, bow shock surfaces [DONE]
+- Magnetosheath density [DONE]
+- Neutral density (moons, exosphere) [DONE]
+- Solar wind abundance [DONE]
+- Volumetric emission [DONE]
+- Flux and integration times [DONE]
 - Coordinate system
 
 Results:
 - Voyager (slow wind) (450 km/s) 
 - Fast wind (800 km/s)
 - Jasinski sample 
+- ACE sample
 - Using Voyager:
     - LEXI
     - Double FOV
@@ -194,9 +199,28 @@ Results:
 
 Results section:
 - Neutral models (using Voyager conditions)
-- Solar wind conditions (Fast, Jasinski)
+- Solar wind conditions (Fast, Jasinski, ACE)
 - SXI modifications (maybe increase area)
-- Different approach distances
+- Different approach distances 
+
+Results files:
+- Voyager Cheng [DONE]
+- Voyager ER min [DONE]
+- Voyager ER max (fig)  [DONE]
+- Fast wind [DONE]
+- Jasinski/ACE [DONE]
+- LEXI [DONE]
+- Future SXI [DONE]
+- Approach distances (fig) [DONE]
+
+20th December:
+- Results files [DONE]
+- Approach distance fig [DONE]
+- Plotter code improvement
+- Results table
+- Take shock physics book [DONE]
+- Tidy up Model file [DONE]
+- XMM paper send [DONE]
 
 
 

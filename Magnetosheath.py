@@ -117,7 +117,7 @@ class Magnetosheath:
             T_sheath = 5.45e4
         else:
             T_sheath = 5.45e4
-            v_bulk = 400e3
+            v_bulk = 450e3
             v_sw = v_bulk
 
         abundance_slow = 1.48E-5 #from Whittaker and Sembay (2016)

@@ -1,0 +1,8 @@
+ver_max_equ:1.9439470600865555e-12
+ver_mean_equ:8.42433726077635e-15
+ver_max_sol:1.5159951199617526e-12
+ver_mean_equ:1.5075915176072565e-14
+int_equ (s):4.79e+04
+int_equ (h):13.3
+int_sol (s):3.13e+05
+int_sol (h):87

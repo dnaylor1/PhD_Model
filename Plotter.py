@@ -841,7 +841,7 @@ class Plotter:
         for ax in [ax0, ax1, ax2, ax3, ax4, ax5]:
             ax.tick_params(axis='both', which='both', direction='out', top=True, right=True, labeltop=False, labelright=False)
             ax.set_aspect('equal') 
-        plt.savefig("paper_ver_flux",dpi=1200)
+        #plt.savefig("paper_ver_flux",dpi=1200)
         #plt.gcf().text(0.05, 0.53, f"Max VER (Slow): {f"{ver_slow.max():.3g}"}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)
         #plt.gcf().text(0.05, 0.50, f"Mean VER (Slow): {ver_slow.mean():.3g}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)   
         #plt.gcf().text(0.05, 0.08, f"Max VER (Fast): {f"{ver_fast.max():.3g}"}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)
@@ -856,7 +856,25 @@ class Plotter:
         #elif self.config == "E":
             #plt.savefig("ver_flux_combined_equinox",dpi=1200)
 
+    def plot_distance_counts(self,ver,dx,A_eff):
+        R_U =  25362*(10**5)
+        dx = dx*R_U
+        unscaled_integral = ver*dx*dx*dx 
+        flux = np.sum(unscaled_integral,axis=0)
+        counts = flux*A_eff
+        total_counts = np.sum(np.sum(counts,axis=0))
+        distance = np.linspace(300,1000,700)
+        flux_scaling = (total_counts)*1/((distance*R_U)**2)
+        int_s = 1/flux_scaling
 
+        plt.plot(distance,int_s,color='blue',label=r'$v_{\mathrm{SW}}$=450 km s$^{-1}$')
+        plt.legend()
+        #ax.set_xlim([300,1000])
+        plt.xlabel("Distance ("r"$R_{S}$"")")
+        plt.ylabel("Integration Time (s)")
+        plt.tick_params(axis='both', direction='out', top=True, bottom=True, left=True, right=True)
+        #ax.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
+        #plt.savefig('counts_distance_equinox.png',dpi=1200)
 
 
 

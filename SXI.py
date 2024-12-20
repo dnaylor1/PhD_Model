@@ -26,15 +26,16 @@ class SXI:
         self.Aeff = Aeff
 
     def SXI_distance(self):
-        self.distance = 80/(np.tan(self.FOV/2)) - 60
+        self.distance = 80/(np.tan(np.deg2rad(self.FOV/2))) - 80
+        print(self.distance)
     
     def flux(self,ver):
         X_grid = self.X_grid.astype(np.float64)
         Y_grid = self.Y_grid.astype(np.float64)
         Z_grid = self.Z_grid.astype(np.float64)
         R_U = np.float64(self.R_U)
-        distance_SMILE_Particle = np.sqrt(((self.distance*R_U)-(X_grid*R_U))**2 + (Y_grid*R_U)**2 + (Z_grid*R_U)**2)
-        ver_scaled = ver * (1/(distance_SMILE_Particle)**2)
+        distance_SXI_Particle = np.sqrt(((self.distance*R_U)-(X_grid*R_U))**2 + (Y_grid*R_U)**2 + (Z_grid*R_U)**2)
+        ver_scaled = ver * (1/(distance_SXI_Particle)**2)
         dx = self.dx * R_U
         dy = self.dy * R_U
         dz = self.dz * R_U

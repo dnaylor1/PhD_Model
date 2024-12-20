@@ -33,6 +33,8 @@ class Moon: #moon class to give properties to all the moons in the system
             mask = mask_r & mask_z
             #mask = mask_r
             #Z1[mask] = self.density
+            #Z1[mask] = self.density
+            #Z1[mask] = self.ER_min_H + self.ER_min_O
             Z1[mask] = self.ER_max_H+self.ER_max_O 
             return Z1
         elif config == "S":
@@ -41,6 +43,7 @@ class Moon: #moon class to give properties to all the moons in the system
             mask = mask_r & mask_z
             #Z1[mask] = self.density
             Z1[mask] = self.ER_max_H+self.ER_max_O 
+            #Z1[mask] = self.ER_min_H + self.ER_min_O
             return Z1
         if config == "N":
             mask_r = (rad >= self.r_min) & (rad <= self.r_max)
