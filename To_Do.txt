@@ -216,8 +216,8 @@ Results files:
 20th December:
 - Results files [DONE]
 - Approach distance fig [DONE]
-- Plotter code improvement
-- Results table
+- Plotter code improvement [DONE]
+- Results table 
 - Take shock physics book [DONE]
 - Tidy up Model file [DONE]
 - XMM paper send [DONE]

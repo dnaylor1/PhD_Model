@@ -67,7 +67,7 @@ v_fast = 800e3 """
 """ grid_lims = [-40,40,-40,40,-40,40]
 grid_res = [2,2,2] """
 
-grid_res = [1,1,1]
+grid_res = [2,2,2]
 grid_lims=[-80,80,-80,80,-80,80]
 
 """ grid_res = [0.05,0.05,0.05]
@@ -147,7 +147,7 @@ elif config_combd != None:
     int_s_equ,int_h_equ = SMILE.integration_time(flux_equinox)
     flux_solstice = SMILE.flux(ver_solstice)
     int_s_sol,int_h_sol = SMILE.integration_time(flux_solstice)
-    plotter.plot_ver_flux_equsol(ver_equinox,ver_solstice,flux_equinox,flux_solstice)
+    plotter.plot_ver_flux_equsol2(ver_equinox,ver_solstice,flux_equinox,flux_solstice)
 
 else:
     magnetopause = Surface(r0=16,K=0.6)

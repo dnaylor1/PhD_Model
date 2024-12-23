@@ -773,12 +773,6 @@ class Plotter:
         xyplane_v_f = ax5.contourf(self.X_grid[:,:,z_pos],self.Y_grid[:,:,z_pos],ver_sol[:,:,z_pos],cmap='YlOrRd',levels=20)
         xzplane_v_f = ax6.contourf(self.X_grid[:,y_pos,:],self.Z_grid[:,y_pos,:],ver_sol[:,y_pos,:],cmap='YlOrRd',levels=20)
         yzplane_f_f = ax7.contourf(self.Y_grid[x_pos,:,:],self.Z_grid[x_pos,:,:],flux_sol,cmap='plasma',levels=20)  
-        #if self.config == "E":
-            #plt.suptitle(r"VER and Flux: Equinox, $v_{\mathrm{SW, Slow}}=400$ km s$^{-1}$, $v_{\mathrm{SW, Fast}}=800$ km s$^{-1}$, $x$,$y$,$z$ Slice Position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
-            #plt.suptitle(r"VER & Flux: Equinox, $v_{\mathrm{SW}} = 690$ km s$^{-1}$, $n_{\mathrm{SW,1 AU}}=1.86$ cm$^{-3}$",x=0.5,y=0.9)
-        #if self.config == "S":
-            #plt.suptitle(r"VER and Flux: Solstice, $v_{\mathrm{SW, Slow}}=400$ km s$^{-1}$, $v_{\mathrm{SW, Fast}}=800$ km s$^{-1}$, $x$,$y$,$z$ Slice Position = "+f"{x_pos},{y_pos},{z_pos}",x=0.5,y=0.9)
-            #plt.suptitle(r"VER & Flux: Solstice, $v_{\mathrm{SW}} = 690$ km s$^{-1}$, $n_{\mathrm{SW,1 AU}}=1.86$ cm$^{-3}$",x=0.5,y=0.9)
         cax1 = fig.add_axes([0.93, 0.57, 0.01, 0.275])  # Manually define position of colorbar
         cbar1 = fig.colorbar(yzplane_f_s, cax=cax1,label=r"Flux (photon cm$^{-2}$ s$^{-1}$)",shrink=0.3)
         cax4 = fig.add_axes([0.93, 0.14, 0.01, 0.275])  # Manually define position of colorbar
@@ -840,21 +834,65 @@ class Plotter:
         ax7.set_title(r"(h) Flux (Solstice)")
         for ax in [ax0, ax1, ax2, ax3, ax4, ax5]:
             ax.tick_params(axis='both', which='both', direction='out', top=True, right=True, labeltop=False, labelright=False)
-            ax.set_aspect('equal') 
-        #plt.savefig("paper_ver_flux",dpi=1200)
-        #plt.gcf().text(0.05, 0.53, f"Max VER (Slow): {f"{ver_slow.max():.3g}"}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)
-        #plt.gcf().text(0.05, 0.50, f"Mean VER (Slow): {ver_slow.mean():.3g}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)   
-        #plt.gcf().text(0.05, 0.08, f"Max VER (Fast): {f"{ver_fast.max():.3g}"}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)
-        #plt.gcf().text(0.05, 0.05, f"Mean VER (Fast): {ver_fast.mean():.3g}"+r" photon cm$^{-3}$ s$^{-1}$", ha='left', fontsize=12)   
-        #plt.gcf().text(0.75, 0.53, f"Integration time (Slow) (s): {int_s_s} s", ha='left', fontsize=12)
-        #plt.gcf().text(0.75, 0.50, f"Integration time (Slow) (h): {int_h_s} h", ha='left', fontsize=12) 
-        #plt.gcf().text(0.75, 0.08, f"Integration time (Fast) (s): {int_s_f} s", ha='left', fontsize=12)
-        #plt.gcf().text(0.75, 0.05, f"Integration time (Fast) (h): {int_h_f} h", ha='left', fontsize=12) 
-        #return fig
-        #if self.config == "S":
-            #plt.savefig("ver_flux_combined_solstice",dpi=1200)  
-        #elif self.config == "E":
-            #plt.savefig("ver_flux_combined_equinox",dpi=1200)
+            ax.set_aspect('equal')
+
+    def plot_ver_flux_equsol2(self, ver_equ, ver_sol, flux_equ, flux_sol):
+        print("test")
+        fig = plt.figure(figsize=(15, 10))
+        gs = GridSpec(2, 4, width_ratios=[1, 1, 1, 1], wspace=0.6)
+        axes = [
+            fig.add_subplot(gs[i, j]) for i in range(2) for j in range(4)
+        ]
+        
+        # Central slice indices
+        x_pos = int(self.Y_grid.shape[0] / 2)
+        y_pos = int(self.Y_grid.shape[1] / 2)
+        z_pos = int(self.Z_grid.shape[2] / 2)
+        
+        # Plot volumetric emission (Equinox and Solstice)
+        data = [
+            (ver_equ[x_pos, :, :], self.Y_grid[x_pos, :, :], self.Z_grid[x_pos, :, :], axes[0], r"$y$-$z$ plane (Equinox)"),
+            (ver_equ[:, :, z_pos], self.X_grid[:, :, z_pos], self.Y_grid[:, :, z_pos], axes[1], r"$x$-$y$ plane (Equinox)"),
+            (ver_equ[:, y_pos, :], self.X_grid[:, y_pos, :], self.Z_grid[:, y_pos, :], axes[2], r"$x$-$z$ plane (Equinox)"),
+            (flux_equ, self.Y_grid[x_pos, :, :], self.Z_grid[x_pos, :, :], axes[3], r"Flux (Equinox)"),
+            (ver_sol[x_pos, :, :], self.Y_grid[x_pos, :, :], self.Z_grid[x_pos, :, :], axes[4], r"$y$-$z$ plane (Solstice)"),
+            (ver_sol[:, :, z_pos], self.X_grid[:, :, z_pos], self.Y_grid[:, :, z_pos], axes[5], r"$x$-$y$ plane (Solstice)"),
+            (ver_sol[:, y_pos, :], self.X_grid[:, y_pos, :], self.Z_grid[:, y_pos, :], axes[6], r"$x$-$z$ plane (Solstice)"),
+            (flux_sol, self.Y_grid[x_pos, :, :], self.Z_grid[x_pos, :, :], axes[7], r"Flux (Solstice)"),
+        ]
+        
+        # Define colormap for volumetric emission and flux
+        cmap_ve = 'YlOrRd'
+        cmap_flux = 'plasma'
+        levels = 20
+        
+        for d, ax in zip(data, axes):
+            field, grid_x, grid_y, ax, title = d
+            cmap = cmap_flux if "Flux" in title else cmap_ve
+            contour = ax.contourf(grid_x, grid_y, field, cmap=cmap, levels=levels)
+            ax.set_title(title)
+            ax.set_aspect('equal')
+            ax.set_xlim(self.x_min, self.x_max)
+            ax.set_ylim(self.y_min, self.y_max)
+            ax.set_xlabel(r"$x$ ($R_{U}$)", fontsize=12)
+            ax.set_ylabel(r"$y$ ($R_{U}$)", fontsize=12)
+        
+        # Add colorbars
+        colorbar_positions = [
+            [0.93, 0.57, 0.01, 0.275],  # Upper right
+            [0.93, 0.14, 0.01, 0.275],  # Lower right
+            [0.04, 0.57, 0.01, 0.275],  # Upper left
+            [0.04, 0.14, 0.01, 0.275],  # Lower left
+        ]
+        
+        for i, (position, title) in enumerate(zip(colorbar_positions, ["Flux", "Volumetric Emission"] * 2)):
+            cax = fig.add_axes(position)
+            label = f"{title} (photon cm$^{{-3}}$ s$^{{-1}}$)"
+            fig.colorbar(contour, cax=cax, label=label, shrink=0.3)
+            if i > 1:
+                cax.yaxis.set_label_position('left')
+        
+
 
     def plot_distance_counts(self,ver,dx,A_eff):
         R_U =  25362*(10**5)
